@@ -62,9 +62,11 @@ client ──▶ Cloud Run: gev API (this repo, CPU) ──▶ Cloud Run GPU: vL
 
 The model server is private: only the API's service account can invoke it, using a Google ID token. It scales to zero, so idle costs nothing, and the first request after idle waits for a cold start while vLLM loads ~52 GB of weights from the bucket.
 
-gev talks to the model through vLLM's OpenAI-compatible API (`max_tokens: 1`, `top_logprobs: 20`, thinking disabled), so the model is a deploy-time variable. Anything vLLM serves works, e.g. `google/gemma-4-26B-A4B-it` (autoregressive, same backbone) or `google/gemma-4-E4B-it` on an L4.
+gev talks to the model through vLLM's OpenAI-compatible API (greedy, `top_logprobs: 20`, thinking disabled), so the model is a deploy-time variable. Anything vLLM serves works, e.g. `google/gemma-4-26B-A4B-it` (autoregressive, same backbone) or `google/gemma-4-E4B-it` on an L4.
 
-Today each question is one request. vLLM has an open PR ([#57250](https://github.com/vllm-project/vllm/pull/57250)) adding a jev-like structured mode for DiffusionGemma that answers many questions on one canvas in a single denoising pass; once it lands, that becomes a second `Backend` implementation here.
+There are two strategies, chosen with `GEV_STRATEGY`. **isolated** (the default) makes one model call per question, so answers cannot influence each other. **packed** puts every question that fits on one answer sheet (`Q1: D`, `Q2: no`, …) and reads each answer's logprobs from the token stream; a diffusion model fills the whole sheet in parallel, so 18 questions take ~380 ms instead of ~3.4 s, at jev-level accuracy but with near-useless probabilities. Choices too large for a sheet stay isolated, and any line the model skips is asked again on its own.
+
+**Status: experimental, and not yet at jev's latency (~150 ms).** Measurements, known vLLM and Cloud Run problems, dead ends, and open decisions are in [docs/STATE.md](docs/STATE.md); house rules for contributors (human or AI) are in [CLAUDE.md](CLAUDE.md). `bench/` replays recorded jev traffic against gev and compares answers and timings.
 
 ## Deploy
 
@@ -103,7 +105,8 @@ Any OpenAI-compatible server that returns `top_logprobs` works as `GEV_MODEL_URL
 | `GEV_MODEL_GCP_AUTH` | | `1` to call a private Cloud Run model server with a Google ID token |
 | `GEV_MODEL_API_KEY` | | Bearer key, if the model server uses one instead |
 | `GEV_API_KEYS` | (open) | Comma-separated bearer keys clients must present |
-| `GEV_CONCURRENCY` | `16` | Max in-flight model calls per request |
+| `GEV_STRATEGY` | `isolated` | `isolated` (one model call per question) or `packed` (one answer sheet per request) |
+| `GEV_CONCURRENCY` | `16` | Max in-flight model calls per request. Use `1` with the `vllm-openai:gemma` image, which corrupts concurrent logprobs requests |
 | `GEV_ROTATIONS` | `1` | Rotated re-asks per choice question, averaged |
 
 ## Errors

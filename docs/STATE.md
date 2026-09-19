@@ -7,10 +7,15 @@ part of it untrue. House rules are in [CLAUDE.md](../CLAUDE.md).
 
 Match [jev](https://docs.typesafe.ai/)'s latency with an open model on GCP.
 
-| | jev | gev today (packed) | target |
-|---|---|---|---|
-| 18–28 questions, from a laptop | ~150–180 ms | ~380–450 ms | ~150 ms |
-| server-side | ~110 ms | ~220–310 ms | ~110 ms |
+| | jev | gev live (DiffusionGemma, packed) | **experiment: autoregressive Gemma 4, `scored`** | target |
+|---|---|---|---|---|
+| 18 questions (jtbd), from a laptop, median / p90 | 151 / 255 ms | ~376 ms | **26B-A4B: 149 / 237 ms · E4B: 122 / 135 ms** | ~150 ms |
+| 28 questions incl. 186 icons (plan), median / p90 | 181 / 273 ms | ~3,300 ms | **26B-A4B: 265 / 331 ms · E4B: 189 / 266 ms** | ~180 ms |
+| model server, per request | ~110 ms | ~220–310 ms | 26B-A4B: 58 ms · E4B: 34 ms (jtbd) | ~110 ms |
+
+**2026-09-19: the latency objective is met on an experimental service** (`gev-scored`, section 2) by
+dropping diffusion for a single batched forward pass of an autoregressive model (section 3, `scored`;
+section 4, "Scored"). Not yet live; the owner decides (section 7).
 
 The owner: "The key objective of this experiment is to get to the same latency as jev. If we can't,
 the point of this project is moot." Accuracy is already on par (section 4); calibration is not.
@@ -23,7 +28,8 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 |---|---|---|
 | `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. |
 | `gev-model` | vLLM + DiffusionGemma, private | `https://gev-model-huio5ftumq-uc.a.run.app`. RTX PRO 6000 (96 GB), 20 vCPU / 80 GiB, scale to zero, max 1 instance. Serving revision `gev-model-00004-4fx`: image `vllm-openai:gemma`. |
-| `gev-ar`, `gev-ar-e4b` | **Experiment (2026-09-19):** autoregressive Gemma 4 on stock vLLM `v0.29.0`, private | `google/gemma-4-26B-A4B-it` and `google/gemma-4-E4B-it`, each on its own RTX PRO 6000, scale to zero, for the `scored` strategy (section 3). Not wired to `gev`. Delete when the experiment is settled. GPU quota in us-central1 is 3. |
+| `gev-ar`, `gev-ar-e4b` | **Experiment (2026-09-19):** autoregressive Gemma 4 on stock vLLM `v0.29.0`, private | `google/gemma-4-26B-A4B-it` and `google/gemma-4-E4B-it`, each on its own RTX PRO 6000, scale to zero, `--max-num-seqs 128 --max-num-batched-tokens 16384`. Stock v0.29.0 starts fine on this GPU with these models. Delete whichever is not chosen. GPU quota in us-central1 is 3. |
+| `gev-scored` | **Experiment:** a copy of the API with `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `https://gev-scored-huio5ftumq-uc.a.run.app` | Same bearer keys as `gev` (shares the `gev-api-keys` secret). Currently points at `gev-ar` (26B-A4B). Repoint: `SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=… MODEL=… EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last ./scripts/deploy.sh`. |
 | `gs://gev-systemone-models` | Weights | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
 
 **The `gev` service is running a stale build.** It was deployed before the packed strategy and before
@@ -79,6 +85,37 @@ questions) packed and isolated make the same decision on 323/364 answers; archet
 10/13 (packed) and 9/13 (isolated). Full plan request: 3.3 s packed, of which ~2.8 s is the 186-icon
 tournament (13 serial calls); the other 27 questions take ~445 ms.
 
+**Scored (autoregressive Gemma 4, one batched forward pass), 2026-09-19.** Hand labels and model-server
+time from `bench/model-probe.ts score jtbd` (laptop → model server); client times and agreement with
+jev from `bench/compare.ts` through `gev-scored` (laptop → API → model server, the real path).
+
+| jtbd, 40 × 18 | stage | done | highStakes | server ms | cache hit | confidence right / wrong | top choice > 0.99 (labeled) |
+|---|---|---|---|---|---|---|---|
+| jev | 36 | 29 | 38 | ~110 | | 0.87 / 0.64 | 30% |
+| 26B-A4B state-first | 36 | 26 | 37 | 85 | 59% | 0.99 / 0.97 | 93% |
+| 26B-A4B question-first | 34 | 30 | 37 | 65 | 81% | 0.99 / 0.94 | 90% |
+| **26B-A4B state-last** | **38** | **29** | **39** | **58** | 87% | 0.99 / 0.99 | 95% |
+| E4B state-first | 32 | 25 | 35 | 57 | 60% | 0.95 / 0.78 | 56% |
+| E4B question-first | 33 | 26 | 38 | 41 | 82% | 0.95 / 0.80 | 59% |
+| E4B state-last | 33 | 26 | 39 | 34 | 88% | 0.96 / 0.80 | 63% |
+
+| through `gev-scored`, state-last | jtbd median / p90 | plan median / p90 | agrees with jev: jtbd | plan |
+|---|---|---|---|---|
+| jev | 151 / 255 | 181 / 273 | | |
+| 26B-A4B | 149 / 237 | 265 / 331 | 78% (560/720) | 85% (309/364), archetype 8/13 |
+| E4B | 122 / 135 | 189 / 266 | 73% (527/720) | 85% (310/364), archetype 11/13 |
+| DiffusionGemma packed, for reference | ~376 | ~3,300 | 79% (568/720) | |
+
+- Moving the STATE after the question costs nothing measurable in accuracy with isolated prompts (unlike
+  the packed sheet, section 5) and is the fastest, because only ~25 tokens per question are computed.
+  Differences of 1–3 labels out of 40 between orders are within noise.
+- The plan request is two batches (tournament round one with everything else, then the final round):
+  40 prompts, ~12,000 prompt tokens, 90% cached.
+- The 26B-A4B is on par with jev on hand labels but **badly overconfident** (worse than packed). E4B is
+  less accurate and better spread. Neither is calibrated like jev.
+- Isolated prompts repeat the system text per question: 3,900 prompt tokens per jtbd request against
+  1,940 packed. Cached, so it costs little.
+
 **Where a packed 18-question request's time goes** (`bench/model-probe.ts latency`, vLLM's own timers):
 
 | | ms |
@@ -90,7 +127,9 @@ tournament (13 serial calls); the other 27 questions take ~445 ms.
 | queueing | 0 |
 | client − server (laptop network, ~100 KB logprobs payload) | ~165 |
 
-**Conclusion: parity needs ~1–2 denoising steps** (1 step ≈ 60–120 ms server, 2 ≈ 105–165 ms). Prefill
+**Conclusion at the time: parity needs ~1–2 denoising steps** (superseded: at one step diffusion does
+nothing an autoregressive forward pass doesn't, and the forward pass needs no canvas; see "Scored" above).
+Original reasoning: parity needs ~1–2 denoising steps (1 step ≈ 60–120 ms server, 2 ≈ 105–165 ms). Prefill
 is second. Everything else is noise.
 
 ## 5. Learnings
@@ -107,6 +146,17 @@ is second. Everything else is noise.
 - **Prompt order trades accuracy for speed.** Questions-before-state raises the prefix-cache hit rate
   from 5% to 89% and saves ~60 ms, but label accuracy drops (stage 35→30, done 30→24 of 40). Kept
   state-first.
+
+**Autoregressive scoring**
+- The workload is a ~15-token state against ~1,900 tokens of questions that are constant per app. That
+  is what makes prefix caching with the state last so effective.
+- **Gemma 4 chat templates differ between models**: E4B's has no empty thought channel in the generation
+  prompt, the 26B-A4B's (July revision) has; both put a space after the system text; vLLM's completions
+  endpoint adds no `<bos>`. A hand-written frame made E4B answer "The". `VllmBackend` asks the server
+  for its rendering once (`/tokenize` with messages, then `/detokenize`) and the prompts are
+  token-identical to chat completions.
+- A new IAM grant takes a minute or two to work: the first calls from a freshly deployed API to a
+  freshly granted model service fail with 401/403.
 
 **vLLM**
 - `vllm/vllm-openai:gemma` (June 10 build, v0.22.1rc1) works but predates vLLM #57414: **concurrent
@@ -161,9 +211,20 @@ eval cases (408 questions), a second benchmark source.
 | vLLM nightly for the concurrency fix | Crashes at warmup on this GPU; crash-looped and caused downtime. |
 | Per-request step/entropy overrides | Ignored by the `gemma` image. |
 | Questions-first prompt for cache hits | −60 ms, but −5/−6 on 40 labels. |
-| Parallel isolated calls | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. |
+| Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 
 ## 7. Open decisions (the owner's)
+
+**New, 2026-09-19, ahead of the older list (much of which the scored result makes moot: 1, 2, 6, 9):**
+
+- **a. Go live with `scored`?** Which model: 26B-A4B (jev-level labels, parity on jtbd, 265 ms on plan)
+  or E4B (faster than jev on both, weaker labels). Then retire `gev-model` (DiffusionGemma) or keep it.
+- **b. Close the plan-suite gap on the 26B-A4B** (untried): FP8/NVFP4 weights; the icon question in one
+  batch (raise `--max-logprobs` and use 186 single-token labels, or score option names as
+  continuations); drop the repeated system text; run the API in the same container as vLLM.
+- **c. Calibration**, now the main quality gap: temperature scaling per question type on half the
+  labels (old item 7). Independent answers make this more promising than it was for packed.
+- **d. Cold start and idle-out** still apply to any Cloud Run GPU service (old items 3, 8).
 
 1. **How to reach ~1–2 denoising steps.**
    - **A. Custom model server (recommended):** Python + Transformers with open-jev's fixed canvas and

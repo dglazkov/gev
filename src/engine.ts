@@ -1,7 +1,8 @@
 import type { Backend } from "./backends/backend.ts";
 import { CHOICE_LABELS, NOUL_LABELS, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
 import { argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
-import type { Answer, ChoiceQuestion, Json, NoulQuestion, Question, ScoreQuestion, SystemOneRequest, SystemOneResponse, Usage } from "./types.ts";
+import { SHEET_SIZE, SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, readSheet, sheetLabels, sheetMaxTokens, sheetPrompt } from "./sheet.ts";
+import type { Answer, ChoiceQuestion, Json, Question, ScoreQuestion, SystemOneRequest, SystemOneResponse, Usage } from "./types.ts";
 
 export type EngineOptions = {
   /** Max in-flight backend calls per request. */
@@ -11,14 +12,27 @@ export type EngineOptions = {
    * this many times with the options rotated, then averaging, trades calls for calibration.
    */
   rotations: number;
+  /**
+   * "isolated": one model call per question; answers cannot influence each other.
+   * "packed": questions share one call and are answered as a sheet. Far fewer calls, but the
+   * answers are produced jointly. Questions that don't fit a sheet, or that the model fails
+   * to answer on it, fall back to isolated.
+   */
+  strategy: "isolated" | "packed";
 };
 
-export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1 };
+export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated" };
+
+// Room for the label plus the end-of-turn token.
+const ANSWER_TOKENS = 2;
 
 type Option = [name: string, description: string | null];
 
 class Run {
   readonly usage: Usage = { input_tokens: 0, output_tokens: 0 };
+  modelCalls = 0;
+  /** Sheet questions that had to be asked again on their own. */
+  repaired = 0;
   readonly #backend: Backend;
   readonly #options: EngineOptions;
   readonly #state: Json;
@@ -31,15 +45,16 @@ class Run {
     this.#state = state;
   }
 
-  async #ask(prompt: string, labels: string[]): Promise<number[]> {
+  async #generate(system: string, prompt: string, maxTokens: number) {
     // A finishing call hands its slot straight to the next waiter, so #active only moves when no one is queued.
     if (this.#active >= this.#options.concurrency) await new Promise<void>((resolve) => this.#waiting.push(resolve));
     else this.#active++;
     try {
-      const { top, usage } = await this.#backend.firstToken(SYSTEM_INSTRUCTION, prompt);
+      const { positions, usage } = await this.#backend.generate(system, prompt, maxTokens);
+      this.modelCalls++;
       this.usage.input_tokens += usage.input_tokens;
       this.usage.output_tokens += usage.output_tokens;
-      return labelDistribution(top, labels);
+      return positions;
     } finally {
       const next = this.#waiting.shift();
       if (next) next();
@@ -47,43 +62,28 @@ class Run {
     }
   }
 
-  answer(question: Question): Promise<Answer> {
+  async #ask(prompt: string, labels: string[]): Promise<number[]> {
+    const [first] = await this.#generate(SYSTEM_INSTRUCTION, prompt, ANSWER_TOKENS);
+    return labelDistribution(first?.top ?? [], labels);
+  }
+
+  /** One model call for this question alone. */
+  async isolated(question: Question): Promise<Answer> {
     switch (question.type) {
       case "noul":
-        return this.#noul(question);
-      case "choice":
-        return this.#choice(question);
+        return toAnswer(question, await this.#ask(noulPrompt(this.#state, question.instructions, question.criteria), NOUL_LABELS));
       case "score":
-        return this.#score(question);
+        return toAnswer(question, await this.#ask(scorePrompt(this.#state, question.instructions, question.criteria), SCORE_LABELS.slice(0, question.criteria.length)));
+      case "choice":
+        return toAnswer(question, await this.#rank(question.instructions, Object.entries(question.criteria)));
     }
   }
 
-  async #noul(question: NoulQuestion): Promise<Answer> {
-    const [yes] = await this.#ask(noulPrompt(this.#state, question.instructions, question.criteria), NOUL_LABELS);
-    return { type: "noul", noul: round(yes!) };
-  }
-
-  async #score(question: ScoreQuestion): Promise<Answer> {
-    const levels = question.criteria;
-    const probabilities = await this.#ask(scorePrompt(this.#state, question.instructions, levels), SCORE_LABELS.slice(0, levels.length));
-    return {
-      type: "score",
-      score: round(expectedLevel(probabilities)),
-      legend: Object.fromEntries(levels.map((level, i) => [String(i), level])),
-      probabilities: Object.fromEntries(probabilities.map((p, i) => [String(i), round(p)])),
-      confidence: round(confidence(probabilities)),
-    };
-  }
-
-  async #choice(question: ChoiceQuestion): Promise<Answer> {
-    const options = Object.entries(question.criteria);
-    const probabilities = await this.#rank(question.instructions, options);
-    return {
-      type: "choice",
-      choice: options[argmax(probabilities)]![0],
-      probabilities: Object.fromEntries(options.map(([name], i) => [name, round(probabilities[i]!)])),
-      confidence: round(confidence(probabilities)),
-    };
+  /** One model call for the whole sheet; returns the answers it could read. */
+  async sheet(questions: SheetQuestion[]): Promise<Map<string, Answer>> {
+    const positions = await this.#generate(SHEET_SYSTEM_INSTRUCTION, sheetPrompt(this.#state, questions), sheetMaxTokens(questions.length));
+    const distributions = readSheet(positions, questions);
+    return new Map(questions.flatMap((q) => (distributions.has(q.id) ? [[q.id, toAnswer(q.question, distributions.get(q.id)!)] as const] : [])));
   }
 
   /** Distribution over options that fit in one prompt, averaged over rotated orderings. */
@@ -118,10 +118,77 @@ class Run {
   }
 }
 
+/** Builds the typed answer from a distribution over the question's options, in criteria order. */
+function toAnswer(question: Question, probabilities: number[]): Answer {
+  switch (question.type) {
+    case "noul":
+      return { type: "noul", noul: round(probabilities[0]!) };
+    case "score":
+      return scoreAnswer(question, probabilities);
+    case "choice":
+      return choiceAnswer(question, probabilities);
+  }
+}
+
+function scoreAnswer(question: ScoreQuestion, probabilities: number[]): Answer {
+  return {
+    type: "score",
+    score: round(expectedLevel(probabilities)),
+    legend: Object.fromEntries(question.criteria.map((level, i) => [String(i), level])),
+    probabilities: Object.fromEntries(probabilities.map((p, i) => [String(i), round(p)])),
+    confidence: round(confidence(probabilities)),
+  };
+}
+
+function choiceAnswer(question: ChoiceQuestion, probabilities: number[]): Answer {
+  const names = Object.keys(question.criteria);
+  return {
+    type: "choice",
+    choice: names[argmax(probabilities)]!,
+    probabilities: Object.fromEntries(names.map((name, i) => [name, round(probabilities[i]!)])),
+    confidence: round(confidence(probabilities)),
+  };
+}
+
+async function answerPacked(run: Run, questions: [string, Question][]): Promise<[string, Answer][]> {
+  const onSheet: SheetQuestion[] = [];
+  const alone: [string, Question][] = [];
+  for (const [id, question] of questions) {
+    const labels = sheetLabels(question);
+    if (labels) onSheet.push({ id, question, labels });
+    else alone.push([id, question]);
+  }
+  // A sheet of one is just an isolated question with a worse prompt.
+  if (onSheet.length < 2) alone.push(...onSheet.splice(0).map((q): [string, Question] => [q.id, q.question]));
+
+  const sheets: SheetQuestion[][] = [];
+  for (let i = 0; i < onSheet.length; i += SHEET_SIZE) sheets.push(onSheet.slice(i, i + SHEET_SIZE));
+
+  const [read, rest] = await Promise.all([
+    Promise.all(sheets.map((sheet) => run.sheet(sheet))),
+    Promise.all(alone.map(async ([id, question]): Promise<[string, Answer]> => [id, await run.isolated(question)])),
+  ]);
+  const answers = new Map<string, Answer>([...read.flatMap((m) => [...m]), ...rest]);
+
+  // Anything the model skipped or answered off-format is asked again on its own.
+  const unread = onSheet.filter((q) => !answers.has(q.id));
+  run.repaired = unread.length;
+  for (const [id, answer] of await Promise.all(unread.map(async (q): Promise<[string, Answer]> => [q.id, await run.isolated(q.question)]))) answers.set(id, answer);
+
+  return questions.map(([id]) => [id, answers.get(id)!]);
+}
+
 export async function systemOne(backend: Backend, request: SystemOneRequest, options: EngineOptions = DEFAULT_ENGINE_OPTIONS): Promise<SystemOneResponse> {
   const run = new Run(backend, options, request.state);
-  const entries = await Promise.all(
-    Object.entries(request.questions).map(async ([id, question]) => [id, await run.answer(question)] as const),
-  );
-  return { model: backend.model, answers: Object.fromEntries(entries), usage: run.usage };
+  const questions = Object.entries(request.questions);
+  const entries =
+    options.strategy === "packed"
+      ? await answerPacked(run, questions)
+      : await Promise.all(questions.map(async ([id, question]): Promise<[string, Answer]> => [id, await run.isolated(question)]));
+  return {
+    model: backend.model,
+    answers: Object.fromEntries(entries),
+    usage: run.usage,
+    gev: { strategy: options.strategy, model_calls: run.modelCalls, repaired: run.repaired },
+  };
 }

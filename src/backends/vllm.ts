@@ -1,5 +1,5 @@
 import { GoogleAuth } from "google-auth-library";
-import { type Backend, type FirstTokenResult, TOP_LOGPROBS, postJson } from "./backend.ts";
+import { type Backend, type Generation, type Position, TOP_LOGPROBS, postJson } from "./backend.ts";
 
 export type VllmOptions = {
   /** e.g. https://gev-model-xyz.a.run.app/v1 */
@@ -10,21 +10,22 @@ export type VllmOptions = {
   gcpIdToken?: boolean;
 };
 
-type Position = { token: string; top_logprobs: { token: string; logprob: number }[] };
+type WirePosition = { token: string; top_logprobs: { token: string; logprob: number }[] };
 
 // Even with thinking disabled, Gemma 4 models open with an empty thought channel
-// ("<|channel>thought\n<channel|>") before the answer, so the label is not the first token.
-const ANSWER_WINDOW = 8;
+// ("<|channel>thought\n<channel|>") before the answer, so the answer is not the first token.
+const PREAMBLE_TOKENS = 6;
 
-/** The first generated position outside a <|channel>…<channel|> block: where the answer label is. */
-export function answerPosition(positions: Position[]): Position | undefined {
+/** Drops <|channel>…<channel|> blocks, leaving only the positions of the answer itself. */
+export function answerPositions(positions: WirePosition[]): Position[] {
+  const answer: Position[] = [];
   let inChannel = false;
   for (const position of positions) {
     if (position.token === "<|channel>") inChannel = true;
     else if (position.token === "<channel|>") inChannel = false;
-    else if (!inChannel) return position;
+    else if (!inChannel) answer.push({ token: position.token, top: position.top_logprobs.map((c) => ({ token: c.token, logprob: c.logprob })) });
   }
-  return undefined;
+  return answer;
 }
 
 /** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */
@@ -46,7 +47,7 @@ export class VllmBackend implements Backend {
     return this.#options.apiKey ? { authorization: `Bearer ${this.#options.apiKey}` } : {};
   }
 
-  async firstToken(system: string, prompt: string): Promise<FirstTokenResult> {
+  async generate(system: string, prompt: string, maxTokens: number): Promise<Generation> {
     const data = await postJson(`${this.#options.baseUrl}/chat/completions`, await this.#headers(), {
       model: this.#options.model,
       messages: [
@@ -54,14 +55,13 @@ export class VllmBackend implements Backend {
         { role: "user", content: prompt },
       ],
       temperature: 0,
-      max_tokens: ANSWER_WINDOW,
+      max_tokens: maxTokens + PREAMBLE_TOKENS,
       logprobs: true,
       top_logprobs: TOP_LOGPROBS,
       chat_template_kwargs: { enable_thinking: false },
     });
-    const top = answerPosition(data.choices?.[0]?.logprobs?.content ?? [])?.top_logprobs ?? [];
     return {
-      top: top.map((c: { token: string; logprob: number }) => ({ token: c.token, logprob: c.logprob })),
+      positions: answerPositions(data.choices?.[0]?.logprobs?.content ?? []),
       usage: {
         input_tokens: data.usage?.prompt_tokens ?? 0,
         output_tokens: data.usage?.completion_tokens ?? 0,

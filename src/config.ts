@@ -25,7 +25,10 @@ export function backendFromEnv(env: Env = process.env): Backend {
 }
 
 export function engineOptionsFromEnv(env: Env = process.env): EngineOptions {
+  const strategy = env.GEV_STRATEGY ?? DEFAULT_ENGINE_OPTIONS.strategy;
+  if (strategy !== "isolated" && strategy !== "packed") throw new Error(`GEV_STRATEGY must be "isolated" or "packed", got "${strategy}"`);
   return {
+    strategy,
     concurrency: positiveInt(env, "GEV_CONCURRENCY", DEFAULT_ENGINE_OPTIONS.concurrency),
     rotations: positiveInt(env, "GEV_ROTATIONS", DEFAULT_ENGINE_OPTIONS.rotations),
   };

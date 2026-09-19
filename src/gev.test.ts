@@ -1,18 +1,25 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createApp } from "./app.ts";
-import { type Backend, type FirstTokenResult, UpstreamError } from "./backends/backend.ts";
-import { answerPosition } from "./backends/vllm.ts";
+import { type Backend, type Generation, type Position, UpstreamError } from "./backends/backend.ts";
+import { answerPositions } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
 import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
+import { readSheet } from "./sheet.ts";
+import type { SystemOneRequest } from "./types.ts";
 
 const near = (actual: number, expected: number, eps = 1e-3) =>
   assert.ok(Math.abs(actual - expected) < eps, `expected ${actual} ≈ ${expected}`);
 
-/** Answers each prompt by finding which label sits next to `favorite` and putting `p` of the mass there. */
+/**
+ * Puts `p` of the mass on whichever label sits next to `favorite` (else the first label).
+ * Understands both prompt shapes: a single question, and a sheet of "Q<n>" questions.
+ */
 class FakeBackend implements Backend {
   readonly model = "fake-1";
   readonly prompts: string[] = [];
+  /** Sheet question numbers to leave off the reply, as a model that loses its place would. */
+  skip = new Set<number>();
   readonly #favorite: string;
   readonly #p: number;
   inflight = 0;
@@ -23,19 +30,34 @@ class FakeBackend implements Backend {
     this.#p = p;
   }
 
-  async firstToken(_system: string, prompt: string): Promise<FirstTokenResult> {
+  #position(labels: string[], block: string): Position {
+    const line = block.split("\n").find((l) => /^\w+: /.test(l) && l.includes(this.#favorite));
+    const favorite = line?.split(":")[0] ?? labels[0]!;
+    const rest = (1 - this.#p) / (labels.length - 1);
+    return { token: ` ${favorite}`, top: labels.map((label) => ({ token: ` ${label}`, logprob: Math.log(label === favorite ? this.#p : rest) })) };
+  }
+
+  async generate(_system: string, prompt: string): Promise<Generation> {
     this.prompts.push(prompt);
     this.peak = Math.max(this.peak, ++this.inflight);
     await new Promise((resolve) => setImmediate(resolve));
     this.inflight--;
-    const labels = prompt.split("\n").at(-1)!.replace("Reply with exactly one of: ", "").split(", ");
-    const line = prompt.split("\n").find((l) => /^\w+: /.test(l) && l.includes(this.#favorite));
-    const favorite = line?.split(":")[0] ?? labels[0]!;
-    const rest = (1 - this.#p) / (labels.length - 1);
-    return {
-      top: labels.map((label) => ({ token: label, logprob: Math.log(label === favorite ? this.#p : rest) })),
-      usage: { input_tokens: 10, output_tokens: 1 },
-    };
+    const usage = { input_tokens: 10, output_tokens: 1 };
+    const plain = (token: string): Position => ({ token, top: [{ token, logprob: 0 }] });
+
+    if (!prompt.includes("\nQUESTIONS:\n")) {
+      const labels = prompt.split("\n").at(-1)!.replace("Reply with exactly one of: ", "").split(", ");
+      return { positions: [this.#position(labels, prompt)], usage };
+    }
+    const blocks = prompt.split("\nQUESTIONS:\n")[1]!.split(/\n+Q\d+\. /).slice(1);
+    const template = prompt.split("\n").filter((l) => /^Q\d+: /.test(l));
+    const positions = template.flatMap((line, i) => {
+      if (this.skip.has(i + 1)) return [];
+      const labels = line.replace(/^Q\d+: /, "").split(" | ");
+      // Digits of the question number arrive as separate tokens, as Gemma's tokenizer emits them.
+      return [plain("Q"), ...String(i + 1).split("").map(plain), plain(":"), this.#position(labels, blocks[i]!), plain("\n")];
+    });
+    return { positions, usage };
   }
 }
 
@@ -59,13 +81,34 @@ test("labelDistribution is uniform when the backend returns nothing", () => {
   assert.deepEqual(labelDistribution([], ["yes", "no"]), [0.5, 0.5]);
 });
 
-test("answerPosition skips Gemma's empty thought channel", () => {
+test("answerPositions drops Gemma's empty thought channel", () => {
   const at = (token: string) => ({ token, top_logprobs: [{ token, logprob: 0 }] });
+  const tokens = (names: string[]) => answerPositions(names.map(at)).map((p) => p.token);
   // As observed from DiffusionGemma with thinking disabled.
-  assert.equal(answerPosition(["<|channel>", "thought", "\n", "<channel|>", "A", "<turn|>"].map(at))?.token, "A");
-  assert.equal(answerPosition(["B", "<turn|>"].map(at))?.token, "B");
-  assert.equal(answerPosition(["<|channel>", "thought"].map(at)), undefined);
-  assert.equal(answerPosition([]), undefined);
+  assert.deepEqual(tokens(["<|channel>", "thought", "\n", "<channel|>", "A", "<turn|>"]), ["A", "<turn|>"]);
+  assert.deepEqual(tokens(["B", "<turn|>"]), ["B", "<turn|>"]);
+  assert.deepEqual(tokens(["<|channel>", "thought"]), []);
+});
+
+test("readSheet finds answers by line, whatever the tokenization, and ignores off-format lines", () => {
+  const at = (token: string, top: [string, number][] = [[token, 1]]): Position => ({ token, top: top.map(([t, p]) => ({ token: t, logprob: Math.log(p) })) });
+  const questions = [
+    { id: "team", labels: ["A", "B"] },
+    { id: "urgent", labels: ["yes", "no"] },
+    { id: "skipped", labels: ["yes", "no"] },
+    { id: "bogus", labels: ["0", "1", "2"] },
+  ].map((q) => ({ ...q, question: { type: "noul", instructions: "" } as const }));
+  const read = readSheet(
+    [
+      at("Q1"), at(":"), at(" B", [[" B", 0.8], [" A", 0.2]]), at("\n"),
+      at("Q"), at("2"), at(":"), at(" "), at("no", [["no", 0.7], ["yes", 0.3]]), at("\n"),
+      at("Q4: "), at("maybe"), at("\n"),
+    ],
+    questions,
+  );
+  assert.deepEqual([...read.keys()], ["team", "urgent"]);
+  near(read.get("team")![1]!, 0.8);
+  near(read.get("urgent")![0]!, 0.3);
 });
 
 test("confidence and expectedLevel", () => {
@@ -114,13 +157,42 @@ test("rotations present options in different orders and map results back", async
 test("more options than labels: tournament finds the winner and respects concurrency", async () => {
   const criteria = Object.fromEntries(Array.from({ length: 40 }, (_, i) => [`option-${String(i).padStart(2, "0")}`, null]));
   const backend = new FakeBackend("option-37");
-  const response = await systemOne(backend, { state: "s", questions: { q: { type: "choice", instructions: "?", criteria } } }, { concurrency: 2, rotations: 1 });
+  const response = await systemOne(backend, { state: "s", questions: { q: { type: "choice", instructions: "?", criteria } } }, { ...DEFAULT_ENGINE_OPTIONS, concurrency: 2 });
   const q = response.answers.q;
   assert.ok(q?.type === "choice");
   assert.equal(q.choice, "option-37");
   assert.equal(backend.prompts.length, 4); // 3 chunks + 1 final
   assert.ok(backend.peak <= 2);
   near(Object.values(q.probabilities).reduce((a, b) => a + b, 0), 1, 0.01);
+});
+
+test("packed: one model call answers the whole sheet; oversized choices go alone; skipped lines are repaired", async () => {
+  const icons = Object.fromEntries(Array.from({ length: 20 }, (_, i) => [`icon-${String(i).padStart(2, "0")}`, null]));
+  const request: SystemOneRequest = {
+    state: "The API returns 500 on every call.",
+    questions: {
+      team: { type: "choice", instructions: "Which team?", criteria: { billing: "Payments", technical: "Bugs", sales: null } },
+      urgent: { type: "noul", instructions: "The message is urgent" },
+      anger: { type: "score", instructions: "How angry?", criteria: ["Calm", "Annoyed", "technical fury"] },
+      icon: { type: "choice", instructions: "Which icon?", criteria: icons },
+    },
+  };
+  const packed = { ...DEFAULT_ENGINE_OPTIONS, strategy: "packed" } as const;
+
+  const backend = new FakeBackend("technical");
+  const response = await systemOne(backend, request, packed);
+  const isolated = await systemOne(new FakeBackend("technical"), request);
+  assert.deepEqual(response.answers, isolated.answers);
+  assert.deepEqual(Object.keys(response.answers), ["team", "urgent", "anger", "icon"]);
+  // One sheet for three questions, plus the 20-icon tournament (2 chunks + 1 final).
+  assert.deepEqual(response.gev, { strategy: "packed", model_calls: 4, repaired: 0 });
+  assert.equal(isolated.gev?.model_calls, 6);
+
+  const forgetful = new FakeBackend("technical");
+  forgetful.skip.add(2);
+  const repaired = await systemOne(forgetful, request, packed);
+  assert.deepEqual(repaired.answers, isolated.answers);
+  assert.deepEqual(repaired.gev, { strategy: "packed", model_calls: 5, repaired: 1 });
 });
 
 test("HTTP: auth, CORS, validation, and upstream error mapping", async () => {
@@ -160,7 +232,7 @@ test("HTTP: auth, CORS, validation, and upstream error mapping", async () => {
 
   const failing = (status: number): Backend => ({
     model: "down",
-    firstToken: async () => {
+    generate: async () => {
       throw new UpstreamError(status, "boom");
     },
   });

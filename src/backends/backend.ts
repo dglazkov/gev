@@ -3,13 +3,17 @@ import type { Usage } from "../types.ts";
 
 export const TOP_LOGPROBS = 20;
 
-export type FirstTokenResult = { top: TokenLogprob[]; usage: Usage };
+/** One generated token, with the top-k candidates the model weighed at that position. */
+export type Position = { token: string; top: TokenLogprob[] };
 
-/** A language model that can report the top-k logprobs of the first token of its answer. */
+export type Generation = { positions: Position[]; usage: Usage };
+
+/** A language model that reports top-k logprobs for every token of its answer. */
 export interface Backend {
   /** Reported in the response `model` field. */
   readonly model: string;
-  firstToken(system: string, prompt: string): Promise<FirstTokenResult>;
+  /** Greedy generation of up to `maxTokens` answer tokens (any reasoning preamble excluded). */
+  generate(system: string, prompt: string, maxTokens: number): Promise<Generation>;
 }
 
 export class UpstreamError extends Error {

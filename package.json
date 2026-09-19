@@ -1,0 +1,27 @@
+{
+  "name": "gev",
+  "version": "0.1.0",
+  "description": "A jev-style System One decision API on GCP: typed probabilistic answers from LLM token logprobs.",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "dev": "node --watch src/server.ts",
+    "test": "node --test 'src/**/*.test.ts'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.1",
+    "google-auth-library": "^11.1.0",
+    "hono": "^4.13.8",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,4708 @@
+[
+ {
+  "fixture": "001.json",
+  "state": "{\"screen\":\"Delete my account and all of its data\"}",
+  "ms": 7183,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "settings",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0.8536,
+      "form": 0.0143,
+      "checkout": 0,
+      "result": 0.0001,
+      "confirm": 0.132
+     },
+     "confidence": 0.7887
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.9914
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.996,
+      "search": 0,
+      "add": 0,
+      "edit": 0.0001,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0,
+      "settings": 0.0001,
+      "more": 0.0039
+     },
+     "confidence": 0.9876
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9991,
+      "cards": 0.0003,
+      "grid": 0.0003,
+      "reel": 0.0003
+     },
+     "confidence": 0.9942
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0.0308,
+      "thumbnail": 0.0001,
+      "icon": 0.1055,
+      "number": 0.0005,
+      "none": 0.8631
+     },
+     "confidence": 0.7041
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.0003,
+      "button": 0.001,
+      "switch": 0,
+      "checkbox": 0.0002,
+      "none": 0.9985
+     },
+     "confidence": 0.9921
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.0009
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "delete",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0.0001,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0.9986,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0.0011,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0
+     },
+     "confidence": 0.9976
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.9361
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.1595
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0399
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 11990,
+    "output_tokens": 244
+   }
+  }
+ },
+ {
+  "fixture": "002.json",
+  "state": "{\"screen\":\"What happens to my data if I delete my account?\"}",
+  "ms": 6280,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "settings",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0.9999,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 0.9996
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0719
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.8821,
+      "search": 0,
+      "add": 0.0001,
+      "edit": 0.0027,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0004,
+      "settings": 0.07,
+      "more": 0.0447
+     },
+     "confidence": 0.7924
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9999,
+      "cards": 0.0001,
+      "grid": 0,
+      "reel": 0
+     },
+     "confidence": 0.9992
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0,
+      "thumbnail": 0,
+      "icon": 0,
+      "number": 0,
+      "none": 1
+     },
+     "confidence": 0.9999
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0,
+      "button": 0.0001,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.9999
+     },
+     "confidence": 0.9992
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.0084
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "delete",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0.0002,
+      "group": 0,
+      "settings": 0.0001,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0.0001,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0.5909,
+      "logout": 0.0002,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0.0014,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0.0001,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0.0002,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0.0877,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0.0239,
+      "policy": 0.2405,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0546
+     },
+     "confidence": 0.7829
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.0453
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0007
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.9999
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0025
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 12070,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "003.json",
+  "state": "{\"screen\":\"Am I going to be surprised by my electricity bill this month?\"}",
+  "ms": 6238,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "dashboard",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0.9998,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0.0001
+     },
+     "confidence": 0.9989
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.3988
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.9046,
+      "search": 0.0037,
+      "add": 0.0003,
+      "edit": 0.0009,
+      "share": 0.0001,
+      "favorite": 0.0002,
+      "notifications": 0.0035,
+      "settings": 0.0747,
+      "more": 0.012
+     },
+     "confidence": 0.8227
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9956,
+      "cards": 0.0042,
+      "grid": 0.0002,
+      "reel": 0
+     },
+     "confidence": 0.9789
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0.0008,
+      "thumbnail": 0.0002,
+      "icon": 0.0079,
+      "number": 0.0004,
+      "none": 0.9907
+     },
+     "confidence": 0.9641
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.0196,
+      "button": 0.001,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.9794
+     },
+     "confidence": 0.9351
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.3905
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 1
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "electric_bolt",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0.0001,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0.001,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0.003,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0.0001,
+      "electric_bolt": 0.9929,
+      "solar_power": 0.0001,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0026
+     },
+     "confidence": 0.99
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0.999
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0.0008
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0004
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0042
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0.9992
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.001
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.002
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0392
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.0112
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0004
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0056
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0481
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.9949
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.2106
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.2823
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0.0008
+    }
+   },
+   "usage": {
+    "input_tokens": 12156,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "004.json",
+  "state": "{\"screen\":\"Send $50 to Alex\"}",
+  "ms": 6808,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "confirm",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0.0001,
+      "guide": 0,
+      "settings": 0,
+      "form": 0.4057,
+      "checkout": 0.0185,
+      "result": 0.0004,
+      "confirm": 0.5753
+     },
+     "confidence": 0.6528
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.4872
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.9548,
+      "search": 0,
+      "add": 0.0009,
+      "edit": 0.0336,
+      "share": 0.0005,
+      "favorite": 0.0001,
+      "notifications": 0.0003,
+      "settings": 0.0002,
+      "more": 0.0097
+     },
+     "confidence": 0.9007
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.877,
+      "cards": 0.1159,
+      "grid": 0.0015,
+      "reel": 0.0057
+     },
+     "confidence": 0.7087
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "icon",
+     "probabilities": {
+      "avatar": 0.0157,
+      "thumbnail": 0.0002,
+      "icon": 0.6061,
+      "number": 0.0003,
+      "none": 0.3777
+     },
+     "confidence": 0.5401
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "chevron",
+     "probabilities": {
+      "chevron": 0.5211,
+      "button": 0.477,
+      "switch": 0,
+      "checkbox": 0.0001,
+      "none": 0.0017
+     },
+     "confidence": 0.5619
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.138
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0022
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "payments",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0.9999,
+      "credit_card": 0.0001,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0
+     },
+     "confidence": 0.9997
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.001
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.008
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.999
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.028
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.9964
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.001
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.0185
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 11918,
+    "output_tokens": 242
+   }
+  }
+ },
+ {
+  "fixture": "005.json",
+  "state": "{\"screen\":\"My car won't start, what do I do?\"}",
+  "ms": 6299,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "guide",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 1,
+      "settings": 0,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 0.9999
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.0024
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.999,
+      "search": 0,
+      "add": 0,
+      "edit": 0,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0001,
+      "settings": 0.0002,
+      "more": 0.0007
+     },
+     "confidence": 0.9959
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9724,
+      "cards": 0.0227,
+      "grid": 0.0005,
+      "reel": 0.0044
+     },
+     "confidence": 0.8985
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0.0001,
+      "thumbnail": 0,
+      "icon": 0.0095,
+      "number": 0.0001,
+      "none": 0.9903
+     },
+     "confidence": 0.9654
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.2767,
+      "button": 0.0039,
+      "switch": 0,
+      "checkbox": 0.0001,
+      "none": 0.7192
+     },
+     "confidence": 0.6176
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.1011
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "help",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0.0032,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0.0001,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0.0002,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0.0001,
+      "wifi": 0,
+      "bluetooth": 0.0001,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0.9087,
+      "info": 0.0025,
+      "warning": 0.0577,
+      "error": 0.0049,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0.0036,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0.0001,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0.001,
+      "build": 0,
+      "construction": 0,
+      "devices": 0.0003,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0.0002,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0.0041,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0.0049,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0079
+     },
+     "confidence": 0.9159
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0.7053
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0021
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.4185
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0217
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0004
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0014
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0021
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.0006
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.0004
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0728
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 12120,
+    "output_tokens": 242
+   }
+  }
+ },
+ {
+  "fixture": "006.json",
+  "state": "{\"screen\":\"Sign-up form for a weekend pottery workshop\"}",
+  "ms": 6294,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "form",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0,
+      "form": 1,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 1
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.4718
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 1,
+      "search": 0,
+      "add": 0,
+      "edit": 0,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0,
+      "settings": 0,
+      "more": 0
+     },
+     "confidence": 0.9999
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9471,
+      "cards": 0.0504,
+      "grid": 0.0021,
+      "reel": 0.0003
+     },
+     "confidence": 0.8429
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0.0001,
+      "thumbnail": 0,
+      "icon": 0.0003,
+      "number": 0,
+      "none": 0.9996
+     },
+     "confidence": 0.9977
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.0043,
+      "button": 0.0017,
+      "switch": 0,
+      "checkbox": 0.0003,
+      "none": 0.9937
+     },
+     "confidence": 0.9732
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.0007
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "event",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0.0003,
+      "calendar_today": 0.0221,
+      "event": 0.9774,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0001
+     },
+     "confidence": 0.9787
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.3483
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0019
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.0087
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0007
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.972
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0116
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 1
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 12041,
+    "output_tokens": 238
+   }
+  }
+ },
+ {
+  "fixture": "007.json",
+  "state": "{\"screen\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
+  "ms": 6460,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "feed",
+     "probabilities": {
+      "feed": 0.9988,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0,
+      "form": 0.001,
+      "checkout": 0,
+      "result": 0.0001,
+      "confirm": 0
+     },
+     "confidence": 0.9957
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.9965
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "search",
+     "probabilities": {
+      "none": 0.0002,
+      "search": 0.9998,
+      "add": 0,
+      "edit": 0,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0,
+      "settings": 0,
+      "more": 0
+     },
+     "confidence": 0.9991
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "cards",
+     "probabilities": {
+      "rows": 0,
+      "cards": 1,
+      "grid": 0,
+      "reel": 0
+     },
+     "confidence": 1
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "thumbnail",
+     "probabilities": {
+      "avatar": 0,
+      "thumbnail": 1,
+      "icon": 0,
+      "number": 0,
+      "none": 0
+     },
+     "confidence": 0.9999
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "chevron",
+     "probabilities": {
+      "chevron": 1,
+      "button": 0,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0
+     },
+     "confidence": 0.9999
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.9968
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "search",
+     "probabilities": {
+      "home": 0,
+      "search": 0.9638,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0.0323,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0.0002,
+      "account_balance": 0.0001,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0.0025,
+      "travel_explore": 0.0001,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0008
+     },
+     "confidence": 0.9669
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0017
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.9921
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.9804
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0006
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.9692
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.1693
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.9999
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 1
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.9861
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 12080,
+    "output_tokens": 242
+   }
+  }
+ },
+ {
+  "fixture": "008.json",
+  "state": "{\"screen\":\"How do I make sourdough starter from scratch?\"}",
+  "ms": 6167,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "guide",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 1,
+      "settings": 0,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 0.9999
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.5607,
+      "search": 0.4379,
+      "add": 0.0006,
+      "edit": 0.0001,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0003,
+      "settings": 0.0001,
+      "more": 0.0003
+     },
+     "confidence": 0.6826
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.928,
+      "cards": 0.0667,
+      "grid": 0.0045,
+      "reel": 0.0007
+     },
+     "confidence": 0.7983
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "avatar": 0.0001,
+      "thumbnail": 0.0004,
+      "icon": 0.0064,
+      "number": 0.0003,
+      "none": 0.9927
+     },
+     "confidence": 0.9709
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.1868,
+      "button": 0.0007,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.8124
+     },
+     "confidence": 0.6971
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.9993
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "menu_book",
+     "probabilities": {
+      "home": 0,
+      "search": 0.0001,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0.0001,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0.0363,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0.4246,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0.0001,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0.5289,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0.0045,
+      "newspaper": 0,
+      "article": 0.0009,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0.0002,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.004
+     },
+     "confidence": 0.8313
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0053
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0017
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.9926
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0007
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.1148
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.0008
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0009
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 11998,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "009.json",
+  "state": "{\"screen\":\"Tell me about the Golden Gate Bridge\"}",
+  "ms": 6390,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "detail",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 1,
+      "guide": 0,
+      "settings": 0,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 1
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.4664
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.5679,
+      "search": 0.4108,
+      "add": 0.0005,
+      "edit": 0.0009,
+      "share": 0.0033,
+      "favorite": 0.0018,
+      "notifications": 0.0006,
+      "settings": 0.0003,
+      "more": 0.014
+     },
+     "confidence": 0.6388
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "cards",
+     "probabilities": {
+      "rows": 0.0043,
+      "cards": 0.9939,
+      "grid": 0.0016,
+      "reel": 0.0002
+     },
+     "confidence": 0.9702
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "thumbnail",
+     "probabilities": {
+      "avatar": 0.0002,
+      "thumbnail": 0.9971,
+      "icon": 0.0001,
+      "number": 0,
+      "none": 0.0026
+     },
+     "confidence": 0.9867
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "chevron": 0.3895,
+      "button": 0.0001,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.6104
+     },
+     "confidence": 0.584
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.9994
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "info",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0.0002,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0.9989,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0.0002,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0.0001,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0005
+     },
+     "confidence": 0.9979
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.998
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0008
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0036
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.9995
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.2649
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.0002
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.0183
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0.0001
+    }
+   },
+   "usage": {
+    "input_tokens": 11958,
+    "output_tokens": 239
+   }
+  }
+ },
+ {
+  "fixture": "010.json",
+  "state": "{\"screen\":\"Settings for notification preferences in a chat app\"}",
+  "ms": 6188,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "settings",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 1,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 1
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.8859,
+      "search": 0.0001,
+      "add": 0.0001,
+      "edit": 0.0981,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0004,
+      "settings": 0.0055,
+      "more": 0.0099
+     },
+     "confidence": 0.8114
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 1,
+      "cards": 0,
+      "grid": 0,
+      "reel": 0
+     },
+     "confidence": 1
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "icon",
+     "probabilities": {
+      "avatar": 0.0002,
+      "thumbnail": 0.0001,
+      "icon": 0.9969,
+      "number": 0,
+      "none": 0.0028
+     },
+     "confidence": 0.9864
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "switch",
+     "probabilities": {
+      "chevron": 0.24,
+      "button": 0.0008,
+      "switch": 0.7592,
+      "checkbox": 0,
+      "none": 0
+     },
+     "confidence": 0.6538
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.9304
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "notifications",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0.0034,
+      "notifications": 0.9965,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0001
+     },
+     "confidence": 0.9955
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.6963
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.9975
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.0045
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0004
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.9937
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 11998,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "011.json",
+  "state": "{\"screen\":\"Pick a movie for family night\"}",
+  "ms": 6081,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "feed",
+     "probabilities": {
+      "feed": 0.9994,
+      "dashboard": 0,
+      "detail": 0.0001,
+      "guide": 0,
+      "settings": 0,
+      "form": 0.0004,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 0.9974
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.5487
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "search",
+     "probabilities": {
+      "none": 0.0011,
+      "search": 0.9988,
+      "add": 0,
+      "edit": 0,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0001,
+      "settings": 0,
+      "more": 0
+     },
+     "confidence": 0.9957
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "reel",
+     "probabilities": {
+      "rows": 0,
+      "cards": 0.0002,
+      "grid": 0.0031,
+      "reel": 0.9966
+     },
+     "confidence": 0.983
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "thumbnail",
+     "probabilities": {
+      "avatar": 0,
+      "thumbnail": 1,
+      "icon": 0,
+      "number": 0,
+      "none": 0
+     },
+     "confidence": 0.9999
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "chevron",
+     "probabilities": {
+      "chevron": 1,
+      "button": 0,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0
+     },
+     "confidence": 0.9998
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.999
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "tv",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0.0001,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0.2875,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0.0001,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0.7106,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0.0003,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0.0001,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.001
+     },
+     "confidence": 0.882
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0007
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.9992
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.9999
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.1333
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.0056
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.8411
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.0015
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0013
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.9998
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0057
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 11918,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "012.json",
+  "state": "{\"screen\":\"Checkout screen for a sneaker store with order summary\"}",
+  "ms": 6080,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "checkout",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 0,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0,
+      "form": 0,
+      "checkout": 1,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 0.9999
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "probabilities": {
+      "none": 0.9963,
+      "search": 0,
+      "add": 0,
+      "edit": 0.0004,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0,
+      "settings": 0,
+      "more": 0.0032
+     },
+     "confidence": 0.988
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9976,
+      "cards": 0.0018,
+      "grid": 0.0007,
+      "reel": 0
+     },
+     "confidence": 0.9866
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "thumbnail",
+     "probabilities": {
+      "avatar": 0,
+      "thumbnail": 1,
+      "icon": 0,
+      "number": 0,
+      "none": 0
+     },
+     "confidence": 0.9999
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "chevron",
+     "probabilities": {
+      "chevron": 0.9851,
+      "button": 0.0005,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.0144
+     },
+     "confidence": 0.9503
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.0195
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "receipt_long",
+     "probabilities": {
+      "home": 0,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0.0063,
+      "shopping_bag": 0.0056,
+      "payments": 0.005,
+      "credit_card": 0.0001,
+      "receipt_long": 0.9823,
+      "sell": 0,
+      "local_shipping": 0.0005,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0002
+     },
+     "confidence": 0.9786
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0.9999
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.0555
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.0005
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.0008
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.9998
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.1037
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 1
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.0155
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0
+    }
+   },
+   "usage": {
+    "input_tokens": 12039,
+    "output_tokens": 240
+   }
+  }
+ },
+ {
+  "fixture": "013.json",
+  "state": "{\"screen\":\"Home energy dashboard showing today's usage\"}",
+  "ms": 6080,
+  "response": {
+   "model": "google/diffusiongemma-26B-A4B-it",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "dashboard",
+     "probabilities": {
+      "feed": 0,
+      "dashboard": 1,
+      "detail": 0,
+      "guide": 0,
+      "settings": 0,
+      "form": 0,
+      "checkout": 0,
+      "result": 0,
+      "confirm": 0
+     },
+     "confidence": 1
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.2622
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 1
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "settings",
+     "probabilities": {
+      "none": 0.0001,
+      "search": 0,
+      "add": 0,
+      "edit": 0,
+      "share": 0,
+      "favorite": 0,
+      "notifications": 0.0113,
+      "settings": 0.9884,
+      "more": 0.0001
+     },
+     "confidence": 0.9706
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "probabilities": {
+      "rows": 0.9659,
+      "cards": 0.0308,
+      "grid": 0.0032,
+      "reel": 0
+     },
+     "confidence": 0.885
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "icon",
+     "probabilities": {
+      "avatar": 0.0004,
+      "thumbnail": 0.0001,
+      "icon": 0.9819,
+      "number": 0.0005,
+      "none": 0.017
+     },
+     "confidence": 0.9407
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "chevron",
+     "probabilities": {
+      "chevron": 0.5605,
+      "button": 0,
+      "switch": 0,
+      "checkbox": 0,
+      "none": 0.4395
+     },
+     "confidence": 0.5736
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.1322
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 1
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "power",
+     "probabilities": {
+      "home": 0.0001,
+      "search": 0,
+      "person": 0,
+      "group": 0,
+      "settings": 0,
+      "notifications": 0,
+      "favorite": 0,
+      "star": 0,
+      "bookmark": 0,
+      "share": 0,
+      "lock": 0,
+      "key": 0,
+      "shield": 0,
+      "visibility": 0,
+      "language": 0,
+      "palette": 0,
+      "dark_mode": 0,
+      "light_mode": 0,
+      "volume_up": 0,
+      "music_note": 0,
+      "headphones": 0,
+      "mic": 0,
+      "podcasts": 0,
+      "play_circle": 0,
+      "movie": 0,
+      "photo_camera": 0,
+      "image": 0,
+      "download": 0,
+      "upload": 0,
+      "cloud": 0,
+      "wifi": 0,
+      "bluetooth": 0,
+      "storage": 0,
+      "memory": 0,
+      "battery_full": 0,
+      "bolt": 0,
+      "speed": 0,
+      "timer": 0,
+      "schedule": 0,
+      "calendar_today": 0,
+      "event": 0,
+      "mail": 0,
+      "chat": 0,
+      "call": 0,
+      "forum": 0,
+      "campaign": 0,
+      "help": 0,
+      "info": 0,
+      "warning": 0,
+      "error": 0,
+      "check_circle": 0,
+      "delete": 0,
+      "logout": 0,
+      "edit": 0,
+      "tune": 0,
+      "filter_list": 0,
+      "sort": 0,
+      "shopping_cart": 0,
+      "shopping_bag": 0,
+      "payments": 0,
+      "credit_card": 0,
+      "receipt_long": 0,
+      "sell": 0,
+      "local_shipping": 0,
+      "inventory_2": 0,
+      "storefront": 0,
+      "redeem": 0,
+      "restaurant": 0,
+      "local_cafe": 0,
+      "bakery_dining": 0,
+      "local_bar": 0,
+      "kitchen": 0,
+      "directions_car": 0,
+      "directions_bike": 0,
+      "directions_walk": 0,
+      "flight": 0,
+      "train": 0,
+      "hotel": 0,
+      "map": 0,
+      "location_on": 0,
+      "explore": 0,
+      "fitness_center": 0,
+      "self_improvement": 0,
+      "monitor_heart": 0,
+      "medication": 0,
+      "bedtime": 0,
+      "spa": 0,
+      "pets": 0,
+      "park": 0,
+      "eco": 0,
+      "water_drop": 0,
+      "thermostat": 0,
+      "wb_sunny": 0,
+      "ac_unit": 0,
+      "school": 0,
+      "menu_book": 0,
+      "auto_stories": 0,
+      "science": 0,
+      "work": 0,
+      "business": 0,
+      "account_balance": 0,
+      "savings": 0,
+      "trending_up": 0,
+      "bar_chart": 0.0002,
+      "pie_chart": 0,
+      "insights": 0,
+      "code": 0,
+      "terminal": 0,
+      "dns": 0,
+      "database": 0,
+      "bug_report": 0,
+      "build": 0,
+      "construction": 0,
+      "devices": 0,
+      "smartphone": 0,
+      "laptop": 0,
+      "tv": 0,
+      "print": 0,
+      "router": 0,
+      "sensors": 0,
+      "lightbulb": 0,
+      "power": 0.9976,
+      "local_laundry_service": 0,
+      "checkroom": 0,
+      "brush": 0,
+      "sports_esports": 0,
+      "sports_soccer": 0,
+      "toys": 0,
+      "child_care": 0,
+      "family_restroom": 0,
+      "volunteer_activism": 0,
+      "dashboard": 0.0017,
+      "grid_view": 0,
+      "list_alt": 0,
+      "inbox": 0,
+      "analytics": 0,
+      "electric_bolt": 0,
+      "solar_power": 0,
+      "ev_station": 0,
+      "heat_pump": 0,
+      "replay": 0,
+      "fast_forward": 0,
+      "fast_rewind": 0,
+      "skip_next": 0,
+      "repeat": 0,
+      "queue_music": 0,
+      "library_music": 0,
+      "library_books": 0,
+      "newspaper": 0,
+      "article": 0,
+      "confirmation_number": 0,
+      "local_offer": 0,
+      "percent": 0,
+      "support_agent": 0,
+      "rate_review": 0,
+      "thumb_up": 0,
+      "emoji_events": 0,
+      "flag": 0,
+      "task_alt": 0,
+      "checklist": 0,
+      "pending_actions": 0,
+      "hiking": 0,
+      "backpack": 0,
+      "category": 0,
+      "apps": 0,
+      "explore_nearby": 0,
+      "travel_explore": 0,
+      "stadia_controller": 0,
+      "handyman": 0,
+      "local_mall": 0,
+      "styler": 0,
+      "description": 0,
+      "folder": 0,
+      "attach_file": 0,
+      "link": 0,
+      "history": 0,
+      "sync": 0,
+      "backup": 0,
+      "security": 0,
+      "fingerprint": 0,
+      "verified_user": 0,
+      "privacy_tip": 0,
+      "policy": 0,
+      "accessibility": 0,
+      "translate": 0,
+      "none": 0.0003
+     },
+     "confidence": 0.9963
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0.0003
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.0268
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 1
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.5318
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.9532
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.0001
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.0012
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.2737
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.9939
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0.0003
+    }
+   },
+   "usage": {
+    "input_tokens": 11998,
+    "output_tokens": 240
+   }
+  }
+ }
+]

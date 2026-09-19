@@ -1,0 +1,884 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "screen": "Sign-up form for a weekend pottery workshop"
+  },
+  "questions": {
+   "archetype": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "What kind of screen is this?"
+    },
+    "criteria": {
+     "feed": "A collection to look through: search results, a catalogue, a feed, an inbox, a directory, a list of records.",
+     "dashboard": "Numbers and status at a glance: usage, health, progress, balances, today's summary.",
+     "detail": "One thing in depth: a product, a place, an article, a profile, an event, an order, a recipe's overview.",
+     "guide": "Instructions followed in order: a how-to, a method, troubleshooting, an onboarding checklist.",
+     "settings": "Preferences, account options or configuration, arranged as groups of rows.",
+     "form": "Data entry: sign-up, booking, creating or editing a record, a survey, a contact form.",
+     "checkout": "Review and commit: a cart, a checkout, an order or booking summary with totals, payment.",
+     "result": "The outcome of something the person just did: a success message, a confirmation, a receipt, an error, nothing found.",
+     "confirm": "One short decision about one thing, asked before it happens: confirm, delete, approve, allow, a dialog or alert."
+    }
+   },
+   "person": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Is this screen about one person or account, such as a profile?"
+    },
+    "criteria": {
+     "true": "A user profile, a contact, a member page, an account overview.",
+     "false": "It is about things, data, tasks or settings, or about many people at once."
+    }
+   },
+   "top_level": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Is this one of the app's main screens, the kind reached from its main navigation?"
+    },
+    "criteria": {
+     "true": "A home, feed, dashboard, inbox, search, library or profile screen.",
+     "false": "A page reached by tapping into something: details, a settings page, a checkout, a form, a dialog."
+    }
+   },
+   "app_bar_action": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Which single action belongs in the screen's top bar?"
+    },
+    "criteria": {
+     "none": "The screen needs no action in its top bar.",
+     "search": "The person will look for something specific among the content.",
+     "add": "The person creates new items here: a new message, task, record or entry.",
+     "edit": "The content belongs to the person and they may want to change it.",
+     "share": "The content is something people send to others.",
+     "favorite": "The thing shown is something people save for later or mark as a favourite.",
+     "notifications": "A home or overview screen where alerts are one tap away.",
+     "settings": "A home, profile or overview screen from which preferences are reached.",
+     "more": "There are several minor actions, none of them the main one."
+    }
+   },
+   "list_layout": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items, how should they be laid out?"
+    },
+    "criteria": {
+     "rows": "Dense rows to scan quickly: text matters more than pictures, or there are many items.",
+     "cards": "Large picture cards, one per row: people choose mostly by look and compare a few rich items, such as places to stay or restaurants.",
+     "grid": "A grid of small picture tiles: many visual items browsed casually, such as products, photos or albums.",
+     "reel": "A sideways-scrolling row of picture cards: a short shelf of suggestions, such as films or featured items."
+    }
+   },
+   "item_leading": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items, what kind of thing is each item?"
+    },
+    "criteria": {
+     "avatar": "Each item is a person or an account.",
+     "thumbnail": "Each item is a physical thing or a place that people recognise by its look: a product, a dish, a property, a film, an album.",
+     "icon": "Each item is an abstract record or a category that a small symbol can stand for: a device, a file, a transaction, an appointment, a task.",
+     "number": "The items are ranked or ordered and their position matters.",
+     "none": "Plain rows of text such as messages, notes or headlines."
+    }
+   },
+   "item_trailing": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items, what does the person do with one item?"
+    },
+    "criteria": {
+     "chevron": "Tapping an item opens its own page of details.",
+     "button": "Each item has one obvious action taken right in the list: book, add, buy, follow, play, join.",
+     "switch": "Each item is something the person turns on or off.",
+     "checkbox": "The person ticks several items, to complete them or to act on them together.",
+     "none": "The items are only read."
+    }
+   },
+   "search": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the person narrows down what is shown, would they type a search?"
+    },
+    "criteria": {
+     "true": "There are too many items to scan, or the person knows the name of what they want.",
+     "false": "A handful of category filters is enough."
+    }
+   },
+   "stat_deltas": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows headline numbers, do they change over time in a way the person tracks?"
+    },
+    "criteria": {
+     "true": "Usage, spending, revenue, health or performance figures compared with yesterday, last week or a target.",
+     "false": "Fixed figures, such as counts or specifications, with nothing to compare against."
+    }
+   },
+   "screen_icon": {
+    "type": "choice",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Which symbol best stands for what this screen is about?"
+    },
+    "criteria": {
+     "home": null,
+     "search": null,
+     "person": null,
+     "group": null,
+     "settings": null,
+     "notifications": null,
+     "favorite": null,
+     "star": null,
+     "bookmark": null,
+     "share": null,
+     "lock": null,
+     "key": null,
+     "shield": null,
+     "visibility": null,
+     "language": null,
+     "palette": null,
+     "dark_mode": null,
+     "light_mode": null,
+     "volume_up": null,
+     "music_note": null,
+     "headphones": null,
+     "mic": null,
+     "podcasts": null,
+     "play_circle": null,
+     "movie": null,
+     "photo_camera": null,
+     "image": null,
+     "download": null,
+     "upload": null,
+     "cloud": null,
+     "wifi": null,
+     "bluetooth": null,
+     "storage": null,
+     "memory": null,
+     "battery_full": null,
+     "bolt": null,
+     "speed": null,
+     "timer": null,
+     "schedule": null,
+     "calendar_today": null,
+     "event": null,
+     "mail": null,
+     "chat": null,
+     "call": null,
+     "forum": null,
+     "campaign": null,
+     "help": null,
+     "info": null,
+     "warning": null,
+     "error": null,
+     "check_circle": null,
+     "delete": null,
+     "logout": null,
+     "edit": null,
+     "tune": null,
+     "filter_list": null,
+     "sort": null,
+     "shopping_cart": null,
+     "shopping_bag": null,
+     "payments": null,
+     "credit_card": null,
+     "receipt_long": null,
+     "sell": null,
+     "local_shipping": null,
+     "inventory_2": null,
+     "storefront": null,
+     "redeem": null,
+     "restaurant": null,
+     "local_cafe": null,
+     "bakery_dining": null,
+     "local_bar": null,
+     "kitchen": null,
+     "directions_car": null,
+     "directions_bike": null,
+     "directions_walk": null,
+     "flight": null,
+     "train": null,
+     "hotel": null,
+     "map": null,
+     "location_on": null,
+     "explore": null,
+     "fitness_center": null,
+     "self_improvement": null,
+     "monitor_heart": null,
+     "medication": null,
+     "bedtime": null,
+     "spa": null,
+     "pets": null,
+     "park": null,
+     "eco": null,
+     "water_drop": null,
+     "thermostat": null,
+     "wb_sunny": null,
+     "ac_unit": null,
+     "school": null,
+     "menu_book": null,
+     "auto_stories": null,
+     "science": null,
+     "work": null,
+     "business": null,
+     "account_balance": null,
+     "savings": null,
+     "trending_up": null,
+     "bar_chart": null,
+     "pie_chart": null,
+     "insights": null,
+     "code": null,
+     "terminal": null,
+     "dns": null,
+     "database": null,
+     "bug_report": null,
+     "build": null,
+     "construction": null,
+     "devices": null,
+     "smartphone": null,
+     "laptop": null,
+     "tv": null,
+     "print": null,
+     "router": null,
+     "sensors": null,
+     "lightbulb": null,
+     "power": null,
+     "local_laundry_service": null,
+     "checkroom": null,
+     "brush": null,
+     "sports_esports": null,
+     "sports_soccer": null,
+     "toys": null,
+     "child_care": null,
+     "family_restroom": null,
+     "volunteer_activism": null,
+     "dashboard": null,
+     "grid_view": null,
+     "list_alt": null,
+     "inbox": null,
+     "analytics": null,
+     "electric_bolt": null,
+     "solar_power": null,
+     "ev_station": null,
+     "heat_pump": null,
+     "replay": null,
+     "fast_forward": null,
+     "fast_rewind": null,
+     "skip_next": null,
+     "repeat": null,
+     "queue_music": null,
+     "library_music": null,
+     "library_books": null,
+     "newspaper": null,
+     "article": null,
+     "confirmation_number": null,
+     "local_offer": null,
+     "percent": null,
+     "support_agent": null,
+     "rate_review": null,
+     "thumb_up": null,
+     "emoji_events": null,
+     "flag": null,
+     "task_alt": null,
+     "checklist": null,
+     "pending_actions": null,
+     "hiking": null,
+     "backpack": null,
+     "category": null,
+     "apps": null,
+     "explore_nearby": null,
+     "travel_explore": null,
+     "stadia_controller": null,
+     "handyman": null,
+     "local_mall": null,
+     "styler": null,
+     "description": null,
+     "folder": null,
+     "attach_file": null,
+     "link": null,
+     "history": null,
+     "sync": null,
+     "backup": null,
+     "security": null,
+     "fingerprint": null,
+     "verified_user": null,
+     "privacy_tip": null,
+     "policy": null,
+     "accessibility": null,
+     "translate": null,
+     "none": "No symbol in the set relates to it."
+    }
+   },
+   "facts_total": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows label-and-value details, do they add up to a total on the last line?"
+    },
+    "criteria": {
+     "true": "An order summary, a bill, a receipt or a cost breakdown.",
+     "false": "Independent details that do not sum."
+    }
+   },
+   "has_banner": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does something on this screen need the person's attention before anything else?"
+    },
+    "criteria": {
+     "true": "There is a warning, an outage, a deadline, an error, an offer about to expire, or a success to acknowledge.",
+     "false": "Nothing unusual is going on; the screen is business as usual."
+    }
+   },
+   "has_hero": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Should a large photograph lead this screen?"
+    },
+    "criteria": {
+     "true": "The subject is one physical thing with a look: a place, a dish, a product, a property, an animal.",
+     "false": "The screen is about data, text, tasks or settings, or about many things rather than one."
+    }
+   },
+   "has_filters": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Will the person need to search or narrow down what is shown?"
+    },
+    "criteria": {
+     "true": "There are many items, more than fit on a screen, in recognisable categories.",
+     "false": "There are only a few items, or nothing to narrow."
+    }
+   },
+   "has_stats": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Are there a few headline numbers the person wants at a glance?"
+    },
+    "criteria": {
+     "true": "Key figures such as totals, counts, rates, balances, scores, durations or usage.",
+     "false": "There are no headline numbers."
+    }
+   },
+   "has_list": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the screen show several similar items?"
+    },
+    "criteria": {
+     "true": "Results, products, people, records, messages, line items, episodes, devices or any set of comparable things.",
+     "false": "The screen is about one thing, or only about settings or input."
+    }
+   },
+   "has_groups": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the screen consist of rows of settings or options the person turns on, picks or opens?"
+    },
+    "criteria": {
+     "true": "Preferences, toggles, account options, menu entries.",
+     "false": "Nothing on the screen is a setting or a menu entry."
+    }
+   },
+   "has_facts": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Is there a set of label-and-value details to show?"
+    },
+    "criteria": {
+     "true": "Specifications, order totals, dates, addresses, prices, attributes or a summary table.",
+     "false": "There are no discrete label-and-value details."
+    }
+   },
+   "has_prose": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the screen need a paragraph or more of explanatory text?"
+    },
+    "criteria": {
+     "true": "A description, an article, an explanation, terms, or the consequences of a decision.",
+     "false": "Titles and short labels are enough."
+    }
+   },
+   "has_steps": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the screen show steps to follow in order?"
+    },
+    "criteria": {
+     "true": "A how-to, a recipe method, a procedure, a checklist, an itinerary.",
+     "false": "Nothing needs to be followed in order."
+    }
+   },
+   "has_form": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the person type in or pick values on this screen that are then submitted together?"
+    },
+    "criteria": {
+     "true": "Sign-up, booking, payment details, an address, a survey, creating or editing a record.",
+     "false": "The person only reads, toggles settings or presses buttons."
+    }
+   },
+   "has_actions": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "Does the screen end in one or two buttons that act on the whole screen?"
+    },
+    "criteria": {
+     "true": "Buy, book, confirm, cancel, start, share, save, contact.",
+     "false": "The screen is for reading or browsing, or its only action is submitting its form."
+    }
+   },
+   "item_description": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item need a sentence of description, beyond a title and a short secondary line?"
+    },
+    "criteria": {
+     "true": "Articles, search results, recommendations, jobs: a title alone does not say enough.",
+     "false": "Names, products, messages, records: a title and one short line identify the item."
+    }
+   },
+   "item_price": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item have a price or an amount of money?"
+    },
+    "criteria": {
+     "true": "Things bought, booked or paid for: products, restaurants, tickets, rooms, services, transactions, line items.",
+     "false": "Things that cost nothing to pick: messages, people, files, tasks, devices."
+    }
+   },
+   "item_rating": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item have a rating or review score?"
+    },
+    "criteria": {
+     "true": "Things people review: restaurants, hotels, products, films, books, apps, service providers such as walkers or drivers.",
+     "false": "Things nobody reviews: messages, tasks, files, devices, transactions, the person's own records."
+    }
+   },
+   "item_status": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item have a status or state?"
+    },
+    "criteria": {
+     "true": "Orders, tasks, tickets, devices, deliveries, bookings, payments: active, pending, delayed, sold out, offline.",
+     "false": "Things that simply exist, with no state to report: products, places, articles, people."
+    }
+   },
+   "item_time": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item have a date, a time or a duration that matters?"
+    },
+    "criteria": {
+     "true": "Events, messages, appointments, episodes, deliveries, transactions, reservations, anything wanted for today or tonight.",
+     "false": "Timeless things: products, places, settings, people."
+    }
+   },
+   "item_progress": {
+    "type": "noul",
+    "instructions": {
+     "context": "A developer describes one screen of an app in `screen`. A designer is working out what that screen is made of. If present, `first_screen` describes the first screen that was designed for the same app, which tells you what app this is, and `reached_by` says how the person got to the screen being designed now.",
+     "question": "If the screen shows a set of items: does each item have progress toward completion, or a level between empty and full?"
+    },
+    "criteria": {
+     "true": "Downloads, courses, goals, budgets, batteries, storage, tasks part-way done.",
+     "false": "Nothing about the item is part-way."
+    }
+   }
+  }
+ },
+ "jev": {
+  "ms": 178,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "archetype": {
+     "type": "choice",
+     "choice": "form",
+     "confidence": 1,
+     "probabilities": {
+      "result": 0,
+      "dashboard": 0,
+      "guide": 0,
+      "feed": 0,
+      "confirm": 0,
+      "detail": 0,
+      "checkout": 0,
+      "form": 1,
+      "settings": 0
+     }
+    },
+    "person": {
+     "type": "noul",
+     "noul": 0.31
+    },
+    "top_level": {
+     "type": "noul",
+     "noul": 0.08
+    },
+    "app_bar_action": {
+     "type": "choice",
+     "choice": "none",
+     "confidence": 0.92,
+     "probabilities": {
+      "share": 0,
+      "more": 0.03,
+      "notifications": 0,
+      "edit": 0.01,
+      "favorite": 0,
+      "search": 0,
+      "none": 0.93,
+      "add": 0.02,
+      "settings": 0.01
+     }
+    },
+    "list_layout": {
+     "type": "choice",
+     "choice": "rows",
+     "confidence": 0.78,
+     "probabilities": {
+      "cards": 0.13,
+      "reel": 0,
+      "grid": 0.03,
+      "rows": 0.84
+     }
+    },
+    "item_leading": {
+     "type": "choice",
+     "choice": "none",
+     "confidence": 0.95,
+     "probabilities": {
+      "thumbnail": 0,
+      "avatar": 0,
+      "none": 0.96,
+      "number": 0,
+      "icon": 0.04
+     }
+    },
+    "item_trailing": {
+     "type": "choice",
+     "choice": "none",
+     "confidence": 0.81,
+     "probabilities": {
+      "checkbox": 0.02,
+      "chevron": 0,
+      "button": 0.13,
+      "none": 0.85,
+      "switch": 0
+     }
+    },
+    "search": {
+     "type": "noul",
+     "noul": 0.14
+    },
+    "stat_deltas": {
+     "type": "noul",
+     "noul": 0.07
+    },
+    "screen_icon": {
+     "type": "choice",
+     "choice": "event",
+     "confidence": 0.58,
+     "probabilities": {
+      "fast_forward": 0,
+      "bedtime": 0,
+      "image": 0,
+      "apps": 0,
+      "power": 0,
+      "lightbulb": 0,
+      "key": 0,
+      "check_circle": 0,
+      "bookmark": 0,
+      "attach_file": 0,
+      "kitchen": 0,
+      "policy": 0,
+      "movie": 0,
+      "library_books": 0,
+      "analytics": 0,
+      "sell": 0,
+      "repeat": 0,
+      "child_care": 0,
+      "description": 0,
+      "play_circle": 0,
+      "calendar_today": 0,
+      "ev_station": 0,
+      "edit": 0,
+      "thermostat": 0,
+      "school": 0.05,
+      "solar_power": 0,
+      "emoji_events": 0,
+      "construction": 0,
+      "privacy_tip": 0,
+      "cloud": 0,
+      "receipt_long": 0,
+      "spa": 0.01,
+      "visibility": 0,
+      "bolt": 0,
+      "medication": 0,
+      "chat": 0,
+      "stadia_controller": 0,
+      "music_note": 0,
+      "dark_mode": 0,
+      "styler": 0,
+      "accessibility": 0,
+      "star": 0,
+      "support_agent": 0,
+      "fitness_center": 0,
+      "pets": 0,
+      "toys": 0,
+      "checklist": 0,
+      "dashboard": 0,
+      "timer": 0,
+      "bluetooth": 0,
+      "grid_view": 0,
+      "local_bar": 0,
+      "local_cafe": 0,
+      "directions_car": 0,
+      "sports_esports": 0,
+      "skip_next": 0,
+      "local_laundry_service": 0,
+      "memory": 0,
+      "sensors": 0,
+      "ac_unit": 0,
+      "logout": 0,
+      "wifi": 0,
+      "none": 0.05,
+      "account_balance": 0,
+      "podcasts": 0,
+      "percent": 0,
+      "rate_review": 0,
+      "monitor_heart": 0,
+      "local_mall": 0,
+      "local_shipping": 0,
+      "router": 0,
+      "shopping_bag": 0,
+      "menu_book": 0,
+      "person": 0.04,
+      "event": 0.59,
+      "confirmation_number": 0.01,
+      "print": 0,
+      "task_alt": 0,
+      "inbox": 0,
+      "business": 0,
+      "wb_sunny": 0,
+      "savings": 0,
+      "forum": 0,
+      "directions_walk": 0,
+      "database": 0,
+      "photo_camera": 0,
+      "auto_stories": 0,
+      "bar_chart": 0,
+      "terminal": 0,
+      "sports_soccer": 0,
+      "filter_list": 0,
+      "insights": 0,
+      "heat_pump": 0,
+      "local_offer": 0,
+      "family_restroom": 0,
+      "volume_up": 0,
+      "explore": 0,
+      "queue_music": 0,
+      "folder": 0,
+      "smartphone": 0,
+      "help": 0,
+      "list_alt": 0,
+      "lock": 0,
+      "sync": 0,
+      "upload": 0,
+      "credit_card": 0,
+      "water_drop": 0,
+      "trending_up": 0,
+      "call": 0,
+      "inventory_2": 0,
+      "flag": 0,
+      "park": 0,
+      "share": 0,
+      "map": 0,
+      "laptop": 0,
+      "dns": 0,
+      "thumb_up": 0,
+      "battery_full": 0,
+      "explore_nearby": 0,
+      "shield": 0,
+      "verified_user": 0.01,
+      "palette": 0.03,
+      "home": 0,
+      "science": 0,
+      "electric_bolt": 0,
+      "payments": 0,
+      "history": 0,
+      "backup": 0,
+      "language": 0,
+      "location_on": 0,
+      "storefront": 0,
+      "security": 0,
+      "hotel": 0,
+      "restaurant": 0,
+      "flight": 0,
+      "speed": 0,
+      "hiking": 0,
+      "error": 0,
+      "bug_report": 0,
+      "link": 0,
+      "mail": 0,
+      "download": 0,
+      "group": 0,
+      "light_mode": 0,
+      "tune": 0,
+      "newspaper": 0,
+      "info": 0,
+      "handyman": 0,
+      "build": 0.03,
+      "sort": 0,
+      "tv": 0,
+      "replay": 0,
+      "delete": 0,
+      "redeem": 0,
+      "checkroom": 0,
+      "storage": 0,
+      "schedule": 0.01,
+      "article": 0,
+      "pending_actions": 0,
+      "train": 0,
+      "pie_chart": 0,
+      "headphones": 0,
+      "directions_bike": 0,
+      "mic": 0,
+      "shopping_cart": 0,
+      "search": 0,
+      "library_music": 0,
+      "work": 0.02,
+      "warning": 0,
+      "fast_rewind": 0,
+      "fingerprint": 0,
+      "translate": 0,
+      "devices": 0,
+      "favorite": 0,
+      "campaign": 0,
+      "category": 0,
+      "self_improvement": 0.05,
+      "code": 0,
+      "notifications": 0,
+      "backpack": 0,
+      "brush": 0.09999999999999999,
+      "volunteer_activism": 0,
+      "eco": 0,
+      "bakery_dining": 0,
+      "travel_explore": 0,
+      "settings": 0
+     }
+    },
+    "facts_total": {
+     "type": "noul",
+     "noul": 0.18
+    },
+    "has_banner": {
+     "type": "noul",
+     "noul": 0.16
+    },
+    "has_hero": {
+     "type": "noul",
+     "noul": 0.46
+    },
+    "has_filters": {
+     "type": "noul",
+     "noul": 0.09
+    },
+    "has_stats": {
+     "type": "noul",
+     "noul": 0.09
+    },
+    "has_list": {
+     "type": "noul",
+     "noul": 0.08
+    },
+    "has_groups": {
+     "type": "noul",
+     "noul": 0.12
+    },
+    "has_facts": {
+     "type": "noul",
+     "noul": 0.36
+    },
+    "has_prose": {
+     "type": "noul",
+     "noul": 0.61
+    },
+    "has_steps": {
+     "type": "noul",
+     "noul": 0.15
+    },
+    "has_form": {
+     "type": "noul",
+     "noul": 0.97
+    },
+    "has_actions": {
+     "type": "noul",
+     "noul": 0.44
+    },
+    "item_description": {
+     "type": "noul",
+     "noul": 0.22
+    },
+    "item_price": {
+     "type": "noul",
+     "noul": 0.53
+    },
+    "item_rating": {
+     "type": "noul",
+     "noul": 0.1
+    },
+    "item_status": {
+     "type": "noul",
+     "noul": 0.25
+    },
+    "item_time": {
+     "type": "noul",
+     "noul": 0.37
+    },
+    "item_progress": {
+     "type": "noul",
+     "noul": 0.14
+    }
+   },
+   "usage": {
+    "input_tokens": 6546,
+    "output_tokens": 2160
+   }
+  }
+ }
+}

@@ -1,0 +1,202 @@
+{
+ "Find me three Italian restaurants near downtown Seattle for tonight": {
+  "stage": "comparing",
+  "done": "picked",
+  "highStakes": false
+ },
+ "What's good to eat in Seattle?": {
+  "stage": "exploring",
+  "done": "know",
+  "highStakes": false
+ },
+ "Am I going to be surprised by my electricity bill this month?": {
+  "stage": "checking",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "Why has my electricity usage been so high lately?": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ },
+ "Book the 7am flight to Denver tomorrow for me": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Where could I fly for a long weekend in October?": {
+  "stage": "exploring",
+  "done": "know",
+  "highStakes": false
+ },
+ "Delete my account and all of its data": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "What happens to my data if I delete my account?": {
+  "stage": "deciding",
+  "done": "know",
+  "highStakes": false
+ },
+ "Compare the MacBook Air and the Dell XPS 13": {
+  "stage": "comparing",
+  "done": "picked",
+  "highStakes": false
+ },
+ "I need a new laptop, what's out there?": {
+  "stage": "exploring",
+  "done": "know",
+  "highStakes": false
+ },
+ "How do I make sourdough starter from scratch?": {
+  "stage": "doing",
+  "done": "finished_task",
+  "highStakes": false
+ },
+ "My sourdough starter smells like acetone, is it dead?": {
+  "stage": "checking",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "Turn off all notifications except direct messages": {
+  "stage": "committing",
+  "done": "configured",
+  "highStakes": false
+ },
+ "Show me my notification settings": {
+  "stage": "checking",
+  "done": "configured",
+  "highStakes": false
+ },
+ "Sign me up for the Saturday pottery workshop": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Are there any pottery workshops around here?": {
+  "stage": "exploring",
+  "done": "know",
+  "highStakes": false
+ },
+ "Where is my package?": {
+  "stage": "checking",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "I need to return the shoes I ordered": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": false
+ },
+ "Book a dermatologist appointment for next week": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Should I see a doctor about this mole?": {
+  "stage": "deciding",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "Send $50 to Alex": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "How much did I spend on eating out last month?": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ },
+ "Pick a movie for family night": {
+  "stage": "comparing",
+  "done": "picked",
+  "highStakes": false
+ },
+ "Is The Incredibles okay for a five-year-old?": {
+  "stage": "deciding",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "Cancel my hotel reservation in Lisbon": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Show me my upcoming trips": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ },
+ "Tell me about the Golden Gate Bridge": {
+  "stage": "exploring",
+  "done": "know",
+  "highStakes": false
+ },
+ "How do I get to the Golden Gate Bridge from Union Square right now?": {
+  "stage": "doing",
+  "done": "finished_task",
+  "highStakes": false
+ },
+ "Reset my password": {
+  "stage": "committing",
+  "done": "configured",
+  "highStakes": false
+ },
+ "I got a weird login email. Was my account hacked?": {
+  "stage": "checking",
+  "done": "reassured",
+  "highStakes": false
+ },
+ "Upgrade me to the annual plan": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Which plan is right for a team of five?": {
+  "stage": "comparing",
+  "done": "picked",
+  "highStakes": false
+ },
+ "Log today's run: 5k in 27 minutes": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": false
+ },
+ "How is my running going this month?": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ },
+ "Schedule a 30 minute call with Priya next week": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": false
+ },
+ "What's on my calendar tomorrow?": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ },
+ "File a claim for my cracked phone screen": {
+  "stage": "committing",
+  "done": "handed_over",
+  "highStakes": true
+ },
+ "Is a cracked screen covered by my plan?": {
+  "stage": "deciding",
+  "done": "know",
+  "highStakes": false
+ },
+ "My car won't start, what do I do?": {
+  "stage": "doing",
+  "done": "finished_task",
+  "highStakes": false
+ },
+ "When is my car due for service?": {
+  "stage": "checking",
+  "done": "know",
+  "highStakes": false
+ }
+}

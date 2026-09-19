@@ -1,0 +1,332 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "user_request": "Delete my account and all of its data"
+  },
+  "questions": {
+   "stage": {
+    "type": "choice",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Where is the person in getting what they want?"
+    },
+    "criteria": {
+     "exploring": "I don't have a particular thing in mind yet. Show me what is out there.",
+     "comparing": "I have a few candidates in mind and want to weigh them against each other.",
+     "deciding": "I am about to say yes or no to one specific thing, and want to be sure first.",
+     "committing": "I have decided. Let me give the details or the go-ahead and make it happen.",
+     "doing": "I am in the middle of a hands-on task and need guidance while I do it.",
+     "checking": "Something already happened or is under way. I want to see how it stands."
+    }
+   },
+   "done": {
+    "type": "choice",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "What is true for the person when this goes well?"
+    },
+    "criteria": {
+     "know": "I understand something I did not understand before.",
+     "picked": "I have settled on one option out of several.",
+     "handed_over": "I have given my details or my go-ahead, and the thing is now in motion.",
+     "finished_task": "I have completed a hands-on task out in the real world.",
+     "reassured": "I have stopped worrying about something.",
+     "configured": "A product's settings or preferences are now set the way I like them."
+    }
+   },
+   "flow": {
+    "type": "choice",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Once the assistant responds, what will the person mostly be doing?"
+    },
+    "criteria": {
+     "system_to_person": "Reading or looking at what the assistant shows me.",
+     "person_to_system": "Typing, picking or toggling things myself.",
+     "both": "Reading first, then entering or confirming something."
+    }
+   },
+   "cardinality": {
+    "type": "choice",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "How many separate items would the assistant need to show the person?"
+    },
+    "criteria": {
+     "one": "A single item: one record, one answer, one thing.",
+     "few": "Two to five comparable options, side by side.",
+     "many": "A longer list to browse or narrow down.",
+     "none": "No items: an explanation, a procedure or a control."
+    }
+   },
+   "stakes": {
+    "type": "score",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "How hard would it be for the person to undo what happens next?"
+    },
+    "criteria": [
+     "Nothing to undo. They are only looking.",
+     "Easily undone or changed later.",
+     "Costly to undo: money, time or a commitment to others is involved.",
+     "Cannot be undone."
+    ]
+   },
+   "attention": {
+    "type": "score",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "How much attention does the person want to spend on the answer?"
+    },
+    "criteria": [
+     "A glance: one or two numbers or words.",
+     "A scan: skim a short list or a few facts.",
+     "A read: a few paragraphs.",
+     "A study: careful, extended attention."
+    ]
+   },
+   "urgency": {
+    "type": "score",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "How soon does the person need this resolved?"
+    },
+    "criteria": [
+     "No time pressure.",
+     "Within a day or so.",
+     "Right now."
+    ]
+   },
+   "habitual": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is this something the person has probably done many times before?"
+    }
+   },
+   "anx_cost": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is the person likely worried about how much this will cost?"
+    }
+   },
+   "anx_commitment": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is the person likely worried about being locked into something?"
+    }
+   },
+   "anx_loss": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is the person likely worried about losing something they cannot get back?"
+    }
+   },
+   "anx_mistake": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is the person likely worried about doing it wrong?"
+    }
+   },
+   "anx_safety": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "Is the person likely worried about their safety, health or security?"
+    }
+   },
+   "by_price": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "If the person is choosing among options, will price matter to the choice?"
+    }
+   },
+   "by_quality": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "If the person is choosing among options, will ratings or quality matter to the choice?"
+    }
+   },
+   "by_location": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "If the person is choosing among options, will distance or location matter to the choice?"
+    }
+   },
+   "by_time": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "If the person is choosing among options, will date, time or availability matter to the choice?"
+    }
+   },
+   "by_looks": {
+    "type": "noul",
+    "instructions": {
+     "context": "A person sent user_request to an assistant. Judge the person's situation, not the wording.",
+     "question": "If the person is choosing among options, will appearance matter to the choice?"
+    }
+   }
+  }
+ },
+ "jev": {
+  "ms": 184,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "stage": {
+     "type": "choice",
+     "choice": "committing",
+     "confidence": 1,
+     "probabilities": {
+      "deciding": 0,
+      "checking": 0,
+      "comparing": 0,
+      "doing": 0,
+      "committing": 1,
+      "exploring": 0
+     }
+    },
+    "done": {
+     "type": "choice",
+     "choice": "handed_over",
+     "confidence": 0.68,
+     "probabilities": {
+      "know": 0,
+      "picked": 0,
+      "configured": 0.02,
+      "reassured": 0.08,
+      "finished_task": 0.17,
+      "handed_over": 0.73
+     }
+    },
+    "flow": {
+     "type": "choice",
+     "choice": "both",
+     "confidence": 0.59,
+     "probabilities": {
+      "system_to_person": 0.13,
+      "person_to_system": 0.14,
+      "both": 0.73
+     }
+    },
+    "cardinality": {
+     "type": "choice",
+     "choice": "none",
+     "confidence": 0.84,
+     "probabilities": {
+      "none": 0.88,
+      "one": 0.1,
+      "few": 0.02,
+      "many": 0
+     }
+    },
+    "stakes": {
+     "type": "score",
+     "score": 2.93,
+     "confidence": 0.93,
+     "legend": {
+      "0": "Nothing to undo. They are only looking.",
+      "1": "Easily undone or changed later.",
+      "2": "Costly to undo: money, time or a commitment to others is involved.",
+      "3": "Cannot be undone."
+     },
+     "probabilities": {
+      "0": 0,
+      "1": 0.01,
+      "2": 0.05,
+      "3": 0.94
+     }
+    },
+    "attention": {
+     "type": "score",
+     "score": 1.2,
+     "confidence": 0.44,
+     "legend": {
+      "0": "A glance: one or two numbers or words.",
+      "1": "A scan: skim a short list or a few facts.",
+      "2": "A read: a few paragraphs.",
+      "3": "A study: careful, extended attention."
+     },
+     "probabilities": {
+      "0": 0.18,
+      "1": 0.48,
+      "2": 0.31,
+      "3": 0.03
+     }
+    },
+    "urgency": {
+     "type": "score",
+     "score": 1.05,
+     "confidence": 0,
+     "legend": {
+      "0": "No time pressure.",
+      "1": "Within a day or so.",
+      "2": "Right now."
+     },
+     "probabilities": {
+      "0": 0.38,
+      "1": 0.19,
+      "2": 0.43
+     }
+    },
+    "habitual": {
+     "type": "noul",
+     "noul": 0.16
+    },
+    "anx_cost": {
+     "type": "noul",
+     "noul": 0.16
+    },
+    "anx_commitment": {
+     "type": "noul",
+     "noul": 0.6
+    },
+    "anx_loss": {
+     "type": "noul",
+     "noul": 0.49
+    },
+    "anx_mistake": {
+     "type": "noul",
+     "noul": 0.27
+    },
+    "anx_safety": {
+     "type": "noul",
+     "noul": 0.39
+    },
+    "by_price": {
+     "type": "noul",
+     "noul": 0.2
+    },
+    "by_quality": {
+     "type": "noul",
+     "noul": 0.24
+    },
+    "by_location": {
+     "type": "noul",
+     "noul": 0.17
+    },
+    "by_time": {
+     "type": "noul",
+     "noul": 0.24
+    },
+    "by_looks": {
+     "type": "noul",
+     "noul": 0.19
+    }
+   },
+   "usage": {
+    "input_tokens": 1890,
+    "output_tokens": 454
+   }
+  }
+ }
+}

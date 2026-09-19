@@ -54,6 +54,7 @@ export class VllmBackend implements Backend {
   readonly #auth = new GoogleAuth();
   #frame: Promise<ChatFrame> | undefined;
   #idTokenClient: ReturnType<GoogleAuth["getIdTokenClient"]> | undefined;
+  #wideLabels: Promise<string[]> | undefined;
 
   constructor(options: VllmOptions) {
     this.#options = { ...options, baseUrl: options.baseUrl.replace(/\/+$/, "") };
@@ -117,7 +118,33 @@ export class VllmBackend implements Backend {
     return this.#frame;
   }
 
-  async score(system: string, prompts: string[]): Promise<Scores> {
+  /**
+   * Pairs of capital consonants that the tokenizer keeps whole, found with one /tokenize call. No
+   * vowels, so that no label is a word ("NO", "IT") the model might say for its own reasons.
+   */
+  wideLabels(count: number): Promise<string[]> {
+    this.#wideLabels ??= (async () => {
+      const letters = "BCDFGHJKLMNPQRSTVWXZ".split("");
+      const candidates = letters.flatMap((a) => letters.map((b) => a + b));
+      const root = this.#options.baseUrl.replace(/\/v1$/, "");
+      const { token_strs } = await postJson(`${root}/tokenize`, await this.#headers(), {
+        model: this.#options.model,
+        prompt: candidates.join("\n"),
+        add_special_tokens: false,
+        return_token_strs: true,
+      });
+      // A candidate that survived as one token shows up as itself between two newline tokens.
+      const whole = new Set((token_strs as string[]).filter((t, i, all) => all[i - 1] === "\n" && (all[i + 1] ?? "\n") === "\n"));
+      return candidates.filter((c) => whole.has(c));
+    })();
+    this.#wideLabels.catch(() => (this.#wideLabels = undefined));
+    return this.#wideLabels.then((labels) => {
+      if (labels.length < count) throw new Error(`Only ${labels.length} single-token labels found, ${count} needed`);
+      return labels.slice(0, count);
+    });
+  }
+
+  async score(system: string, prompts: string[], top = TOP_LOGPROBS): Promise<Scores> {
     const frame = await this.#chatFrame();
     // The raw completions endpoint takes all the prompts in one request and schedules them as one
     // batch. Chat completions would need a request per prompt and re-render the template each time.
@@ -128,7 +155,7 @@ export class VllmBackend implements Backend {
       add_special_tokens: false,
       temperature: 0,
       max_tokens: 1,
-      logprobs: TOP_LOGPROBS,
+      logprobs: top,
     });
     const tops: Scores["tops"] = prompts.map(() => []);
     for (const choice of data.choices ?? []) {

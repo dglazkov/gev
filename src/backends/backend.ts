@@ -22,7 +22,13 @@ export interface Backend {
    * and without generating anything further. Only an autoregressive model can do this: one forward
    * pass over a prompt already yields the distribution of the token that follows it.
    */
-  score?(system: string, prompts: string[]): Promise<Scores>;
+  score?(system: string, prompts: string[], top?: number): Promise<Scores>;
+  /**
+   * At least `count` distinct labels that are each a single token for this model, for a choice with
+   * more options than there are letters. Reading them needs `score` with `top` well above `count`,
+   * which the model server must allow (vLLM: --max-logprobs).
+   */
+  wideLabels?(count: number): Promise<string[]>;
 }
 
 export class UpstreamError extends Error {

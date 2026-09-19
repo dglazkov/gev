@@ -40,8 +40,13 @@ function frame(state: Json, body: string[], reply: string, order: PromptOrder): 
   }
 }
 
-export function choicePrompt(state: Json, instructions: Json, options: [name: string, description: string | null][], order: PromptOrder = "state-first"): string {
-  const labels = CHOICE_LABELS.slice(0, options.length);
+export function choicePrompt(
+  state: Json,
+  instructions: Json,
+  options: [name: string, description: string | null][],
+  order: PromptOrder = "state-first",
+  labels: string[] = CHOICE_LABELS.slice(0, options.length),
+): string {
   const body = [
     `QUESTION: ${render(instructions)}`,
     "ANSWERS:",

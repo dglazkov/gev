@@ -33,6 +33,7 @@ export function engineOptionsFromEnv(env: Env = process.env): EngineOptions {
   return {
     strategy,
     order,
+    wideChoice: env.GEV_WIDE_CHOICE === "1",
     concurrency: positiveInt(env, "GEV_CONCURRENCY", DEFAULT_ENGINE_OPTIONS.concurrency),
     rotations: positiveInt(env, "GEV_ROTATIONS", DEFAULT_ENGINE_OPTIONS.rotations),
   };

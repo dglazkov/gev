@@ -172,8 +172,10 @@ if (mode === "latency") {
   };
 
   console.log(`jev (recorded): median ${median(fixtures.map((f) => f.jev.ms))} ms   ${grade(fixtures.map((f) => f.jev.response.answers))}`);
-  for (const order of PROMPT_ORDERS) {
-    const options = { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" as const, order };
+  // ORDERS=state-last limits the run to some prompt orders; WIDE=1 asks oversized choices in one prompt.
+  const orders = PROMPT_ORDERS.filter((o) => !process.env.ORDERS || process.env.ORDERS.split(",").includes(o));
+  for (const order of orders) {
+    const options = { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" as const, order, wideChoice: process.env.WIDE === "1" };
     // Twice through the first requests: once to compile and warm up, once to fill the prefix cache
     // with this order's question text, as a server that has seen the app before would have.
     for (const f of [...fixtures.slice(0, 3), ...fixtures.slice(0, 3)]) await systemOne(backend, f.request, options);

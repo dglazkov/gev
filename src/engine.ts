@@ -24,14 +24,25 @@ export type EngineOptions = {
   strategy: "isolated" | "packed" | "scored";
   /** Where the STATE goes in an isolated prompt; see PromptOrder. */
   order: PromptOrder;
+  /**
+   * With "scored": ask a choice that has more options than letters in one prompt, under single-token
+   * labels from the backend, instead of as a tournament, which costs a second model call.
+   */
+  wideChoice: boolean;
 };
 
-export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first" };
+export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first", wideChoice: false };
+
+// How far past the option count to read, so that a few off-script tokens don't push labels out of view.
+const WIDE_MARGIN = 40;
 
 // Room for the label plus the end-of-turn token.
 const ANSWER_TOKENS = 2;
 
 type Option = [name: string, description: string | null];
+
+/** A prompt waiting for a batched `score` call, and how many top logprobs it needs (default if undefined). */
+type Pending = { prompt: string; top: number | undefined; resolve: (top: TokenLogprob[]) => void; reject: (error: unknown) => void };
 
 class Run {
   readonly usage: Usage = { input_tokens: 0, output_tokens: 0 };
@@ -48,7 +59,7 @@ class Run {
   #active = 0;
   readonly #waiting: (() => void)[] = [];
   /** Prompts waiting for the next batched `score` call. */
-  #batch: { prompt: string; resolve: (top: TokenLogprob[]) => void; reject: (error: unknown) => void }[] = [];
+  #batch: Pending[] = [];
 
   constructor(backend: Backend, options: EngineOptions, state: Json) {
     this.#backend = backend;
@@ -87,18 +98,23 @@ class Run {
    * Joins the batch that leaves once everything runnable right now has asked: all of a request's
    * questions the first time, a tournament's final round the second.
    */
-  #score(prompt: string): Promise<TokenLogprob[]> {
+  #score(prompt: string, top?: number): Promise<TokenLogprob[]> {
     return new Promise((resolve, reject) => {
-      if (this.#batch.length === 0) setImmediate(() => void this.#flush());
-      this.#batch.push({ prompt, resolve, reject });
+      if (this.#batch.length === 0) setImmediate(() => this.#flush());
+      this.#batch.push({ prompt, top, resolve, reject });
     });
   }
 
-  async #flush() {
-    const batch = this.#batch;
+  /** One call per logprobs width, sent together: the model server still runs them as one batch. */
+  #flush() {
+    const widths = new Set(this.#batch.map((b) => b.top));
+    for (const top of widths) void this.#send(this.#batch.filter((b) => b.top === top), top);
     this.#batch = [];
+  }
+
+  async #send(batch: Pending[], top: number | undefined) {
     try {
-      const { tops, usage } = await this.#timed(() => this.#backend.score!(SYSTEM_INSTRUCTION, batch.map((b) => b.prompt)));
+      const { tops, usage } = await this.#timed(() => this.#backend.score!(SYSTEM_INSTRUCTION, batch.map((b) => b.prompt), top));
       this.modelCalls++;
       this.usage.input_tokens += usage.input_tokens;
       this.usage.output_tokens += usage.output_tokens;
@@ -108,8 +124,8 @@ class Run {
     }
   }
 
-  async #ask(prompt: string, labels: string[]): Promise<number[]> {
-    if (this.#options.strategy === "scored") return labelDistribution(await this.#score(prompt), labels);
+  async #ask(prompt: string, labels: string[], top?: number): Promise<number[]> {
+    if (this.#options.strategy === "scored") return labelDistribution(await this.#score(prompt, top), labels);
     const [first] = await this.#generate(SYSTEM_INSTRUCTION, prompt, ANSWER_TOKENS);
     return labelDistribution(first?.top ?? [], labels);
   }
@@ -156,6 +172,10 @@ class Run {
   async #rank(instructions: Json, options: Option[]): Promise<number[]> {
     const size = CHOICE_LABELS.length;
     if (options.length <= size) return this.#rankOnce(instructions, options);
+    if (this.#options.wideChoice && this.#options.strategy === "scored" && this.#backend.wideLabels) {
+      const labels = await this.#backend.wideLabels(options.length);
+      return this.#ask(choicePrompt(this.#state, instructions, options, this.#options.order, labels), labels, options.length + WIDE_MARGIN);
+    }
     const chunks: Option[][] = [];
     for (let i = 0; i < options.length; i += size) chunks.push(options.slice(i, i + size));
     const within = await Promise.all(chunks.map((chunk) => (chunk.length > 1 ? this.#rankOnce(instructions, chunk) : [1])));

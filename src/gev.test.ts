@@ -73,9 +73,15 @@ const replyLabels = (prompt: string) =>
 /** A FakeBackend that can also score a batch of isolated prompts, as an autoregressive model can. */
 class FakeScoringBackend extends FakeBackend {
   readonly batches: string[][] = [];
+  readonly tops: (number | undefined)[] = [];
 
-  async score(system: string, prompts: string[]): Promise<Scores> {
+  async wideLabels(count: number): Promise<string[]> {
+    return Array.from({ length: count }, (_, i) => `L${i}`);
+  }
+
+  async score(system: string, prompts: string[], top?: number): Promise<Scores> {
     this.batches.push(prompts);
+    this.tops.push(top);
     const generations = await Promise.all(prompts.map((prompt) => this.generate(system, prompt)));
     return { tops: generations.map((g) => g.positions[0]!.top), usage: { input_tokens: 10 * prompts.length, output_tokens: prompts.length } };
   }
@@ -210,6 +216,13 @@ test("scored: a request is one batched call, plus one per extra tournament round
     near(level.score, 1, 0.2);
   }
   await assert.rejects(systemOne(new FakeBackend("x"), request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" }), /cannot/);
+
+  // With wide labels the big choice is one prompt in the same moment as the rest: no second round.
+  const wide = new FakeScoringBackend("option-37");
+  const response = await systemOne(wide, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", wideChoice: true });
+  assert.deepEqual(wide.batches.map((b) => b.length).sort(), [1, 2]);
+  assert.deepEqual(wide.tops.sort(), [80, undefined]);
+  assert.ok(response.answers.big?.type === "choice" && response.answers.big.choice === "option-37");
 });
 
 test("prompt orders move the STATE later so more of the prompt is the same on every request", () => {

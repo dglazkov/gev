@@ -228,8 +228,10 @@ test("scored: a request is one batched call, plus one per extra tournament round
   for (const order of PROMPT_ORDERS) {
     const backend = new FakeScoringBackend("option-37");
     const response = await systemOne(backend, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", order });
-    assert.deepEqual(backend.batches.map((b) => b.length), [5, 1]); // 3 chunks + noul + score, then the final round
-    assert.deepEqual(untimed(response.gev), { strategy: "scored", model_calls: 2, repaired: 0 });
+    // 3 chunks + score in one call and the noul, which reads fewer logprobs, in another; then the final round.
+    assert.deepEqual(backend.batches.map((b) => b.length).sort(), [1, 1, 4]);
+    assert.deepEqual(new Set(backend.tops), new Set([5, undefined]));
+    assert.deepEqual(untimed(response.gev), { strategy: "scored", model_calls: 3, repaired: 0 });
     assert.ok(response.gev!.model_ms <= response.gev!.ms);
     const { big, level } = response.answers;
     assert.ok(big?.type === "choice" && level?.type === "score");
@@ -238,12 +240,14 @@ test("scored: a request is one batched call, plus one per extra tournament round
   }
   await assert.rejects(systemOne(new FakeBackend("x"), request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" }), /cannot/);
 
-  // Answered by name, the big choice is one prompt, plus a lettered one for each of the four sets of
-  // ten names that share a first token, in the same moment as the rest: no second round.
+  // Answered by name, the big choice is one prompt in the same moment as the rest: no second round.
+  // In each set of ten names that share a first token, one is told apart by rotating its words
+  // ("30-option"); the other nine need a lettered question.
   const wide = new FakeScoringBackend("option-37");
   const response = await systemOne(wide, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", wideChoice: true });
-  assert.deepEqual(wide.batches.map((b) => b.length).sort(), [1, 6]);
-  assert.deepEqual(wide.tops.sort(), [4 + 40, undefined]);
+  assert.deepEqual(wide.batches.map((b) => b.length).sort(), [1, 1, 5]);
+  assert.deepEqual(new Set(wide.tops), new Set([5, 8 + 40, undefined]));
+  assert.ok(wide.batches.flat().some((prompt) => prompt.includes("\n30-option\n")));
   const big = response.answers.big;
   assert.ok(big?.type === "choice" && big.choice === "option-37");
   near(big.probabilities["option-37"]!, 0.9 * 0.9, 0.01);

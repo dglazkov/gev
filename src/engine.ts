@@ -35,6 +35,9 @@ export type EngineOptions = {
 
 export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first", wideChoice: false, temperature: { choice: 1, score: 1, noul: 1 } };
 
+// "yes" and "no" are always the top two; every logprob vLLM returns costs a little per prompt.
+const NOUL_TOP = 5;
+
 // How far past the number of names to read, so that a few off-script tokens don't push names out of view.
 const WIDE_MARGIN = 40;
 
@@ -143,7 +146,7 @@ class Run {
   #distribution(question: Question): Promise<number[]> {
     switch (question.type) {
       case "noul":
-        return this.#ask(noulPrompt(this.#state, question.instructions, question.criteria, this.#options.order), NOUL_LABELS);
+        return this.#ask(noulPrompt(this.#state, question.instructions, question.criteria, this.#options.order), NOUL_LABELS, this.#options.strategy === "scored" ? NOUL_TOP : undefined);
       case "score":
         return this.#ask(scorePrompt(this.#state, question.instructions, question.criteria, this.#options.order), SCORE_LABELS.slice(0, question.criteria.length));
       case "choice":
@@ -183,7 +186,8 @@ class Run {
    * with the same token ("shopping_cart", "shopping_bag") share that token's probability, split by
    * a lettered question among just those names. Everything goes out in the same batch.
    */
-  async #rankByName(instructions: Json, options: Option[]): Promise<number[]> {
+  async #rankByName(instructions: Json, original: Option[]): Promise<number[]> {
+    const options = await this.#distinctNames(original);
     const firsts = (await this.#backend.firstTokens!(options.map(([name]) => name))).map(tokenKey);
     const groups = new Map<string, number[]>();
     firsts.forEach((first, i) => groups.set(first, [...(groups.get(first) ?? []), i]));
@@ -195,6 +199,35 @@ class Run {
     const probabilities = options.map(() => 0);
     keys.forEach((key, g) => groups.get(key)!.forEach((i, m) => (probabilities[i] = byGroup![g]! * within[g]![m]!)));
     return normalize(probabilities);
+  }
+
+  /**
+   * Shows a name whose first token another name shares with its words rotated until it starts with
+   * a token of its own: "shopping_cart" and "shopping_bag" become "cart_shopping" and "bag_shopping".
+   * Each name that is told apart this way is one lettered question, so one prompt, less per request.
+   */
+  async #distinctNames(options: Option[]): Promise<Option[]> {
+    const names = options.map(([name]) => name);
+    const firsts = (await this.#backend.firstTokens!(names)).map(tokenKey);
+    const taken = new Map<string, number>();
+    for (const first of firsts) taken.set(first, (taken.get(first) ?? 0) + 1);
+    const shared = names.flatMap((name, i) => (taken.get(firsts[i]!)! > 1 && /[_ -]/.test(name) ? [i] : []));
+    if (shared.length === 0) return options;
+    const rotations = shared.map((i) => {
+      const words = names[i]!.split(/(?<=[_ -])|(?=[_ -])/); // keeps the separators: ["shopping", "_", "cart"]
+      return words.flatMap((w, k) => (k > 0 && !/^[_ -]$/.test(w) ? [[...words.slice(k), words[k - 1]!, ...words.slice(0, k - 1)].join("")] : []));
+    });
+    const rotatedFirsts = (await this.#backend.firstTokens!(rotations.flat())).map(tokenKey);
+    const shown = [...options];
+    let at = 0;
+    shared.forEach((i, n) => {
+      const candidates = rotations[n]!.map((name) => ({ name, first: rotatedFirsts[at++]! }));
+      const free = candidates.find((c) => !taken.has(c.first));
+      if (!free) return;
+      taken.set(free.first, 1);
+      shown[i] = [free.name, options[i]![1]];
+    });
+    return shown;
   }
 
   /**

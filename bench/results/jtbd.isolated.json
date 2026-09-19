@@ -2,241 +2,241 @@
  {
   "fixture": "001.json",
   "state": "{\"user_request\":\"Why has my electricity usage been so high lately?\"}",
-  "ms": 178,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2124,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "002.json",
   "state": "{\"user_request\":\"Am I going to be surprised by my electricity bill this month?\"}",
-  "ms": 124,
+  "ms": 11855,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "003.json",
   "state": "{\"user_request\":\"Book the 7am flight to Denver tomorrow for me\"}",
-  "ms": 80,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11962,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "004.json",
   "state": "{\"user_request\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
-  "ms": 70,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 12299,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "005.json",
   "state": "{\"user_request\":\"What's good to eat in Seattle?\"}",
-  "ms": 111,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2167,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "006.json",
   "state": "{\"user_request\":\"What happens to my data if I delete my account?\"}",
-  "ms": 79,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11600,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "007.json",
   "state": "{\"user_request\":\"I need a new laptop, what's out there?\"}",
-  "ms": 84,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1457,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "008.json",
   "state": "{\"user_request\":\"Compare the MacBook Air and the Dell XPS 13\"}",
-  "ms": 80,
+  "ms": 1282,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "009.json",
   "state": "{\"user_request\":\"Where could I fly for a long weekend in October?\"}",
-  "ms": 80,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 21392,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "010.json",
   "state": "{\"user_request\":\"Delete my account and all of its data\"}",
-  "ms": 80,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1977,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "011.json",
   "state": "{\"user_request\":\"How do I make sourdough starter from scratch?\"}",
-  "ms": 75,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11496,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "012.json",
   "state": "{\"user_request\":\"Turn off all notifications except direct messages\"}",
-  "ms": 77,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2092,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "013.json",
   "state": "{\"user_request\":\"My sourdough starter smells like acetone, is it dead?\"}",
-  "ms": 77,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11479,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "014.json",
   "state": "{\"user_request\":\"Show me my notification settings\"}",
-  "ms": 80,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 21961,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "015.json",
   "state": "{\"user_request\":\"Sign me up for the Saturday pottery workshop\"}",
-  "ms": 113,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1758,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "016.json",
   "state": "{\"user_request\":\"Are there any pottery workshops around here?\"}",
-  "ms": 75,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1661,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "017.json",
   "state": "{\"user_request\":\"Should I see a doctor about this mole?\"}",
-  "ms": 85,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2173,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "018.json",
   "state": "{\"user_request\":\"Where is my package?\"}",
-  "ms": 75,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1696,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "019.json",
   "state": "{\"user_request\":\"Book a dermatologist appointment for next week\"}",
-  "ms": 81,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2448,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "020.json",
   "state": "{\"user_request\":\"I need to return the shoes I ordered\"}",
-  "ms": 74,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11573,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "021.json",
   "state": "{\"user_request\":\"Is The Incredibles okay for a five-year-old?\"}",
-  "ms": 74,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 12411,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "022.json",
   "state": "{\"user_request\":\"How much did I spend on eating out last month?\"}",
-  "ms": 81,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 10521,
+  "error": "TypeError: fetch failed"
  },
  {
   "fixture": "023.json",
   "state": "{\"user_request\":\"Pick a movie for family night\"}",
-  "ms": 79,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 10513,
+  "error": "TypeError: fetch failed"
  },
  {
   "fixture": "024.json",
   "state": "{\"user_request\":\"Send $50 to Alex\"}",
-  "ms": 72,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 10523,
+  "error": "TypeError: fetch failed"
  },
  {
   "fixture": "025.json",
   "state": "{\"user_request\":\"Cancel my hotel reservation in Lisbon\"}",
-  "ms": 80,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1956,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "026.json",
   "state": "{\"user_request\":\"Show me my upcoming trips\"}",
-  "ms": 76,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11903,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "027.json",
   "state": "{\"user_request\":\"I got a weird login email. Was my account hacked?\"}",
-  "ms": 85,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2174,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "028.json",
   "state": "{\"user_request\":\"Reset my password\"}",
-  "ms": 81,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1664,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "029.json",
   "state": "{\"user_request\":\"How do I get to the Golden Gate Bridge from Union Square right now?\"}",
-  "ms": 94,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1595,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "030.json",
   "state": "{\"user_request\":\"Tell me about the Golden Gate Bridge\"}",
-  "ms": 76,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2327,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "031.json",
   "state": "{\"user_request\":\"How is my running going this month?\"}",
-  "ms": 79,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 2285,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "032.json",
   "state": "{\"user_request\":\"Schedule a 30 minute call with Priya next week\"}",
-  "ms": 79,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 12203,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "033.json",
   "state": "{\"user_request\":\"Upgrade me to the annual plan\"}",
-  "ms": 76,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 12336,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "034.json",
   "state": "{\"user_request\":\"Which plan is right for a team of five?\"}",
-  "ms": 73,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1925,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "035.json",
   "state": "{\"user_request\":\"Log today's run: 5k in 27 minutes\"}",
-  "ms": 82,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1399,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "036.json",
   "state": "{\"user_request\":\"When is my car due for service?\"}",
-  "ms": 78,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1943,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "037.json",
   "state": "{\"user_request\":\"My car won't start, what do I do?\"}",
-  "ms": 75,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1736,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "038.json",
   "state": "{\"user_request\":\"File a claim for my cracked phone screen\"}",
-  "ms": 78,
+  "ms": 1708,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "039.json",
   "state": "{\"user_request\":\"Is a cracked screen covered by my plan?\"}",
-  "ms": 75,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 1716,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  },
  {
   "fixture": "040.json",
   "state": "{\"user_request\":\"What's on my calendar tomorrow?\"}",
-  "ms": 81,
-  "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
+  "ms": 11871,
+  "error": "429 {\"error\":{\"type\":\"rate_limited\",\"message\":\"Model backend rate limit exceeded\"}}"
  }
 ]

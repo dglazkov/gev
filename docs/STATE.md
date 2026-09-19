@@ -27,7 +27,7 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 | `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. **Live config:** model service `gev-ar-fp8`, `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `GEV_WIDE_CHOICE=1`, no temperature. |
 | `gev-ar-fp8` | **The live model server.** vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, scale to zero, max 1. `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256` (answer-by-name needs the last). A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
 | `gev-ar` | Same model in bf16 (Google's own weights), private | The fallback if FP8 is ever in doubt. `--max-logprobs 20`, so no `GEV_WIDE_CHOICE` on it as deployed. |
-| `gev-ar-nvfp4`, `gev-ar-e4b` | Experiments: the NVFP4 quantization (latest revision adds `--max-cudagraph-capture-size=4096`, unmeasured), and Gemma 4 E4B as the speed reference | **Remind the owner to delete these when experimenting is done.** |
+| `gev-ar-fp8x`, `gev-ar-e4b` | Experiments: a twin of the live FP8 server for trying serving flags, and Gemma 4 E4B as the speed reference. (`gev-ar-nvfp4` was deleted to free GPU quota; its weights are still in the bucket.) | **Remind the owner to delete these when experimenting is done.** |
 | `gev-scored` | Experimental copy of the API for trying settings before `gev`, `https://gev-scored-huio5ftumq-uc.a.run.app` | Shares `gev`'s keys. Repoint: `SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=… MODEL=… EXTRA_ENV=… ./scripts/deploy.sh`. |
 | `gev-model` | DiffusionGemma on vLLM `gemma` image, private | No longer used by `gev`. Owner to decide whether to retire it. |
 | `gs://gev-systemone-models` | Weights | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
@@ -146,6 +146,34 @@ jev from `bench/compare.ts` through `gev-scored` (laptop → API → model serve
   everything but the last block is cached: 1 prompt ≈ 17 ms, 18 ≈ 56–70, 27 ≈ 95, 36 ≈ 116
   (NVFP4, laptop time minus RTT). Plan is slow because it is 37 prompts, not because of the icons.
 
+**Round three (2026-09-19, night): fewer prompts, serving flags.** Code in `main`; on `gev-scored`, **not
+yet on live `gev`** (owner's go-ahead needed).
+
+| laptop → API → model, median / p90 | jtbd | plan |
+|---|---|---|
+| jev | 151 / 255 | 181 / 273 |
+| live `gev` (round two code) | 127 / 141 | 194 / 248 |
+| **round three code, same FP8 model server** | 129 / 136 | **171 / 243** |
+
+- **vLLM's cost is per prompt, not per token**: 9 / 18 / 36 / 72 prompts = 104 / 124 / 156 / 226 ms from
+  the laptop (≈1.9 ms per prompt, of which ≈0.5 is its ~40 uncached tokens); +2,000 state tokens
+  across 18 prompts costs only +23 ms. So: fewer prompts and less work per prompt; shortening the text
+  after the state is not worth doing.
+- **Rotated names**: an option name that shares its first token with another is shown with its words
+  rotated until it starts with a token of its own (`shopping_cart` → `cart_shopping`), which removes
+  the lettered sub-questions: plan goes from 37 prompts to 28. Icon agreement with jev 8/13 (tournament 6–7).
+- **Nouls read 5 logprobs, not 20**, in their own call alongside the rest.
+- Agreement with jev unchanged by both (jtbd 78%, plan 85–86%).
+- **`--max-cudagraph-capture-size=4096`**: helps NVFP4 (GPU step 36 → 23 ms on jtbd; laptop 129 → 119,
+  plan 176 → 160) but makes **no measurable difference on FP8** through the API (jtbd 125 vs 129, plan
+  178 vs 171). Live server left as is.
+- In-region, a model call takes ~60 ms where vLLM's own e2e is ~37: ~23 ms is Cloud Run's front end,
+  auth, and vLLM's HTTP layer. Running gev in the same container as vLLM (untried) could recover some.
+- **The live model server idles out after ~10–15 minutes and takes ~10 minutes to come back** (447 s of
+  weights + 107 s of init). Requests that arrive meanwhile hang, and when several queue up Cloud Run
+  answers 429. This happened repeatedly during benchmarking and is now the biggest practical
+  latency problem. `--min-instances 1` fixes it at the cost of a GPU around the clock (owner's call).
+
 **Where a packed 18-question request's time goes** (`bench/model-probe.ts latency`, vLLM's own timers):
 
 | | ms |
@@ -243,6 +271,9 @@ eval cases (408 questions), a second benchmark source.
 | Questions-first prompt for cache hits | −60 ms, but −5/−6 on 40 labels. |
 | 186 icons under two-letter single-token labels in one prompt | As close to jev as the tournament (6/13) but the misses were nonsense (`location_on` for an energy dashboard): arbitrary labels bind poorly at that length. Answer-by-name replaced it. |
 | One completions call read as wide as its widest prompt (logprobs 212 for all 37) | Plan 308 ms vs 176 with two calls: vLLM's wide-logprobs cost is per prompt. |
+| Logprob widths graded by label count (5 / 10 / 20) instead of nouls-only | jtbd 102 vs 104 ms, plan 132 vs 122: each extra width is another call. Reverted. |
+| `--moe-backend=flashinfer_trtllm` / `flashinfer_cutlass` for the FP8 checkpoint | Both refuse to start on this setup: TRTLLM "does not support current device", CUTLASS doesn't support the checkpoint's per-channel × per-token FP8 scheme. vLLM's pick, untuned Triton ("Using default MoE config"), is the only one; tuning it for this GPU is untried. Fails before loading weights, so cheap to find out. |
+| Shortening the prompt after the state | Not tried, because measured to be pointless: see "per prompt, not per token". |
 | Sending token ids instead of text to skip vLLM's tokenizer | 151 vs 155 ms: tokenization is not the cost. `logprobs: 20` costs ~9 ms over none. |
 | Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 

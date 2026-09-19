@@ -75,7 +75,10 @@ for attempt in 1 2 3 4 5 6; do
   sleep $((attempt * 5))
 done
 
-ARGS="--model=/models/${MODEL},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
+# Where vLLM reads the weights: the mounted bucket, or e.g. MODEL_PATH=gs://bucket/path with
+# EXTRA_ARGS=--load-format=runai_streamer to stream them instead of reading through the mount.
+MODEL_PATH="${MODEL_PATH:-/models/${MODEL}}"
+ARGS="--model=${MODEL_PATH},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
 ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-logprobs=20,--host=0.0.0.0,--port=8000"
 # Comma-separated extra vLLM flags, e.g. EXTRA_ARGS=--max-num-batched-tokens=16384
 [[ -n "${EXTRA_ARGS:-}" ]] && ARGS+=",${EXTRA_ARGS}"

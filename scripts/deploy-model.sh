@@ -19,19 +19,6 @@ MODEL="${MODEL:-google/diffusiongemma-26B-A4B-it}"
 # - nightly-a8d1aa9c… has that fix but crashes during warmup in the FlashInfer attention backend
 #   ("Boolean value of Tensor with more than one value is ambiguous"), after a full weight load.
 IMAGE="${IMAGE:-docker.io/vllm/vllm-openai:gemma}"
-GPU_TYPE=nvidia-l4 CPU=8 MEMORY=32Gi ./scripts/deploy-model.sh
-#
-# Weights are copied from Hugging Face into a Cloud Storage bucket once, then mounted
-# read-only into the container, so cold starts never depend on Hugging Face.
-set -euo pipefail
-
-PROJECT="${GOOGLE_CLOUD_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
-REGION="${REGION:-us-central1}"
-SERVICE="${SERVICE:-gev-model}"
-MODEL="${MODEL:-google/diffusiongemma-26B-A4B-it}"
-# Pinned nightly: the first build with vLLM #57414. Before it (including the vllm-openai:gemma image),
-# concurrent DiffusionGemma requests with logprobs fail with HTTP 500 or return another request's logprobs.
-IMAGE="${IMAGE:-docker.io/vllm/vllm-openai:nightly-a8d1aa9c99b8698a2a78b611b7a10c30e6b3995b}"
 GPU_TYPE="${GPU_TYPE:-nvidia-rtx-pro-6000}"
 CPU="${CPU:-20}"
 MEMORY="${MEMORY:-80Gi}"

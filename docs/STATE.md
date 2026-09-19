@@ -7,18 +7,16 @@ part of it untrue. House rules are in [CLAUDE.md](../CLAUDE.md).
 
 Match [jev](https://docs.typesafe.ai/)'s latency with an open model on GCP.
 
-| | jev | gev live (DiffusionGemma, packed) | **experiment: autoregressive Gemma 4, `scored`** | target |
-|---|---|---|---|---|
-| 18 questions (jtbd), from a laptop, median / p90 | 151 / 255 ms | ~376 ms | **26B-A4B: 149 / 237 ms · E4B: 122 / 135 ms** | ~150 ms |
-| 28 questions incl. 186 icons (plan), median / p90 | 181 / 273 ms | ~3,300 ms | **26B-A4B: 265 / 331 ms · E4B: 189 / 266 ms** | ~180 ms |
-| model server, per request | ~110 ms | ~220–310 ms | 26B-A4B: 58 ms · E4B: 34 ms (jtbd) | ~110 ms |
+| from a laptop, median / p90 | jev | **gev live** (FP8 Gemma 4 26B-A4B, `scored`) | gev before (DiffusionGemma, packed) |
+|---|---|---|---|
+| 18 questions (jtbd) | 151 / 255 ms | **127 / 141 ms** | ~376 ms |
+| 28 questions incl. 186 icons (plan) | 181 / 273 ms | **194 / 248 ms** | ~3,300 ms |
+| of which waiting on the model server | ~110 ms | 63 ms (jtbd), 94 ms (plan) | 220–310 ms |
 
-**2026-09-19: the latency objective is met on an experimental service** (`gev-scored`, section 2) by
-dropping diffusion for a single batched forward pass of an autoregressive model (section 3, `scored`;
-section 4, "Scored"). Not yet live; the owner decides (section 7).
-
-The owner: "The key objective of this experiment is to get to the same latency as jev. If we can't,
-the point of this project is moot." Accuracy is already on par (section 4); calibration is not.
+**The latency objective is met and live since 2026-09-19.** The laptop's RTT to us-central1 is ~58 ms
+against ~41 ms to jev, which is the whole of the remaining plan-suite gap. It was reached by dropping
+diffusion for one batched forward pass of an autoregressive model (section 3, `scored`). Accuracy is at
+jev's level on the hand labels; **calibration is the open quality gap** (sections 4 and 7).
 
 ## 2. What is deployed
 
@@ -26,17 +24,16 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 
 | Service | What | Notes |
 |---|---|---|
-| `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. |
-| `gev-model` | vLLM + DiffusionGemma, private | `https://gev-model-huio5ftumq-uc.a.run.app`. RTX PRO 6000 (96 GB), 20 vCPU / 80 GiB, scale to zero, max 1 instance. Serving revision `gev-model-00004-4fx`: image `vllm-openai:gemma`. |
-| `gev-ar`, `gev-ar-e4b` | **Experiment (2026-09-19):** autoregressive Gemma 4 on stock vLLM `v0.29.0`, private | `google/gemma-4-26B-A4B-it` and `google/gemma-4-E4B-it`, each on its own RTX PRO 6000, scale to zero, `--max-num-seqs 128 --max-num-batched-tokens 16384`. Stock v0.29.0 starts fine on this GPU with these models. Delete whichever is not chosen. GPU quota in us-central1 is 3. |
-| `gev-scored` | **Experiment:** a copy of the API with `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `https://gev-scored-huio5ftumq-uc.a.run.app` | Same bearer keys as `gev` (shares the `gev-api-keys` secret). Currently points at `gev-ar` (26B-A4B). Repoint: `SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=… MODEL=… EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last ./scripts/deploy.sh`. |
+| `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. **Live config:** model service `gev-ar-fp8`, `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `GEV_WIDE_CHOICE=1`, no temperature. |
+| `gev-ar-fp8` | **The live model server.** vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, scale to zero, max 1. `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256` (answer-by-name needs the last). A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
+| `gev-ar` | Same model in bf16 (Google's own weights), private | The fallback if FP8 is ever in doubt. `--max-logprobs 20`, so no `GEV_WIDE_CHOICE` on it as deployed. |
+| `gev-ar-nvfp4`, `gev-ar-e4b` | Experiments: the NVFP4 quantization (latest revision adds `--max-cudagraph-capture-size=4096`, unmeasured), and Gemma 4 E4B as the speed reference | **Remind the owner to delete these when experimenting is done.** |
+| `gev-scored` | Experimental copy of the API for trying settings before `gev`, `https://gev-scored-huio5ftumq-uc.a.run.app` | Shares `gev`'s keys. Repoint: `SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=… MODEL=… EXTRA_ENV=… ./scripts/deploy.sh`. |
+| `gev-model` | DiffusionGemma on vLLM `gemma` image, private | No longer used by `gev`. Owner to decide whether to retire it. |
 | `gs://gev-systemone-models` | Weights | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
 
-**The `gev` service is running a stale build.** It was deployed before the packed strategy and before
-the fix for DiffusionGemma's unclosed thought channel (section 5), so its isolated answers may
-occasionally come back uniform. It runs with `GEV_CONCURRENCY=1` as a stopgap for the vLLM concurrency
-bug. Redeploying it (`scripts/deploy.sh`, ~2 minutes, no model reload) is safe and is waiting on the
-owner's go-ahead. `GEV_STRATEGY` defaults to `isolated`; nothing in production uses `packed` yet.
+GPU quota in us-central1 is 3 RTX PRO 6000s across all services; a fourth instance fails to deploy with
+"Quota exceeded for total allowable count of GPUs". Idle services at zero instances don't count.
 
 Service accounts: `gev-runtime@` (may only invoke `gev-model` and read its key secret), `gev-model@`
 (may only read the bucket).
@@ -129,7 +126,17 @@ jev from `bench/compare.ts` through `gev-scored` (laptop → API → model serve
   NVFP4 + by-name: jtbd 119 = 62 + 1 + 56; plan 206 = 80 + 1 + 126. "Outside gev" is the laptop's
   ~58 ms RTT plus a little; gev's own work is nothing; vLLM's e2e is ~20 ms less than the model wait.
 - **NVFP4 costs accuracy on jtbd**: choice agreement with jev 81% → 71%, overall 78% → 74%; hand labels
-  103 vs 106 (within noise). Speed gain is modest (vLLM e2e 58 → 50 ms). FP8 not yet measured.
+  103 vs 106 (within noise). Speed gain is modest (vLLM e2e 58 → 50 ms).
+- **FP8 (RedHatAI FP8-dynamic) is the best of the three**: hand labels 38, 31, 40 = 109; agreement with
+  jev 78% (jtbd) and 86% (plan), same as bf16; vLLM e2e 45 ms on jtbd. Through the API: jtbd 125 / 133,
+  plan 198 / 237. This is what went live.
+- **Calibration** (`GEV_TEMPERATURE`, `bench/calibrate.ts`, FP8, both suites). jev's sharpness (0 =
+  undecided, 1 = certain): choice 0.74, score 0.62, noul 0.55; gev at T=1: 0.98, 0.92, 0.99. For
+  choices T≈4 is a real optimum (distance to jev 0.272 → 0.239 on the held-out half, sharpness 0.68)
+  and for scores T≈4 matches jev's sharpness (0.65; distance 0.142 → 0.120). **Nouls don't calibrate
+  with one temperature**: distance keeps falling to T=8+ only because hedging beats disagreeing, and
+  sharpness is still 0.76 at T=8; agreement with jev on the 0.5 / 0.6 thresholds stays 84% / 89%
+  whatever T is. Not applied live; owner's call.
 - **The icon question by name** (`GEV_WIDE_CHOICE=1`): the model answers with the icon's name and gev
   reads the first token with `logprobs` = names + 40 (server needs `--max-logprobs=256`). 163 of the 186
   names have a first token of their own; the 9 sets that share one (`shopping_cart`/`shopping_bag`,

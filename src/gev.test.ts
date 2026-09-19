@@ -4,7 +4,8 @@ import { createApp } from "./app.ts";
 import { type Backend, type Generation, type Position, type Scores, UpstreamError } from "./backends/backend.ts";
 import { answerPositions, chatFrame, framed } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
-import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
+import { engineOptionsFromEnv } from "./config.ts";
+import { confidence, expectedLevel, labelDistribution, temper } from "./scoring.ts";
 import { PROMPT_ORDERS, noulPrompt } from "./prompt.ts";
 import { readSheet } from "./sheet.ts";
 import type { SystemOneRequest, SystemOneResponse } from "./types.ts";
@@ -145,6 +146,18 @@ test("readSheet finds answers by line, whatever the tokenization, and ignores of
   assert.deepEqual([...read.keys()], ["team", "urgent"]);
   near(read.get("team")![1]!, 0.8);
   near(read.get("urgent")![0]!, 0.3);
+});
+
+test("temperature softens probabilities without changing the decision", async () => {
+  near(temper([0.99, 0.01], 2)[0]!, Math.sqrt(0.99) / (Math.sqrt(0.99) + Math.sqrt(0.01)));
+  assert.deepEqual(temper([0.7, 0.3], 1), [0.7, 0.3]);
+  const request: SystemOneRequest = { state: "s", questions: { flag: { type: "noul", instructions: "it is raining" } } };
+  const plain = await systemOne(new FakeBackend("no such line", 0.99), request);
+  const soft = await systemOne(new FakeBackend("no such line", 0.99), request, { ...DEFAULT_ENGINE_OPTIONS, temperature: { choice: 1, score: 1, noul: 3 } });
+  assert.ok(plain.answers.flag?.type === "noul" && soft.answers.flag?.type === "noul");
+  assert.ok(soft.answers.flag.noul < plain.answers.flag.noul && soft.answers.flag.noul > 0.5);
+  assert.deepEqual(engineOptionsFromEnv({ GEV_TEMPERATURE: "2,noul=3" }).temperature, { choice: 2, score: 2, noul: 3 });
+  assert.throws(() => engineOptionsFromEnv({ GEV_TEMPERATURE: "maybe=2" }), /GEV_TEMPERATURE/);
 });
 
 test("confidence and expectedLevel", () => {

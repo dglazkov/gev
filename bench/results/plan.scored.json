@@ -2,9 +2,9 @@
  {
   "fixture": "001.json",
   "state": "{\"screen\":\"Delete my account and all of its data\"}",
-  "ms": 301,
+  "ms": 265,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -14,17 +14,17 @@
       "dashboard": 0,
       "detail": 0,
       "guide": 0,
-      "settings": 0.011,
-      "form": 0.0001,
+      "settings": 0.0001,
+      "form": 0,
       "checkout": 0,
       "result": 0,
-      "confirm": 0.9889
+      "confirm": 0.9999
      },
-     "confidence": 0.972
+     "confidence": 0.9996
     },
     "person": {
      "type": "noul",
-     "noul": 0.0141
+     "noul": 1
     },
     "top_level": {
      "type": "noul",
@@ -32,19 +32,19 @@
     },
     "app_bar_action": {
      "type": "choice",
-     "choice": "settings",
+     "choice": "none",
      "probabilities": {
-      "none": 0.2813,
+      "none": 0.9737,
       "search": 0,
       "add": 0,
-      "edit": 0.0102,
+      "edit": 0.0003,
       "share": 0,
       "favorite": 0,
       "notifications": 0,
-      "settings": 0.6748,
-      "more": 0.0336
+      "settings": 0,
+      "more": 0.0259
      },
-     "confidence": 0.6433
+     "confidence": 0.9437
     },
     "list_layout": {
      "type": "choice",
@@ -55,7 +55,7 @@
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9998
+     "confidence": 0.9999
     },
     "item_leading": {
      "type": "choice",
@@ -73,13 +73,13 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "chevron": 0.001,
-      "button": 0,
+      "chevron": 0,
+      "button": 0.0001,
       "switch": 0,
       "checkbox": 0,
-      "none": 0.9989
+      "none": 0.9999
      },
-     "confidence": 0.9946
+     "confidence": 0.9992
     },
     "search": {
      "type": "noul",
@@ -308,7 +308,7 @@
     },
     "has_groups": {
      "type": "noul",
-     "noul": 0.999
+     "noul": 0.9999
     },
     "has_facts": {
      "type": "noul",
@@ -328,7 +328,7 @@
     },
     "has_actions": {
      "type": "noul",
-     "noul": 0.0124
+     "noul": 0.9933
     },
     "item_description": {
      "type": "noul",
@@ -363,17 +363,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 140,
-    "model_ms": 138
+    "ms": 114,
+    "model_ms": 113
    }
   }
  },
  {
   "fixture": "002.json",
   "state": "{\"screen\":\"What happens to my data if I delete my account?\"}",
-  "ms": 251,
+  "ms": 237,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -381,19 +381,19 @@
      "probabilities": {
       "feed": 0,
       "dashboard": 0,
-      "detail": 0.0005,
+      "detail": 0.0041,
       "guide": 0,
-      "settings": 0.9973,
-      "form": 0.0001,
+      "settings": 0.9958,
+      "form": 0,
       "checkout": 0,
       "result": 0,
-      "confirm": 0.0022
+      "confirm": 0.0001
      },
-     "confidence": 0.9907
+     "confidence": 0.9875
     },
     "person": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0008
     },
     "top_level": {
      "type": "noul",
@@ -403,17 +403,17 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9928,
+      "none": 0.9999,
       "search": 0,
       "add": 0,
       "edit": 0,
       "share": 0,
       "favorite": 0,
       "notifications": 0,
-      "settings": 0.0036,
-      "more": 0.0036
+      "settings": 0,
+      "more": 0.0001
      },
-     "confidence": 0.9782
+     "confidence": 0.9994
     },
     "list_layout": {
      "type": "choice",
@@ -424,7 +424,7 @@
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9992
+     "confidence": 0.9994
     },
     "item_leading": {
      "type": "choice",
@@ -452,7 +452,7 @@
     },
     "search": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0011
     },
     "stat_deltas": {
      "type": "noul",
@@ -508,7 +508,7 @@
       "call": 0,
       "forum": 0,
       "campaign": 0,
-      "help": 1,
+      "help": 0.9963,
       "info": 0,
       "warning": 0,
       "error": 0,
@@ -643,13 +643,13 @@
       "security": 0,
       "fingerprint": 0,
       "verified_user": 0,
-      "privacy_tip": 0,
+      "privacy_tip": 0.0035,
       "policy": 0,
       "accessibility": 0,
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.9999
+     "confidence": 0.9952
     },
     "facts_total": {
      "type": "noul",
@@ -732,17 +732,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 133,
-    "model_ms": 133
+    "ms": 104,
+    "model_ms": 103
    }
   }
  },
  {
   "fixture": "003.json",
   "state": "{\"screen\":\"Am I going to be surprised by my electricity bill this month?\"}",
-  "ms": 185,
+  "ms": 194,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -772,28 +772,28 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9997,
+      "none": 0.9999,
       "search": 0,
       "add": 0,
       "edit": 0,
       "share": 0,
       "favorite": 0,
       "notifications": 0,
-      "settings": 0.0001,
-      "more": 0.0002
+      "settings": 0,
+      "more": 0.0001
      },
-     "confidence": 0.9986
+     "confidence": 0.9996
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
       "rows": 0.9998,
-      "cards": 0.0002,
+      "cards": 0,
       "grid": 0,
-      "reel": 0
+      "reel": 0.0001
      },
-     "confidence": 0.9988
+     "confidence": 0.9986
     },
     "item_leading": {
      "type": "choice",
@@ -825,7 +825,7 @@
     },
     "stat_deltas": {
      "type": "noul",
-     "noul": 0.0005
+     "noul": 0.0059
     },
     "screen_icon": {
      "type": "choice",
@@ -844,7 +844,7 @@
       "lock": 0,
       "key": 0,
       "shield": 0,
-      "visibility": 0.0001,
+      "visibility": 0,
       "language": 0,
       "palette": 0,
       "dark_mode": 0,
@@ -866,8 +866,8 @@
       "storage": 0,
       "memory": 0,
       "battery_full": 0,
-      "bolt": 0.8475,
-      "speed": 0.0001,
+      "bolt": 0.9382,
+      "speed": 0,
       "timer": 0,
       "schedule": 0,
       "calendar_today": 0,
@@ -890,7 +890,7 @@
       "sort": 0,
       "shopping_cart": 0,
       "shopping_bag": 0,
-      "payments": 0,
+      "payments": 0.0002,
       "credit_card": 0,
       "receipt_long": 0,
       "sell": 0,
@@ -932,11 +932,11 @@
       "work": 0,
       "business": 0,
       "account_balance": 0,
-      "savings": 0.0029,
-      "trending_up": 0.0065,
+      "savings": 0,
+      "trending_up": 0.0001,
       "bar_chart": 0,
       "pie_chart": 0,
-      "insights": 0.0007,
+      "insights": 0,
       "code": 0,
       "terminal": 0,
       "dns": 0,
@@ -953,7 +953,7 @@
       "sensors": 0,
       "lightbulb": 0,
       "power": 0,
-      "local_laundry_service": 0.0001,
+      "local_laundry_service": 0,
       "checkroom": 0,
       "brush": 0,
       "sports_esports": 0,
@@ -966,8 +966,8 @@
       "grid_view": 0,
       "list_alt": 0,
       "inbox": 0,
-      "analytics": 0.0003,
-      "electric_bolt": 0.0422,
+      "analytics": 0,
+      "electric_bolt": 0.0614,
       "solar_power": 0,
       "ev_station": 0,
       "heat_pump": 0,
@@ -982,8 +982,8 @@
       "newspaper": 0,
       "article": 0,
       "confirmation_number": 0,
-      "local_offer": 0.0949,
-      "percent": 0.0046,
+      "local_offer": 0,
+      "percent": 0,
       "support_agent": 0,
       "rate_review": 0,
       "thumb_up": 0,
@@ -1018,7 +1018,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.8884
+     "confidence": 0.9551
     },
     "facts_total": {
      "type": "noul",
@@ -1062,7 +1062,7 @@
     },
     "has_form": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "has_actions": {
      "type": "noul",
@@ -1074,7 +1074,7 @@
     },
     "item_price": {
      "type": "noul",
-     "noul": 0.0022
+     "noul": 0.2227
     },
     "item_rating": {
      "type": "noul",
@@ -1086,7 +1086,7 @@
     },
     "item_time": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "item_progress": {
      "type": "noul",
@@ -1101,37 +1101,37 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 104,
-    "model_ms": 102
+    "ms": 119,
+    "model_ms": 117
    }
   }
  },
  {
   "fixture": "004.json",
   "state": "{\"screen\":\"Send $50 to Alex\"}",
-  "ms": 206,
+  "ms": 198,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
-     "choice": "form",
+     "choice": "confirm",
      "probabilities": {
       "feed": 0,
       "dashboard": 0,
       "detail": 0,
       "guide": 0,
       "settings": 0,
-      "form": 0.8176,
+      "form": 0.0001,
       "checkout": 0,
       "result": 0,
-      "confirm": 0.1824
+      "confirm": 0.9999
      },
-     "confidence": 0.7838
+     "confidence": 0.9996
     },
     "person": {
      "type": "noul",
-     "noul": 0.0005
+     "noul": 0
     },
     "top_level": {
      "type": "noul",
@@ -1141,28 +1141,28 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9991,
+      "none": 0.9981,
       "search": 0.0001,
-      "add": 0.0005,
-      "edit": 0,
-      "share": 0.0001,
+      "add": 0.0011,
+      "edit": 0.0003,
+      "share": 0.0002,
       "favorite": 0,
       "notifications": 0,
       "settings": 0,
-      "more": 0.0003
+      "more": 0.0002
      },
-     "confidence": 0.9962
+     "confidence": 0.9927
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9999,
-      "cards": 0.0001,
+      "rows": 1,
+      "cards": 0,
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9993
+     "confidence": 0.9997
     },
     "item_leading": {
      "type": "choice",
@@ -1170,23 +1170,23 @@
      "probabilities": {
       "avatar": 0,
       "thumbnail": 0,
-      "icon": 0,
+      "icon": 0.0002,
       "number": 0,
-      "none": 1
+      "none": 0.9998
      },
-     "confidence": 0.9999
+     "confidence": 0.9989
     },
     "item_trailing": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "chevron": 0.0019,
-      "button": 0.0001,
+      "chevron": 0.0002,
+      "button": 0.0007,
       "switch": 0,
       "checkbox": 0,
-      "none": 0.998
+      "none": 0.9991
      },
-     "confidence": 0.9907
+     "confidence": 0.9954
     },
     "search": {
      "type": "noul",
@@ -1259,7 +1259,7 @@
       "sort": 0,
       "shopping_cart": 0,
       "shopping_bag": 0,
-      "payments": 0.9638,
+      "payments": 1,
       "credit_card": 0,
       "receipt_long": 0,
       "sell": 0,
@@ -1351,7 +1351,7 @@
       "newspaper": 0,
       "article": 0,
       "confirmation_number": 0,
-      "local_offer": 0.0362,
+      "local_offer": 0,
       "percent": 0,
       "support_agent": 0,
       "rate_review": 0,
@@ -1387,7 +1387,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.9702
+     "confidence": 1
     },
     "facts_total": {
      "type": "noul",
@@ -1431,11 +1431,11 @@
     },
     "has_form": {
      "type": "noul",
-     "noul": 0.977
+     "noul": 1
     },
     "has_actions": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "item_description": {
      "type": "noul",
@@ -1443,7 +1443,7 @@
     },
     "item_price": {
      "type": "noul",
-     "noul": 0.9941
+     "noul": 0.001
     },
     "item_rating": {
      "type": "noul",
@@ -1470,17 +1470,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 126,
-    "model_ms": 126
+    "ms": 121,
+    "model_ms": 120
    }
   }
  },
  {
   "fixture": "005.json",
   "state": "{\"screen\":\"My car won't start, what do I do?\"}",
-  "ms": 183,
+  "ms": 197,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -1496,7 +1496,7 @@
       "result": 0,
       "confirm": 0
      },
-     "confidence": 0.9999
+     "confidence": 1
     },
     "person": {
      "type": "noul",
@@ -1510,7 +1510,7 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9998,
+      "none": 1,
       "search": 0,
       "add": 0,
       "edit": 0,
@@ -1518,20 +1518,20 @@
       "favorite": 0,
       "notifications": 0,
       "settings": 0,
-      "more": 0.0002
+      "more": 0
      },
-     "confidence": 0.999
+     "confidence": 1
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9999,
-      "cards": 0.0001,
+      "rows": 0.9997,
+      "cards": 0,
       "grid": 0,
-      "reel": 0
+      "reel": 0.0003
      },
-     "confidence": 0.9994
+     "confidence": 0.9976
     },
     "item_leading": {
      "type": "choice",
@@ -1559,7 +1559,7 @@
     },
     "search": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0006
     },
     "stat_deltas": {
      "type": "noul",
@@ -1615,10 +1615,10 @@
       "call": 0,
       "forum": 0,
       "campaign": 0,
-      "help": 0.9958,
+      "help": 0.9999,
       "info": 0,
       "warning": 0,
-      "error": 0.0039,
+      "error": 0.0001,
       "check_circle": 0,
       "delete": 0,
       "logout": 0,
@@ -1632,7 +1632,7 @@
       "credit_card": 0,
       "receipt_long": 0,
       "sell": 0,
-      "local_shipping": 0.0001,
+      "local_shipping": 0,
       "inventory_2": 0,
       "storefront": 0,
       "redeem": 0,
@@ -1680,7 +1680,7 @@
       "dns": 0,
       "database": 0,
       "bug_report": 0,
-      "build": 0.0001,
+      "build": 0,
       "construction": 0,
       "devices": 0,
       "smartphone": 0,
@@ -1756,7 +1756,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.9945
+     "confidence": 0.9999
     },
     "facts_total": {
      "type": "noul",
@@ -1796,7 +1796,7 @@
     },
     "has_steps": {
      "type": "noul",
-     "noul": 0.0059
+     "noul": 0.999
     },
     "has_form": {
      "type": "noul",
@@ -1839,17 +1839,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 101,
-    "model_ms": 100
+    "ms": 122,
+    "model_ms": 121
    }
   }
  },
  {
   "fixture": "006.json",
   "state": "{\"screen\":\"Sign-up form for a weekend pottery workshop\"}",
-  "ms": 182,
+  "ms": 207,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -1889,18 +1889,18 @@
       "settings": 0,
       "more": 0
      },
-     "confidence": 0.9999
+     "confidence": 1
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9997,
-      "cards": 0.0003,
+      "rows": 1,
+      "cards": 0,
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9977
+     "confidence": 0.9999
     },
     "item_leading": {
      "type": "choice",
@@ -1912,7 +1912,7 @@
       "number": 0,
       "none": 1
      },
-     "confidence": 1
+     "confidence": 0.9999
     },
     "item_trailing": {
      "type": "choice",
@@ -1924,7 +1924,7 @@
       "checkbox": 0,
       "none": 1
      },
-     "confidence": 0.9999
+     "confidence": 1
     },
     "search": {
      "type": "noul",
@@ -1936,7 +1936,7 @@
     },
     "screen_icon": {
      "type": "choice",
-     "choice": "bakery_dining",
+     "choice": "brush",
      "probabilities": {
       "home": 0,
       "search": 0,
@@ -1953,7 +1953,7 @@
       "shield": 0,
       "visibility": 0,
       "language": 0,
-      "palette": 0,
+      "palette": 0.001,
       "dark_mode": 0,
       "light_mode": 0,
       "volume_up": 0,
@@ -1991,7 +1991,7 @@
       "check_circle": 0,
       "delete": 0,
       "logout": 0,
-      "edit": 0,
+      "edit": 0.0001,
       "tune": 0,
       "filter_list": 0,
       "sort": 0,
@@ -2006,8 +2006,8 @@
       "storefront": 0,
       "redeem": 0,
       "restaurant": 0,
-      "local_cafe": 0.0008,
-      "bakery_dining": 0.6737,
+      "local_cafe": 0,
+      "bakery_dining": 0,
       "local_bar": 0,
       "kitchen": 0,
       "directions_car": 0,
@@ -2032,11 +2032,11 @@
       "thermostat": 0,
       "wb_sunny": 0,
       "ac_unit": 0,
-      "school": 0.0035,
+      "school": 0,
       "menu_book": 0,
       "auto_stories": 0,
       "science": 0,
-      "work": 0.002,
+      "work": 0,
       "business": 0,
       "account_balance": 0,
       "savings": 0,
@@ -2062,7 +2062,7 @@
       "power": 0,
       "local_laundry_service": 0,
       "checkroom": 0,
-      "brush": 0.3085,
+      "brush": 0.9988,
       "sports_esports": 0,
       "sports_soccer": 0,
       "toys": 0,
@@ -2076,7 +2076,7 @@
       "analytics": 0,
       "electric_bolt": 0,
       "solar_power": 0,
-      "ev_station": 0.0001,
+      "ev_station": 0,
       "heat_pump": 0,
       "replay": 0,
       "fast_forward": 0,
@@ -2089,7 +2089,7 @@
       "newspaper": 0,
       "article": 0,
       "confirmation_number": 0,
-      "local_offer": 0.0001,
+      "local_offer": 0,
       "percent": 0,
       "support_agent": 0,
       "rate_review": 0,
@@ -2100,13 +2100,13 @@
       "checklist": 0,
       "pending_actions": 0,
       "hiking": 0,
-      "backpack": 0.0024,
+      "backpack": 0,
       "category": 0,
       "apps": 0,
       "explore_nearby": 0,
       "travel_explore": 0,
       "stadia_controller": 0,
-      "handyman": 0.0082,
+      "handyman": 0,
       "local_mall": 0,
       "styler": 0,
       "description": 0,
@@ -2123,9 +2123,9 @@
       "policy": 0,
       "accessibility": 0,
       "translate": 0,
-      "none": 0.0001
+      "none": 0
      },
-     "confidence": 0.8604
+     "confidence": 0.998
     },
     "facts_total": {
      "type": "noul",
@@ -2193,7 +2193,7 @@
     },
     "item_time": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.133
     },
     "item_progress": {
      "type": "noul",
@@ -2208,33 +2208,33 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 102,
-    "model_ms": 101
+    "ms": 125,
+    "model_ms": 124
    }
   }
  },
  {
   "fixture": "007.json",
   "state": "{\"screen\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
-  "ms": 164,
+  "ms": 201,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
      "choice": "feed",
      "probabilities": {
-      "feed": 1,
+      "feed": 0.9998,
       "dashboard": 0,
       "detail": 0,
       "guide": 0,
       "settings": 0,
-      "form": 0,
+      "form": 0.0001,
       "checkout": 0,
-      "result": 0,
+      "result": 0.0001,
       "confirm": 0
      },
-     "confidence": 1
+     "confidence": 0.9992
     },
     "person": {
      "type": "noul",
@@ -2248,8 +2248,8 @@
      "type": "choice",
      "choice": "search",
      "probabilities": {
-      "none": 0.0041,
-      "search": 0.9959,
+      "none": 0,
+      "search": 1,
       "add": 0,
       "edit": 0,
       "share": 0,
@@ -2258,30 +2258,30 @@
       "settings": 0,
       "more": 0
      },
-     "confidence": 0.9877
+     "confidence": 1
     },
     "list_layout": {
      "type": "choice",
      "choice": "cards",
      "probabilities": {
-      "rows": 0.0097,
-      "cards": 0.9902,
+      "rows": 0,
+      "cards": 1,
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9602
+     "confidence": 0.9997
     },
     "item_leading": {
      "type": "choice",
      "choice": "thumbnail",
      "probabilities": {
       "avatar": 0,
-      "thumbnail": 0.977,
+      "thumbnail": 1,
       "icon": 0,
       "number": 0,
-      "none": 0.023
+      "none": 0
      },
-     "confidence": 0.9317
+     "confidence": 1
     },
     "item_trailing": {
      "type": "choice",
@@ -2297,7 +2297,7 @@
     },
     "search": {
      "type": "noul",
-     "noul": 0.852
+     "noul": 1
     },
     "stat_deltas": {
      "type": "noul",
@@ -2308,7 +2308,7 @@
      "choice": "restaurant",
      "probabilities": {
       "home": 0,
-      "search": 0,
+      "search": 0.0002,
       "person": 0,
       "group": 0,
       "settings": 0,
@@ -2374,8 +2374,8 @@
       "inventory_2": 0,
       "storefront": 0,
       "redeem": 0,
-      "restaurant": 0.9996,
-      "local_cafe": 0.0004,
+      "restaurant": 0.9993,
+      "local_cafe": 0,
       "bakery_dining": 0,
       "local_bar": 0,
       "kitchen": 0,
@@ -2472,7 +2472,7 @@
       "backpack": 0,
       "category": 0,
       "apps": 0,
-      "explore_nearby": 0,
+      "explore_nearby": 0.0004,
       "travel_explore": 0,
       "stadia_controller": 0,
       "handyman": 0,
@@ -2494,7 +2494,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.9994
+     "confidence": 0.9988
     },
     "facts_total": {
      "type": "noul",
@@ -2510,7 +2510,7 @@
     },
     "has_filters": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0004
     },
     "has_stats": {
      "type": "noul",
@@ -2518,7 +2518,7 @@
     },
     "has_list": {
      "type": "noul",
-     "noul": 0.982
+     "noul": 0.9999
     },
     "has_groups": {
      "type": "noul",
@@ -2538,7 +2538,7 @@
     },
     "has_form": {
      "type": "noul",
-     "noul": 0.0003
+     "noul": 0.0002
     },
     "has_actions": {
      "type": "noul",
@@ -2546,15 +2546,15 @@
     },
     "item_description": {
      "type": "noul",
-     "noul": 0.0012
+     "noul": 0.0008
     },
     "item_price": {
      "type": "noul",
-     "noul": 0.7058
+     "noul": 1
     },
     "item_rating": {
      "type": "noul",
-     "noul": 0.9993
+     "noul": 0.9994
     },
     "item_status": {
      "type": "noul",
@@ -2562,7 +2562,7 @@
     },
     "item_time": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0052
     },
     "item_progress": {
      "type": "noul",
@@ -2577,33 +2577,33 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 99,
-    "model_ms": 98
+    "ms": 120,
+    "model_ms": 118
    }
   }
  },
  {
   "fixture": "008.json",
   "state": "{\"screen\":\"How do I make sourdough starter from scratch?\"}",
-  "ms": 183,
+  "ms": 184,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
      "choice": "guide",
      "probabilities": {
-      "feed": 0.0002,
+      "feed": 0,
       "dashboard": 0,
       "detail": 0.0004,
-      "guide": 0.9993,
+      "guide": 0.9996,
       "settings": 0,
       "form": 0,
       "checkout": 0,
       "result": 0,
       "confirm": 0
      },
-     "confidence": 0.9972
+     "confidence": 0.9982
     },
     "person": {
      "type": "noul",
@@ -2617,8 +2617,8 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9999,
-      "search": 0.0001,
+      "none": 1,
+      "search": 0,
       "add": 0,
       "edit": 0,
       "share": 0,
@@ -2627,18 +2627,18 @@
       "settings": 0,
       "more": 0
      },
-     "confidence": 0.9994
+     "confidence": 0.9999
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9998,
-      "cards": 0.0001,
-      "grid": 0.0001,
-      "reel": 0.0001
+      "rows": 0.9999,
+      "cards": 0,
+      "grid": 0,
+      "reel": 0
      },
-     "confidence": 0.9987
+     "confidence": 0.9992
     },
     "item_leading": {
      "type": "choice",
@@ -2666,7 +2666,7 @@
     },
     "search": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0004
     },
     "stat_deltas": {
      "type": "noul",
@@ -2743,11 +2743,11 @@
       "inventory_2": 0,
       "storefront": 0,
       "redeem": 0,
-      "restaurant": 0,
+      "restaurant": 0.0003,
       "local_cafe": 0,
-      "bakery_dining": 1,
+      "bakery_dining": 0.8411,
       "local_bar": 0,
-      "kitchen": 0,
+      "kitchen": 0.0001,
       "directions_car": 0,
       "directions_bike": 0,
       "directions_walk": 0,
@@ -2770,8 +2770,8 @@
       "thermostat": 0,
       "wb_sunny": 0,
       "ac_unit": 0,
-      "school": 0,
-      "menu_book": 0,
+      "school": 0.0003,
+      "menu_book": 0.158,
       "auto_stories": 0,
       "science": 0,
       "work": 0,
@@ -2863,7 +2863,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 1
+     "confidence": 0.915
     },
     "facts_total": {
      "type": "noul",
@@ -2875,7 +2875,7 @@
     },
     "has_hero": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "has_filters": {
      "type": "noul",
@@ -2899,7 +2899,7 @@
     },
     "has_prose": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0004
     },
     "has_steps": {
      "type": "noul",
@@ -2915,7 +2915,7 @@
     },
     "item_description": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0
     },
     "item_price": {
      "type": "noul",
@@ -2946,25 +2946,25 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 105,
-    "model_ms": 103
+    "ms": 90,
+    "model_ms": 89
    }
   }
  },
  {
   "fixture": "009.json",
   "state": "{\"screen\":\"Tell me about the Golden Gate Bridge\"}",
-  "ms": 206,
+  "ms": 200,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
      "choice": "detail",
      "probabilities": {
-      "feed": 0,
+      "feed": 0.0001,
       "dashboard": 0,
-      "detail": 1,
+      "detail": 0.9999,
       "guide": 0,
       "settings": 0,
       "form": 0,
@@ -2972,7 +2972,7 @@
       "result": 0,
       "confirm": 0
      },
-     "confidence": 1
+     "confidence": 0.9996
     },
     "person": {
      "type": "noul",
@@ -2984,10 +2984,10 @@
     },
     "app_bar_action": {
      "type": "choice",
-     "choice": "none",
+     "choice": "search",
      "probabilities": {
-      "none": 0.9963,
-      "search": 0.0036,
+      "none": 0.0421,
+      "search": 0.9579,
       "add": 0,
       "edit": 0,
       "share": 0,
@@ -2996,30 +2996,30 @@
       "settings": 0,
       "more": 0
      },
-     "confidence": 0.9887
+     "confidence": 0.9204
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9992,
-      "cards": 0.0006,
+      "rows": 0.9999,
+      "cards": 0,
       "grid": 0,
-      "reel": 0.0001
+      "reel": 0
      },
-     "confidence": 0.9952
+     "confidence": 0.9989
     },
     "item_leading": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
       "avatar": 0,
-      "thumbnail": 0,
+      "thumbnail": 0.0004,
       "icon": 0,
       "number": 0,
-      "none": 1
+      "none": 0.9996
      },
-     "confidence": 1
+     "confidence": 0.9979
     },
     "item_trailing": {
      "type": "choice",
@@ -3031,11 +3031,11 @@
       "checkbox": 0,
       "none": 1
      },
-     "confidence": 1
+     "confidence": 0.9999
     },
     "search": {
      "type": "noul",
-     "noul": 0.2689
+     "noul": 0.9999
     },
     "stat_deltas": {
      "type": "noul",
@@ -3043,10 +3043,10 @@
     },
     "screen_icon": {
      "type": "choice",
-     "choice": "none",
+     "choice": "map",
      "probabilities": {
       "home": 0,
-      "search": 0,
+      "search": 0.0001,
       "person": 0,
       "group": 0,
       "settings": 0,
@@ -3108,7 +3108,7 @@
       "credit_card": 0,
       "receipt_long": 0,
       "sell": 0,
-      "local_shipping": 0.0001,
+      "local_shipping": 0,
       "inventory_2": 0,
       "storefront": 0,
       "redeem": 0,
@@ -3117,15 +3117,15 @@
       "bakery_dining": 0,
       "local_bar": 0,
       "kitchen": 0,
-      "directions_car": 0.0001,
+      "directions_car": 0,
       "directions_bike": 0,
-      "directions_walk": 0,
-      "flight": 0.0001,
+      "directions_walk": 0.0002,
+      "flight": 0,
       "train": 0,
       "hotel": 0,
-      "map": 0.2439,
-      "location_on": 0.139,
-      "explore": 0.0146,
+      "map": 0.7275,
+      "location_on": 0.0001,
+      "explore": 0.2594,
       "fitness_center": 0,
       "self_improvement": 0,
       "monitor_heart": 0,
@@ -3196,7 +3196,7 @@
       "newspaper": 0,
       "article": 0,
       "confirmation_number": 0,
-      "local_offer": 0.0003,
+      "local_offer": 0,
       "percent": 0,
       "support_agent": 0,
       "rate_review": 0,
@@ -3211,7 +3211,7 @@
       "category": 0,
       "apps": 0,
       "explore_nearby": 0,
-      "travel_explore": 0.0166,
+      "travel_explore": 0.0002,
       "stadia_controller": 0,
       "handyman": 0,
       "local_mall": 0,
@@ -3230,9 +3230,9 @@
       "policy": 0,
       "accessibility": 0,
       "translate": 0,
-      "none": 0.5851
+      "none": 0.0125
      },
-     "confidence": 0.7955
+     "confidence": 0.8771
     },
     "facts_total": {
      "type": "noul",
@@ -3244,7 +3244,7 @@
     },
     "has_hero": {
      "type": "noul",
-     "noul": 0.9997
+     "noul": 0.9978
     },
     "has_filters": {
      "type": "noul",
@@ -3268,7 +3268,7 @@
     },
     "has_prose": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0759
     },
     "has_steps": {
      "type": "noul",
@@ -3315,17 +3315,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 125,
-    "model_ms": 123
+    "ms": 123,
+    "model_ms": 122
    }
   }
  },
  {
   "fixture": "010.json",
   "state": "{\"screen\":\"Settings for notification preferences in a chat app\"}",
-  "ms": 208,
+  "ms": 200,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -3355,17 +3355,17 @@
      "type": "choice",
      "choice": "settings",
      "probabilities": {
-      "none": 0.001,
+      "none": 0.1188,
       "search": 0,
       "add": 0,
-      "edit": 0,
+      "edit": 0.0011,
       "share": 0,
       "favorite": 0,
       "notifications": 0,
-      "settings": 0.9989,
-      "more": 0
+      "settings": 0.878,
+      "more": 0.002
      },
-     "confidence": 0.9961
+     "confidence": 0.8234
     },
     "list_layout": {
      "type": "choice",
@@ -3376,7 +3376,7 @@
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9999
+     "confidence": 1
     },
     "item_leading": {
      "type": "choice",
@@ -3384,23 +3384,23 @@
      "probabilities": {
       "avatar": 0,
       "thumbnail": 0,
-      "icon": 0.0007,
+      "icon": 0,
       "number": 0,
-      "none": 0.9993
+      "none": 1
      },
-     "confidence": 0.9964
+     "confidence": 1
     },
     "item_trailing": {
      "type": "choice",
      "choice": "switch",
      "probabilities": {
       "chevron": 0,
-      "button": 0.0002,
-      "switch": 0.9921,
-      "checkbox": 0.0001,
-      "none": 0.0076
+      "button": 0,
+      "switch": 1,
+      "checkbox": 0,
+      "none": 0
      },
-     "confidence": 0.9703
+     "confidence": 0.9998
     },
     "search": {
      "type": "noul",
@@ -3684,33 +3684,33 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 129,
-    "model_ms": 127
+    "ms": 121,
+    "model_ms": 119
    }
   }
  },
  {
   "fixture": "011.json",
   "state": "{\"screen\":\"Pick a movie for family night\"}",
-  "ms": 191,
+  "ms": 171,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
      "choice": "form",
      "probabilities": {
-      "feed": 0.0002,
-      "dashboard": 0,
-      "detail": 0.0001,
+      "feed": 0.0046,
+      "dashboard": 0.0001,
+      "detail": 0.0006,
       "guide": 0,
       "settings": 0,
-      "form": 0.9997,
+      "form": 0.9947,
       "checkout": 0,
       "result": 0,
       "confirm": 0
      },
-     "confidence": 0.9986
+     "confidence": 0.984
     },
     "person": {
      "type": "noul",
@@ -3724,28 +3724,28 @@
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "none": 0.9995,
-      "search": 0.0001,
+      "none": 0.9984,
+      "search": 0.0013,
       "add": 0.0001,
       "edit": 0,
       "share": 0,
       "favorite": 0,
       "notifications": 0,
       "settings": 0,
-      "more": 0.0003
+      "more": 0.0002
      },
-     "confidence": 0.998
+     "confidence": 0.9942
     },
     "list_layout": {
      "type": "choice",
      "choice": "reel",
      "probabilities": {
-      "rows": 0.0003,
-      "cards": 0.0007,
-      "grid": 0.0001,
-      "reel": 0.9989
+      "rows": 0,
+      "cards": 0.0005,
+      "grid": 0,
+      "reel": 0.9995
      },
-     "confidence": 0.9931
+     "confidence": 0.9965
     },
     "item_leading": {
      "type": "choice",
@@ -3761,19 +3761,19 @@
     },
     "item_trailing": {
      "type": "choice",
-     "choice": "none",
+     "choice": "button",
      "probabilities": {
-      "chevron": 0.0013,
-      "button": 0.0003,
+      "chevron": 0.0032,
+      "button": 0.7748,
       "switch": 0,
       "checkbox": 0,
-      "none": 0.9984
+      "none": 0.222
      },
-     "confidence": 0.9922
+     "confidence": 0.6582
     },
     "search": {
      "type": "noul",
-     "noul": 0.0016
+     "noul": 0.997
     },
     "stat_deltas": {
      "type": "noul",
@@ -3986,7 +3986,7 @@
     },
     "has_filters": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0015
     },
     "has_stats": {
      "type": "noul",
@@ -3994,11 +3994,11 @@
     },
     "has_list": {
      "type": "noul",
-     "noul": 0.4073
+     "noul": 1
     },
     "has_groups": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0
     },
     "has_facts": {
      "type": "noul",
@@ -4014,7 +4014,7 @@
     },
     "has_form": {
      "type": "noul",
-     "noul": 0.8808
+     "noul": 1
     },
     "has_actions": {
      "type": "noul",
@@ -4022,7 +4022,7 @@
     },
     "item_description": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0012
     },
     "item_price": {
      "type": "noul",
@@ -4030,7 +4030,7 @@
     },
     "item_rating": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.9992
     },
     "item_status": {
      "type": "noul",
@@ -4053,17 +4053,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 127,
-    "model_ms": 126
+    "ms": 95,
+    "model_ms": 94
    }
   }
  },
  {
   "fixture": "012.json",
   "state": "{\"screen\":\"Checkout screen for a sneaker store with order summary\"}",
-  "ms": 223,
+  "ms": 197,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -4109,36 +4109,36 @@
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9983,
-      "cards": 0.0017,
+      "rows": 1,
+      "cards": 0,
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9909
+     "confidence": 1
     },
     "item_leading": {
      "type": "choice",
-     "choice": "thumbnail",
+     "choice": "none",
      "probabilities": {
       "avatar": 0,
-      "thumbnail": 0.9983,
+      "thumbnail": 0.0759,
       "icon": 0,
       "number": 0,
-      "none": 0.0017
+      "none": 0.9241
      },
-     "confidence": 0.9919
+     "confidence": 0.8328
     },
     "item_trailing": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "chevron": 0.0002,
+      "chevron": 0,
       "button": 0,
       "switch": 0,
       "checkbox": 0,
-      "none": 0.9998
+      "none": 1
      },
-     "confidence": 0.999
+     "confidence": 0.9997
     },
     "search": {
      "type": "noul",
@@ -4150,7 +4150,7 @@
     },
     "screen_icon": {
      "type": "choice",
-     "choice": "shopping_bag",
+     "choice": "shopping_cart",
      "probabilities": {
       "home": 0,
       "search": 0,
@@ -4209,8 +4209,8 @@
       "tune": 0,
       "filter_list": 0,
       "sort": 0,
-      "shopping_cart": 0.2451,
-      "shopping_bag": 0.7549,
+      "shopping_cart": 0.9978,
+      "shopping_bag": 0.0022,
       "payments": 0,
       "credit_card": 0,
       "receipt_long": 0,
@@ -4339,7 +4339,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.8934
+     "confidence": 0.997
     },
     "facts_total": {
      "type": "noul",
@@ -4363,7 +4363,7 @@
     },
     "has_list": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "has_groups": {
      "type": "noul",
@@ -4371,7 +4371,7 @@
     },
     "has_facts": {
      "type": "noul",
-     "noul": 0.989
+     "noul": 0.9998
     },
     "has_prose": {
      "type": "noul",
@@ -4383,11 +4383,11 @@
     },
     "has_form": {
      "type": "noul",
-     "noul": 0.9999
+     "noul": 1
     },
     "has_actions": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0169
     },
     "item_description": {
      "type": "noul",
@@ -4403,7 +4403,7 @@
     },
     "item_status": {
      "type": "noul",
-     "noul": 0.0474
+     "noul": 0.9941
     },
     "item_time": {
      "type": "noul",
@@ -4422,17 +4422,17 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 141,
-    "model_ms": 140
+    "ms": 118,
+    "model_ms": 117
    }
   }
  },
  {
   "fixture": "013.json",
   "state": "{\"screen\":\"Home energy dashboard showing today's usage\"}",
-  "ms": 217,
+  "ms": 185,
   "response": {
-   "model": "RedHatAI/gemma-4-26B-A4B-it-NVFP4",
+   "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
     "archetype": {
      "type": "choice",
@@ -4460,30 +4460,30 @@
     },
     "app_bar_action": {
      "type": "choice",
-     "choice": "none",
+     "choice": "notifications",
      "probabilities": {
-      "none": 0.9989,
+      "none": 0.1321,
       "search": 0,
       "add": 0,
       "edit": 0,
       "share": 0,
       "favorite": 0,
-      "notifications": 0.0002,
-      "settings": 0.0005,
-      "more": 0.0003
+      "notifications": 0.8612,
+      "settings": 0.0066,
+      "more": 0.0001
      },
-     "confidence": 0.9955
+     "confidence": 0.804
     },
     "list_layout": {
      "type": "choice",
      "choice": "rows",
      "probabilities": {
-      "rows": 0.9998,
-      "cards": 0.0001,
+      "rows": 1,
+      "cards": 0,
       "grid": 0,
       "reel": 0
      },
-     "confidence": 0.9989
+     "confidence": 1
     },
     "item_leading": {
      "type": "choice",
@@ -4491,11 +4491,11 @@
      "probabilities": {
       "avatar": 0,
       "thumbnail": 0,
-      "icon": 0,
+      "icon": 0.0001,
       "number": 0,
-      "none": 1
+      "none": 0.9999
      },
-     "confidence": 1
+     "confidence": 0.9995
     },
     "item_trailing": {
      "type": "choice",
@@ -4511,7 +4511,7 @@
     },
     "search": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0002
     },
     "stat_deltas": {
      "type": "noul",
@@ -4556,8 +4556,8 @@
       "storage": 0,
       "memory": 0,
       "battery_full": 0,
-      "bolt": 0.813,
-      "speed": 0.0043,
+      "bolt": 0.9985,
+      "speed": 0.0004,
       "timer": 0,
       "schedule": 0,
       "calendar_today": 0,
@@ -4623,10 +4623,10 @@
       "business": 0,
       "account_balance": 0,
       "savings": 0,
-      "trending_up": 0.0127,
-      "bar_chart": 0.118,
+      "trending_up": 0,
+      "bar_chart": 0,
       "pie_chart": 0,
-      "insights": 0.0352,
+      "insights": 0,
       "code": 0,
       "terminal": 0,
       "dns": 0,
@@ -4652,12 +4652,12 @@
       "child_care": 0,
       "family_restroom": 0,
       "volunteer_activism": 0,
-      "dashboard": 0,
+      "dashboard": 0.0001,
       "grid_view": 0,
       "list_alt": 0,
       "inbox": 0,
-      "analytics": 0.0075,
-      "electric_bolt": 0.0092,
+      "analytics": 0.0001,
+      "electric_bolt": 0.0009,
       "solar_power": 0,
       "ev_station": 0,
       "heat_pump": 0,
@@ -4708,7 +4708,7 @@
       "translate": 0,
       "none": 0
      },
-     "confidence": 0.8664
+     "confidence": 0.9975
     },
     "facts_total": {
      "type": "noul",
@@ -4728,7 +4728,7 @@
     },
     "has_stats": {
      "type": "noul",
-     "noul": 0.867
+     "noul": 0.9996
     },
     "has_list": {
      "type": "noul",
@@ -4776,7 +4776,7 @@
     },
     "item_time": {
      "type": "noul",
-     "noul": 0.0013
+     "noul": 0.9999
     },
     "item_progress": {
      "type": "noul",
@@ -4791,8 +4791,8 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 140,
-    "model_ms": 139
+    "ms": 121,
+    "model_ms": 119
    }
   }
  }

@@ -33,6 +33,16 @@ export function labelDistribution(top: TokenLogprob[], labels: string[]): number
   return normalize(raw);
 }
 
+/**
+ * Softens (T > 1) or sharpens (T < 1) a distribution: p^(1/T), renormalized, which is what dividing
+ * the logits by T would have done. The model's first-token probabilities are far more certain than
+ * its accuracy warrants; the decisions don't change, only how sure they claim to be.
+ */
+export function temper(probabilities: number[], temperature: number): number[] {
+  if (temperature === 1) return probabilities;
+  return normalize(probabilities.map((p) => p ** (1 / temperature)));
+}
+
 export function normalize(values: number[]): number[] {
   const total = values.reduce((a, b) => a + b, 0);
   if (total <= 0) return values.map(() => 1 / values.length);

@@ -2,55 +2,55 @@
  {
   "fixture": "001.json",
   "state": "{\"screen\":\"Delete my account and all of its data\"}",
-  "ms": 190,
+  "ms": 217,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "002.json",
   "state": "{\"screen\":\"What happens to my data if I delete my account?\"}",
-  "ms": 155,
+  "ms": 149,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "003.json",
   "state": "{\"screen\":\"Am I going to be surprised by my electricity bill this month?\"}",
-  "ms": 92,
+  "ms": 99,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "004.json",
   "state": "{\"screen\":\"Send $50 to Alex\"}",
-  "ms": 87,
+  "ms": 94,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "005.json",
   "state": "{\"screen\":\"My car won't start, what do I do?\"}",
-  "ms": 82,
+  "ms": 93,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "006.json",
   "state": "{\"screen\":\"Sign-up form for a weekend pottery workshop\"}",
-  "ms": 90,
+  "ms": 96,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "007.json",
   "state": "{\"screen\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
-  "ms": 87,
+  "ms": 91,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "008.json",
   "state": "{\"screen\":\"How do I make sourdough starter from scratch?\"}",
-  "ms": 93,
+  "ms": 83,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "009.json",
   "state": "{\"screen\":\"Tell me about the Golden Gate Bridge\"}",
-  "ms": 94,
+  "ms": 91,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
@@ -62,19 +62,19 @@
  {
   "fixture": "011.json",
   "state": "{\"screen\":\"Pick a movie for family night\"}",
-  "ms": 96,
+  "ms": 90,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "012.json",
   "state": "{\"screen\":\"Checkout screen for a sneaker store with order summary\"}",
-  "ms": 90,
+  "ms": 93,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "013.json",
   "state": "{\"screen\":\"Home energy dashboard showing today's usage\"}",
-  "ms": 85,
+  "ms": 91,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  }
 ]

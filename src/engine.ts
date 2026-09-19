@@ -1,6 +1,6 @@
 import type { Backend } from "./backends/backend.ts";
 import { CHOICE_LABELS, NOUL_LABELS, type PromptOrder, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, namedChoicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
-import { type TokenLogprob, tokenKey, argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
+import { type TokenLogprob, tokenKey, argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round, temper } from "./scoring.ts";
 import { SHEET_SIZE, SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, readSheet, sheetLabels, sheetMaxTokens, sheetPrompt } from "./sheet.ts";
 import type { Answer, ChoiceQuestion, Json, Question, ScoreQuestion, SystemOneRequest, SystemOneResponse, Usage } from "./types.ts";
 
@@ -29,9 +29,11 @@ export type EngineOptions = {
    * the first token of the name, instead of as a tournament, which costs a second model call.
    */
   wideChoice: boolean;
+  /** Calibration: the temperature applied to every prompt's answer distribution, per question type. See `temper`. */
+  temperature: Record<Question["type"], number>;
 };
 
-export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first", wideChoice: false };
+export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first", wideChoice: false, temperature: { choice: 1, score: 1, noul: 1 } };
 
 // How far past the number of names to read, so that a few off-script tokens don't push names out of view.
 const WIDE_MARGIN = 40;
@@ -135,21 +137,29 @@ class Run {
 
   /** One model call for this question alone. */
   async isolated(question: Question): Promise<Answer> {
+    return this.#answer(question, await this.#distribution(question));
+  }
+
+  #distribution(question: Question): Promise<number[]> {
     switch (question.type) {
       case "noul":
-        return toAnswer(question, await this.#ask(noulPrompt(this.#state, question.instructions, question.criteria, this.#options.order), NOUL_LABELS));
+        return this.#ask(noulPrompt(this.#state, question.instructions, question.criteria, this.#options.order), NOUL_LABELS);
       case "score":
-        return toAnswer(question, await this.#ask(scorePrompt(this.#state, question.instructions, question.criteria, this.#options.order), SCORE_LABELS.slice(0, question.criteria.length)));
+        return this.#ask(scorePrompt(this.#state, question.instructions, question.criteria, this.#options.order), SCORE_LABELS.slice(0, question.criteria.length));
       case "choice":
-        return toAnswer(question, await this.#rank(question.instructions, Object.entries(question.criteria)));
+        return this.#rank(question.instructions, Object.entries(question.criteria));
     }
+  }
+
+  #answer(question: Question, probabilities: number[]): Answer {
+    return toAnswer(question, temper(probabilities, this.#options.temperature[question.type]));
   }
 
   /** One model call for the whole sheet; returns the answers it could read. */
   async sheet(questions: SheetQuestion[]): Promise<Map<string, Answer>> {
     const positions = await this.#generate(SHEET_SYSTEM_INSTRUCTION, sheetPrompt(this.#state, questions), sheetMaxTokens(questions.length));
     const distributions = readSheet(positions, questions);
-    return new Map(questions.flatMap((q) => (distributions.has(q.id) ? [[q.id, toAnswer(q.question, distributions.get(q.id)!)] as const] : [])));
+    return new Map(questions.flatMap((q) => (distributions.has(q.id) ? [[q.id, this.#answer(q.question, distributions.get(q.id)!)] as const] : [])));
   }
 
   /** Distribution over options that fit in one prompt, averaged over rotated orderings. */

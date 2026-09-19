@@ -25,6 +25,18 @@ export function backendFromEnv(env: Env = process.env): Backend {
   });
 }
 
+/** GEV_TEMPERATURE: one number for every question type ("2.5"), or per type ("choice=3,score=2,noul=2.5"). */
+function temperatureFromEnv(env: Env): EngineOptions["temperature"] {
+  const temperature = { ...DEFAULT_ENGINE_OPTIONS.temperature };
+  for (const part of (env.GEV_TEMPERATURE ?? "").split(",").filter(Boolean)) {
+    const [type, raw] = part.includes("=") ? part.split("=") : [undefined, part];
+    const value = Number(raw);
+    if (!(value > 0) || (type !== undefined && !(type in temperature))) throw new Error(`GEV_TEMPERATURE must be a positive number or choice=…,score=…,noul=…, got "${env.GEV_TEMPERATURE}"`);
+    for (const key of Object.keys(temperature) as (keyof typeof temperature)[]) if (type === undefined || type === key) temperature[key] = value;
+  }
+  return temperature;
+}
+
 export function engineOptionsFromEnv(env: Env = process.env): EngineOptions {
   const strategy = env.GEV_STRATEGY ?? DEFAULT_ENGINE_OPTIONS.strategy;
   if (strategy !== "isolated" && strategy !== "packed" && strategy !== "scored") throw new Error(`GEV_STRATEGY must be "isolated", "packed" or "scored", got "${strategy}"`);
@@ -34,6 +46,7 @@ export function engineOptionsFromEnv(env: Env = process.env): EngineOptions {
     strategy,
     order,
     wideChoice: env.GEV_WIDE_CHOICE === "1",
+    temperature: temperatureFromEnv(env),
     concurrency: positiveInt(env, "GEV_CONCURRENCY", DEFAULT_ENGINE_OPTIONS.concurrency),
     rotations: positiveInt(env, "GEV_ROTATIONS", DEFAULT_ENGINE_OPTIONS.rotations),
   };

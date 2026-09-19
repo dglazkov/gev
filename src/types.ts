@@ -54,5 +54,12 @@ export type SystemOneResponse = {
   answers: Record<string, Answer>;
   usage: Usage;
   /** Not part of jev's API: how gev produced these answers. */
-  gev?: { strategy: "isolated" | "packed" | "scored"; model_calls: number; repaired: number };
+  gev?: {
+    strategy: "isolated" | "packed" | "scored";
+    model_calls: number;
+    repaired: number;
+    /** Wall time inside gev, and the part of it spent waiting on the model server. */
+    ms: number;
+    model_ms: number;
+  };
 };

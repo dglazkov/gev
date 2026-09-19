@@ -7,7 +7,7 @@ import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
 import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
 import { PROMPT_ORDERS, noulPrompt } from "./prompt.ts";
 import { readSheet } from "./sheet.ts";
-import type { SystemOneRequest } from "./types.ts";
+import type { SystemOneRequest, SystemOneResponse } from "./types.ts";
 
 const near = (actual: number, expected: number, eps = 1e-3) =>
   assert.ok(Math.abs(actual - expected) < eps, `expected ${actual} ≈ ${expected}`);
@@ -60,6 +60,12 @@ class FakeBackend implements Backend {
     return { positions, usage };
   }
 }
+
+/** The `gev` block without its timings, which vary from run to run. */
+const untimed = (gev: SystemOneResponse["gev"]) => {
+  const { ms: _ms, model_ms: _modelMs, ...rest } = gev!;
+  return rest;
+};
 
 const replyLabels = (prompt: string) =>
   prompt.split("\n").find((l) => l.startsWith("Reply with exactly one of: "))!.replace("Reply with exactly one of: ", "").split(", ");
@@ -196,7 +202,8 @@ test("scored: a request is one batched call, plus one per extra tournament round
     const backend = new FakeScoringBackend("option-37");
     const response = await systemOne(backend, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", order });
     assert.deepEqual(backend.batches.map((b) => b.length), [5, 1]); // 3 chunks + noul + score, then the final round
-    assert.deepEqual(response.gev, { strategy: "scored", model_calls: 2, repaired: 0 });
+    assert.deepEqual(untimed(response.gev), { strategy: "scored", model_calls: 2, repaired: 0 });
+    assert.ok(response.gev!.model_ms <= response.gev!.ms);
     const { big, level } = response.answers;
     assert.ok(big?.type === "choice" && level?.type === "score");
     assert.equal(big.choice, "option-37");
@@ -234,14 +241,14 @@ test("packed: one model call answers the whole sheet; oversized choices go alone
   assert.deepEqual(response.answers, isolated.answers);
   assert.deepEqual(Object.keys(response.answers), ["team", "urgent", "anger", "icon"]);
   // One sheet for three questions, plus the 20-icon tournament (2 chunks + 1 final).
-  assert.deepEqual(response.gev, { strategy: "packed", model_calls: 4, repaired: 0 });
+  assert.deepEqual(untimed(response.gev), { strategy: "packed", model_calls: 4, repaired: 0 });
   assert.equal(isolated.gev?.model_calls, 6);
 
   const forgetful = new FakeBackend("technical");
   forgetful.skip.add(2);
   const repaired = await systemOne(forgetful, request, packed);
   assert.deepEqual(repaired.answers, isolated.answers);
-  assert.deepEqual(repaired.gev, { strategy: "packed", model_calls: 5, repaired: 1 });
+  assert.deepEqual(untimed(repaired.gev), { strategy: "packed", model_calls: 5, repaired: 1 });
 });
 
 test("HTTP: auth, CORS, validation, and upstream error mapping", async () => {

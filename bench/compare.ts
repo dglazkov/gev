@@ -110,4 +110,8 @@ await mkdir(new URL("./results/", import.meta.url), { recursive: true });
 const strategy = ok[0]?.response?.gev?.strategy ?? "isolated";
 const calls = ok.map((r) => r.response?.gev?.model_calls ?? NaN);
 console.log(`strategy: ${strategy}   model calls per request: median ${quantile(calls, 0.5)}   repaired answers: ${ok.reduce((n, r) => n + (r.response?.gev?.repaired ?? 0), 0)}`);
+// Where a request's time goes: the network and Cloud Run in front of gev, gev itself, the model server.
+const inGev = ok.map((r) => r.response?.gev?.ms ?? NaN);
+const inModel = ok.map((r) => r.response?.gev?.model_ms ?? NaN);
+console.log(`median ms: client ${quantile(ok.map((r) => r.ms), 0.5)} = outside gev ${quantile(ok.map((r, i) => r.ms - inGev[i]!), 0.5)} + gev's own work ${quantile(inGev.map((ms, i) => ms - inModel[i]!), 0.5)} + waiting on the model server ${quantile(inModel, 0.5)}`);
 await writeFile(new URL(`./results/${suite}.${strategy}.json`, import.meta.url), JSON.stringify(rows, null, 1));

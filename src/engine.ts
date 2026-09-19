@@ -38,6 +38,10 @@ class Run {
   modelCalls = 0;
   /** Sheet questions that had to be asked again on their own. */
   repaired = 0;
+  /** Time with at least one model call in flight. */
+  modelMs = 0;
+  #inFlight = 0;
+  #busySince = 0;
   readonly #backend: Backend;
   readonly #options: EngineOptions;
   readonly #state: Json;
@@ -52,12 +56,22 @@ class Run {
     this.#state = state;
   }
 
+  /** Overlapping calls count once, so this is wall time and not a sum over calls. */
+  async #timed<T>(call: () => Promise<T>): Promise<T> {
+    if (this.#inFlight++ === 0) this.#busySince = performance.now();
+    try {
+      return await call();
+    } finally {
+      if (--this.#inFlight === 0) this.modelMs += performance.now() - this.#busySince;
+    }
+  }
+
   async #generate(system: string, prompt: string, maxTokens: number) {
     // A finishing call hands its slot straight to the next waiter, so #active only moves when no one is queued.
     if (this.#active >= this.#options.concurrency) await new Promise<void>((resolve) => this.#waiting.push(resolve));
     else this.#active++;
     try {
-      const { positions, usage } = await this.#backend.generate(system, prompt, maxTokens);
+      const { positions, usage } = await this.#timed(() => this.#backend.generate(system, prompt, maxTokens));
       this.modelCalls++;
       this.usage.input_tokens += usage.input_tokens;
       this.usage.output_tokens += usage.output_tokens;
@@ -84,7 +98,7 @@ class Run {
     const batch = this.#batch;
     this.#batch = [];
     try {
-      const { tops, usage } = await this.#backend.score!(SYSTEM_INSTRUCTION, batch.map((b) => b.prompt));
+      const { tops, usage } = await this.#timed(() => this.#backend.score!(SYSTEM_INSTRUCTION, batch.map((b) => b.prompt)));
       this.modelCalls++;
       this.usage.input_tokens += usage.input_tokens;
       this.usage.output_tokens += usage.output_tokens;
@@ -213,6 +227,7 @@ async function answerPacked(run: Run, questions: [string, Question][]): Promise<
 
 export async function systemOne(backend: Backend, request: SystemOneRequest, options: EngineOptions = DEFAULT_ENGINE_OPTIONS): Promise<SystemOneResponse> {
   if (options.strategy === "scored" && !backend.score) throw new Error(`The "scored" strategy needs a backend that can score prompts; ${backend.model} cannot`);
+  const started = performance.now();
   const run = new Run(backend, options, request.state);
   const questions = Object.entries(request.questions);
   const entries =
@@ -223,6 +238,6 @@ export async function systemOne(backend: Backend, request: SystemOneRequest, opt
     model: backend.model,
     answers: Object.fromEntries(entries),
     usage: run.usage,
-    gev: { strategy: options.strategy, model_calls: run.modelCalls, repaired: run.repaired },
+    gev: { strategy: options.strategy, model_calls: run.modelCalls, repaired: run.repaired, ms: Math.round(performance.now() - started), model_ms: Math.round(run.modelMs) },
   };
 }

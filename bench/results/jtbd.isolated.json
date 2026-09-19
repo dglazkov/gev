@@ -2,241 +2,241 @@
  {
   "fixture": "001.json",
   "state": "{\"user_request\":\"Why has my electricity usage been so high lately?\"}",
-  "ms": 156,
+  "ms": 178,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "002.json",
   "state": "{\"user_request\":\"Am I going to be surprised by my electricity bill this month?\"}",
-  "ms": 117,
+  "ms": 124,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "003.json",
   "state": "{\"user_request\":\"Book the 7am flight to Denver tomorrow for me\"}",
-  "ms": 59,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "004.json",
   "state": "{\"user_request\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
-  "ms": 80,
+  "ms": 70,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "005.json",
   "state": "{\"user_request\":\"What's good to eat in Seattle?\"}",
-  "ms": 58,
+  "ms": 111,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "006.json",
   "state": "{\"user_request\":\"What happens to my data if I delete my account?\"}",
-  "ms": 60,
+  "ms": 79,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "007.json",
   "state": "{\"user_request\":\"I need a new laptop, what's out there?\"}",
-  "ms": 60,
+  "ms": 84,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "008.json",
   "state": "{\"user_request\":\"Compare the MacBook Air and the Dell XPS 13\"}",
-  "ms": 62,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "009.json",
   "state": "{\"user_request\":\"Where could I fly for a long weekend in October?\"}",
-  "ms": 61,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "010.json",
   "state": "{\"user_request\":\"Delete my account and all of its data\"}",
-  "ms": 61,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "011.json",
   "state": "{\"user_request\":\"How do I make sourdough starter from scratch?\"}",
-  "ms": 64,
+  "ms": 75,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "012.json",
   "state": "{\"user_request\":\"Turn off all notifications except direct messages\"}",
-  "ms": 57,
+  "ms": 77,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "013.json",
   "state": "{\"user_request\":\"My sourdough starter smells like acetone, is it dead?\"}",
-  "ms": 61,
+  "ms": 77,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "014.json",
   "state": "{\"user_request\":\"Show me my notification settings\"}",
-  "ms": 64,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "015.json",
   "state": "{\"user_request\":\"Sign me up for the Saturday pottery workshop\"}",
-  "ms": 61,
+  "ms": 113,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "016.json",
   "state": "{\"user_request\":\"Are there any pottery workshops around here?\"}",
-  "ms": 61,
+  "ms": 75,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "017.json",
   "state": "{\"user_request\":\"Should I see a doctor about this mole?\"}",
-  "ms": 61,
+  "ms": 85,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "018.json",
   "state": "{\"user_request\":\"Where is my package?\"}",
-  "ms": 63,
+  "ms": 75,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "019.json",
   "state": "{\"user_request\":\"Book a dermatologist appointment for next week\"}",
-  "ms": 61,
+  "ms": 81,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "020.json",
   "state": "{\"user_request\":\"I need to return the shoes I ordered\"}",
-  "ms": 58,
+  "ms": 74,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "021.json",
   "state": "{\"user_request\":\"Is The Incredibles okay for a five-year-old?\"}",
-  "ms": 58,
+  "ms": 74,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "022.json",
   "state": "{\"user_request\":\"How much did I spend on eating out last month?\"}",
-  "ms": 60,
+  "ms": 81,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "023.json",
   "state": "{\"user_request\":\"Pick a movie for family night\"}",
-  "ms": 59,
+  "ms": 79,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "024.json",
   "state": "{\"user_request\":\"Send $50 to Alex\"}",
-  "ms": 58,
+  "ms": 72,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "025.json",
   "state": "{\"user_request\":\"Cancel my hotel reservation in Lisbon\"}",
-  "ms": 61,
+  "ms": 80,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "026.json",
   "state": "{\"user_request\":\"Show me my upcoming trips\"}",
-  "ms": 68,
+  "ms": 76,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "027.json",
   "state": "{\"user_request\":\"I got a weird login email. Was my account hacked?\"}",
-  "ms": 65,
+  "ms": 85,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "028.json",
   "state": "{\"user_request\":\"Reset my password\"}",
-  "ms": 62,
+  "ms": 81,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "029.json",
   "state": "{\"user_request\":\"How do I get to the Golden Gate Bridge from Union Square right now?\"}",
-  "ms": 63,
+  "ms": 94,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "030.json",
   "state": "{\"user_request\":\"Tell me about the Golden Gate Bridge\"}",
-  "ms": 58,
+  "ms": 76,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "031.json",
   "state": "{\"user_request\":\"How is my running going this month?\"}",
-  "ms": 60,
+  "ms": 79,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "032.json",
   "state": "{\"user_request\":\"Schedule a 30 minute call with Priya next week\"}",
-  "ms": 56,
+  "ms": 79,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "033.json",
   "state": "{\"user_request\":\"Upgrade me to the annual plan\"}",
-  "ms": 62,
+  "ms": 76,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "034.json",
   "state": "{\"user_request\":\"Which plan is right for a team of five?\"}",
-  "ms": 61,
+  "ms": 73,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "035.json",
   "state": "{\"user_request\":\"Log today's run: 5k in 27 minutes\"}",
-  "ms": 59,
+  "ms": 82,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "036.json",
   "state": "{\"user_request\":\"When is my car due for service?\"}",
-  "ms": 58,
+  "ms": 78,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "037.json",
   "state": "{\"user_request\":\"My car won't start, what do I do?\"}",
-  "ms": 125,
+  "ms": 75,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "038.json",
   "state": "{\"user_request\":\"File a claim for my cracked phone screen\"}",
-  "ms": 59,
+  "ms": 78,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "039.json",
   "state": "{\"user_request\":\"Is a cracked screen covered by my plan?\"}",
-  "ms": 57,
+  "ms": 75,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  },
  {
   "fixture": "040.json",
   "state": "{\"user_request\":\"What's on my calendar tomorrow?\"}",
-  "ms": 58,
+  "ms": 81,
   "error": "502 {\"error\":{\"type\":\"upstream_error\",\"message\":\"Model backend request failed\"}}"
  }
 ]

@@ -105,7 +105,10 @@ class Run {
     });
   }
 
-  /** One call per logprobs width, sent together: the model server still runs them as one batch. */
+  /**
+   * One call per logprobs width, sent together. A single call read as wide as its widest prompt was
+   * measured far slower (plan suite: 308 ms against 176): vLLM's cost of wide logprobs is per prompt.
+   */
   #flush() {
     const widths = new Set(this.#batch.map((b) => b.top));
     for (const top of widths) void this.#send(this.#batch.filter((b) => b.top === top), top);

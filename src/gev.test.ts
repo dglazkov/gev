@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createApp } from "./app.ts";
 import { type Backend, type Generation, type Position, type Scores, UpstreamError } from "./backends/backend.ts";
-import { answerPositions, gemmaPrompt } from "./backends/vllm.ts";
+import { answerPositions, chatFrame, framed } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
 import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
 import { PROMPT_ORDERS, noulPrompt } from "./prompt.ts";
@@ -210,7 +210,9 @@ test("prompt orders move the STATE later so more of the prompt is the same on ev
   assert.ok(prompt("state-first").startsWith("STATE:\nthe state"));
   assert.ok(prompt("question-first").endsWith("STATE:\nthe state\n\nReply with exactly one of: yes, no"));
   assert.ok(prompt("state-last").endsWith("Reply with exactly one of: yes, no\n\nSTATE:\nthe state"));
-  assert.equal(gemmaPrompt(" sys ", "user\n"), "<|turn>system\nsys<turn|>\n<|turn>user\nuser<turn|>\n<|turn>model\n<|channel>thought\n<channel|>");
+  const frame = chatFrame("<bos><|turn>system\nGEVSYSTEMMARK <turn|>\n<|turn>user\nGEVUSERMARK<turn|>\n<|turn>model\n");
+  assert.equal(framed(frame, " sys ", "user\n"), "<bos><|turn>system\nsys <turn|>\n<|turn>user\nuser<turn|>\n<|turn>model\n");
+  assert.throws(() => chatFrame("no marks here"), /marks/);
 });
 
 test("packed: one model call answers the whole sheet; oversized choices go alone; skipped lines are repaired", async () => {

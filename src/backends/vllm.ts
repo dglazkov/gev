@@ -29,20 +29,31 @@ export function answerPositions(positions: WirePosition[]): Position[] {
   }));
 }
 
-/**
- * What Gemma 4's chat template renders for a system and a user message with thinking disabled,
- * up to and including the empty thought channel, so that the next token is the answer itself.
- * vLLM's completions endpoint adds the leading <bos>.
- */
-export function gemmaPrompt(system: string, prompt: string): string {
-  return `<|turn>system\n${system.trim()}<turn|>\n<|turn>user\n${prompt.trim()}<turn|>\n<|turn>model\n<|channel>thought\n<channel|>`;
+// Stand-ins for the two messages when asking the server what its chat template renders around them.
+const SYSTEM_MARK = "GEVSYSTEMMARK";
+const USER_MARK = "GEVUSERMARK";
+
+/** The text a chat template puts before the system message, between it and the user message, and after. */
+export type ChatFrame = [head: string, middle: string, tail: string];
+
+/** Splits a rendering of the two marks into the frame around them. */
+export function chatFrame(rendered: string): ChatFrame {
+  const [head, rest] = rendered.split(SYSTEM_MARK);
+  const [middle, tail] = (rest ?? "").split(USER_MARK);
+  if (head === undefined || middle === undefined || tail === undefined) throw new Error(`Could not find the marks in the rendered chat template: ${rendered.slice(0, 200)}`);
+  return [head, middle, tail];
 }
+
+/** The template trims both messages, so the frame must meet trimmed text to render the same tokens. */
+export const framed = ([head, middle, tail]: ChatFrame, system: string, prompt: string) => `${head}${system.trim()}${middle}${prompt.trim()}${tail}`;
 
 /** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */
 export class VllmBackend implements Backend {
   readonly model: string;
   readonly #options: VllmOptions;
   readonly #auth = new GoogleAuth();
+  #frame: Promise<ChatFrame> | undefined;
+  #idTokenClient: ReturnType<GoogleAuth["getIdTokenClient"]> | undefined;
 
   constructor(options: VllmOptions) {
     this.#options = { ...options, baseUrl: options.baseUrl.replace(/\/+$/, "") };
@@ -51,8 +62,10 @@ export class VllmBackend implements Backend {
 
   async #headers(): Promise<Record<string, string>> {
     if (this.#options.gcpIdToken) {
-      const client = await this.#auth.getIdTokenClient(new URL(this.#options.baseUrl).origin);
-      return Object.fromEntries(await client.getRequestHeaders());
+      // One client for the life of the process: it keeps its token until shortly before expiry,
+      // where a new client would go back to the metadata server on every model call.
+      this.#idTokenClient ??= this.#auth.getIdTokenClient(new URL(this.#options.baseUrl).origin);
+      return Object.fromEntries(await (await this.#idTokenClient).getRequestHeaders());
     }
     return this.#options.apiKey ? { authorization: `Bearer ${this.#options.apiKey}` } : {};
   }
@@ -79,12 +92,37 @@ export class VllmBackend implements Backend {
     };
   }
 
+  /**
+   * The server's own rendering of its chat template, asked for once. Gemma 4 templates differ
+   * between models and revisions (a trailing space after the system text, whether the empty thought
+   * channel is part of the generation prompt), and a prompt that is off by one token answers "The".
+   */
+  #chatFrame(): Promise<ChatFrame> {
+    return (this.#frame ??= (async () => {
+      const root = this.#options.baseUrl.replace(/\/v1$/, "");
+      const { tokens } = await postJson(`${root}/tokenize`, await this.#headers(), {
+        model: this.#options.model,
+        messages: [
+          { role: "system", content: SYSTEM_MARK },
+          { role: "user", content: USER_MARK },
+        ],
+        add_generation_prompt: true,
+        chat_template_kwargs: { enable_thinking: false },
+      });
+      const { prompt } = await postJson(`${root}/detokenize`, await this.#headers(), { model: this.#options.model, tokens });
+      return chatFrame(prompt);
+    })());
+  }
+
   async score(system: string, prompts: string[]): Promise<Scores> {
+    const frame = await this.#chatFrame();
     // The raw completions endpoint takes all the prompts in one request and schedules them as one
     // batch. Chat completions would need a request per prompt and re-render the template each time.
     const data = await postJson(`${this.#options.baseUrl}/completions`, await this.#headers(), {
       model: this.#options.model,
-      prompt: prompts.map((prompt) => gemmaPrompt(system, prompt)),
+      prompt: prompts.map((prompt) => framed(frame, system, prompt)),
+      // The frame already starts with <bos>.
+      add_special_tokens: false,
       temperature: 0,
       max_tokens: 1,
       logprobs: TOP_LOGPROBS,

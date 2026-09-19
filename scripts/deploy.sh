@@ -11,7 +11,10 @@ SERVICE="${SERVICE:-gev}"
 MODEL_SERVICE="${MODEL_SERVICE:-gev-model}"
 MODEL="${MODEL:-google/diffusiongemma-26B-A4B-it}"
 SA="${SERVICE}-runtime@${PROJECT}.iam.gserviceaccount.com"
-SECRET="${SERVICE}-api-keys"
+# An experimental copy of the API can share the main one's keys: SECRET=gev-api-keys SERVICE=gev-scored …
+SECRET="${SECRET:-${SERVICE}-api-keys}"
+# Comma-separated extra settings, e.g. EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last
+EXTRA_ENV="${EXTRA_ENV:-}"
 
 MODEL_URL="$(gcloud run services describe "$MODEL_SERVICE" --project "$PROJECT" --region "$REGION" --format 'value(status.url)' 2>/dev/null || true)"
 if [[ -z "$MODEL_URL" ]]; then
@@ -44,7 +47,7 @@ gcloud secrets add-iam-policy-binding "$SECRET" --project "$PROJECT" --member "s
 gcloud run deploy "$SERVICE" --source . --project "$PROJECT" --region "$REGION" \
   --service-account "$SA" --allow-unauthenticated \
   --cpu 1 --memory 512Mi --concurrency 80 --max-instances 10 --timeout 900 \
-  --set-env-vars "GEV_MODEL_URL=${MODEL_URL}/v1,GEV_MODEL=${MODEL},GEV_MODEL_GCP_AUTH=1" \
+  --set-env-vars "GEV_MODEL_URL=${MODEL_URL}/v1,GEV_MODEL=${MODEL},GEV_MODEL_GCP_AUTH=1${EXTRA_ENV:+,${EXTRA_ENV}}" \
   --set-secrets "GEV_API_KEYS=${SECRET}:latest"
 
 echo "Deployed: $(gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGION" --format 'value(status.url)')"

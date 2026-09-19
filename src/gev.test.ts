@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createApp } from "./app.ts";
 import { type Backend, type FirstTokenResult, UpstreamError } from "./backends/backend.ts";
+import { answerPosition } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
 import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
 
@@ -56,6 +57,15 @@ test("labelDistribution pools token variants, drops off-script tokens, floors un
 
 test("labelDistribution is uniform when the backend returns nothing", () => {
   assert.deepEqual(labelDistribution([], ["yes", "no"]), [0.5, 0.5]);
+});
+
+test("answerPosition skips Gemma's empty thought channel", () => {
+  const at = (token: string) => ({ token, top_logprobs: [{ token, logprob: 0 }] });
+  // As observed from DiffusionGemma with thinking disabled.
+  assert.equal(answerPosition(["<|channel>", "thought", "\n", "<channel|>", "A", "<turn|>"].map(at))?.token, "A");
+  assert.equal(answerPosition(["B", "<turn|>"].map(at))?.token, "B");
+  assert.equal(answerPosition(["<|channel>", "thought"].map(at)), undefined);
+  assert.equal(answerPosition([]), undefined);
 });
 
 test("confidence and expectedLevel", () => {

@@ -10,6 +10,23 @@ export type VllmOptions = {
   gcpIdToken?: boolean;
 };
 
+type Position = { token: string; top_logprobs: { token: string; logprob: number }[] };
+
+// Even with thinking disabled, Gemma 4 models open with an empty thought channel
+// ("<|channel>thought\n<channel|>") before the answer, so the label is not the first token.
+const ANSWER_WINDOW = 8;
+
+/** The first generated position outside a <|channel>…<channel|> block: where the answer label is. */
+export function answerPosition(positions: Position[]): Position | undefined {
+  let inChannel = false;
+  for (const position of positions) {
+    if (position.token === "<|channel>") inChannel = true;
+    else if (position.token === "<channel|>") inChannel = false;
+    else if (!inChannel) return position;
+  }
+  return undefined;
+}
+
 /** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */
 export class VllmBackend implements Backend {
   readonly model: string;
@@ -37,13 +54,12 @@ export class VllmBackend implements Backend {
         { role: "user", content: prompt },
       ],
       temperature: 0,
-      max_tokens: 1,
+      max_tokens: ANSWER_WINDOW,
       logprobs: true,
       top_logprobs: TOP_LOGPROBS,
-      // The first token must be the answer label, not the start of a reasoning trace.
       chat_template_kwargs: { enable_thinking: false },
     });
-    const top = data.choices?.[0]?.logprobs?.content?.[0]?.top_logprobs ?? [];
+    const top = answerPosition(data.choices?.[0]?.logprobs?.content ?? [])?.top_logprobs ?? [];
     return {
       top: top.map((c: { token: string; logprob: number }) => ({ token: c.token, logprob: c.logprob })),
       usage: {

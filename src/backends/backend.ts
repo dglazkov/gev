@@ -5,7 +5,7 @@ export const TOP_LOGPROBS = 20;
 
 export type FirstTokenResult = { top: TokenLogprob[]; usage: Usage };
 
-/** A language model that can report the top-k logprobs of the first token it would generate. */
+/** A language model that can report the top-k logprobs of the first token of its answer. */
 export interface Backend {
   /** Reported in the response `model` field. */
   readonly model: string;

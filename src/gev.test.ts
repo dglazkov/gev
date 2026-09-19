@@ -21,18 +21,18 @@ class FakeBackend implements Backend {
   readonly prompts: string[] = [];
   /** Sheet question numbers to leave off the reply, as a model that loses its place would. */
   skip = new Set<number>();
-  readonly #favorite: string;
+  protected readonly favorite: string;
   readonly #p: number;
   inflight = 0;
   peak = 0;
 
   constructor(favorite: string, p = 0.9) {
-    this.#favorite = favorite;
+    this.favorite = favorite;
     this.#p = p;
   }
 
   #position(labels: string[], block: string): Position {
-    const line = block.split("\n").find((l) => /^\w+: /.test(l) && l.includes(this.#favorite));
+    const line = block.split("\n").find((l) => /^\w+: /.test(l) && l.includes(this.favorite));
     const favorite = line?.split(":")[0] ?? labels[0]!;
     const rest = (1 - this.#p) / (labels.length - 1);
     return { token: ` ${favorite}`, top: labels.map((label) => ({ token: ` ${label}`, logprob: Math.log(label === favorite ? this.#p : rest) })) };
@@ -75,13 +75,21 @@ class FakeScoringBackend extends FakeBackend {
   readonly batches: string[][] = [];
   readonly tops: (number | undefined)[] = [];
 
-  async wideLabels(count: number): Promise<string[]> {
-    return Array.from({ length: count }, (_, i) => `L${i}`);
+  /** A tokenizer that splits after the first digit: "option-37" starts with "option-3", as do nine others. */
+  async firstTokens(strings: string[]): Promise<string[]> {
+    return strings.map((s) => /^\D*\d?/.exec(s)![0]);
   }
 
   async score(system: string, prompts: string[], top?: number): Promise<Scores> {
     this.batches.push(prompts);
     this.tops.push(top);
+    if (prompts[0]!.includes("copied exactly")) {
+      // Answering by name: all the mass that isn't on the favorite's first token goes to some other name's.
+      const names = prompts[0]!.split("ANSWERS:\n")[1]!.split("\n\n")[0]!.split("\n");
+      const firsts = [...new Set(await this.firstTokens(names))];
+      const favorite = (await this.firstTokens([names.find((n) => n.includes(this.favorite))!]))[0]!;
+      return { tops: [firsts.map((token) => ({ token, logprob: Math.log(token === favorite ? 0.9 : 0.1 / (firsts.length - 1)) }))], usage: { input_tokens: 10, output_tokens: 1 } };
+    }
     const generations = await Promise.all(prompts.map((prompt) => this.generate(system, prompt)));
     return { tops: generations.map((g) => g.positions[0]!.top), usage: { input_tokens: 10 * prompts.length, output_tokens: prompts.length } };
   }
@@ -217,12 +225,15 @@ test("scored: a request is one batched call, plus one per extra tournament round
   }
   await assert.rejects(systemOne(new FakeBackend("x"), request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" }), /cannot/);
 
-  // With wide labels the big choice is one prompt in the same moment as the rest: no second round.
+  // Answered by name, the big choice is one prompt, plus a lettered one for each of the four sets of
+  // ten names that share a first token, in the same moment as the rest: no second round.
   const wide = new FakeScoringBackend("option-37");
   const response = await systemOne(wide, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", wideChoice: true });
-  assert.deepEqual(wide.batches.map((b) => b.length).sort(), [1, 2]);
-  assert.deepEqual(wide.tops.sort(), [80, undefined]);
-  assert.ok(response.answers.big?.type === "choice" && response.answers.big.choice === "option-37");
+  assert.deepEqual(wide.batches.map((b) => b.length).sort(), [1, 6]);
+  assert.deepEqual(wide.tops.sort(), [4 + 40, undefined]);
+  const big = response.answers.big;
+  assert.ok(big?.type === "choice" && big.choice === "option-37");
+  near(big.probabilities["option-37"]!, 0.9 * 0.9, 0.01);
 });
 
 test("prompt orders move the STATE later so more of the prompt is the same on every request", () => {

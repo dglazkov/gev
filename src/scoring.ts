@@ -8,6 +8,9 @@ function normalizeToken(token: string): string {
   return token.replace(/^[\s▁Ġ]+/, "").trim().toLowerCase();
 }
 
+/** The form in which labelDistribution compares tokens; labels built from tokens should use it too. */
+export const tokenKey = normalizeToken;
+
 /**
  * Collapse the top-k candidates for the first generated token into a normalized
  * distribution over `labels`. Tokens that aren't labels are discarded (that mass

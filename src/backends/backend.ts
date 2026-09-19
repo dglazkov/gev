@@ -24,11 +24,11 @@ export interface Backend {
    */
   score?(system: string, prompts: string[], top?: number): Promise<Scores>;
   /**
-   * At least `count` distinct labels that are each a single token for this model, for a choice with
-   * more options than there are letters. Reading them needs `score` with `top` well above `count`,
-   * which the model server must allow (vLLM: --max-logprobs).
+   * The first token of each string as the model would write it at the start of its answer. Lets a
+   * choice be answered by option name and read from the first token alone. Reading many names needs
+   * `score` with a large `top`, which the model server must allow (vLLM: --max-logprobs).
    */
-  wideLabels?(count: number): Promise<string[]>;
+  firstTokens?(strings: string[]): Promise<string[]>;
 }
 
 export class UpstreamError extends Error {

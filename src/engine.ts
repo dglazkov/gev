@@ -1,6 +1,6 @@
 import type { Backend } from "./backends/backend.ts";
-import { CHOICE_LABELS, NOUL_LABELS, type PromptOrder, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
-import { type TokenLogprob, argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
+import { CHOICE_LABELS, NOUL_LABELS, type PromptOrder, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, namedChoicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
+import { type TokenLogprob, tokenKey, argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
 import { SHEET_SIZE, SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, readSheet, sheetLabels, sheetMaxTokens, sheetPrompt } from "./sheet.ts";
 import type { Answer, ChoiceQuestion, Json, Question, ScoreQuestion, SystemOneRequest, SystemOneResponse, Usage } from "./types.ts";
 
@@ -25,15 +25,15 @@ export type EngineOptions = {
   /** Where the STATE goes in an isolated prompt; see PromptOrder. */
   order: PromptOrder;
   /**
-   * With "scored": ask a choice that has more options than letters in one prompt, under single-token
-   * labels from the backend, instead of as a tournament, which costs a second model call.
+   * With "scored": ask a choice that has more options than letters by name, in one prompt, and read
+   * the first token of the name, instead of as a tournament, which costs a second model call.
    */
   wideChoice: boolean;
 };
 
 export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first", wideChoice: false };
 
-// How far past the option count to read, so that a few off-script tokens don't push labels out of view.
+// How far past the number of names to read, so that a few off-script tokens don't push names out of view.
 const WIDE_MARGIN = 40;
 
 // Room for the label plus the end-of-turn token.
@@ -166,16 +166,32 @@ class Run {
   }
 
   /**
+   * The model answers with the option's name and only the first token is read. Names that start
+   * with the same token ("shopping_cart", "shopping_bag") share that token's probability, split by
+   * a lettered question among just those names. Everything goes out in the same batch.
+   */
+  async #rankByName(instructions: Json, options: Option[]): Promise<number[]> {
+    const firsts = (await this.#backend.firstTokens!(options.map(([name]) => name))).map(tokenKey);
+    const groups = new Map<string, number[]>();
+    firsts.forEach((first, i) => groups.set(first, [...(groups.get(first) ?? []), i]));
+    const keys = [...groups.keys()];
+    const [byGroup, ...within] = await Promise.all([
+      this.#ask(namedChoicePrompt(this.#state, instructions, options, this.#options.order), keys, keys.length + WIDE_MARGIN),
+      ...keys.map((key) => (groups.get(key)!.length > 1 ? this.#rank(instructions, groups.get(key)!.map((i) => options[i]!)) : [1])),
+    ]);
+    const probabilities = options.map(() => 0);
+    keys.forEach((key, g) => groups.get(key)!.forEach((i, m) => (probabilities[i] = byGroup![g]! * within[g]![m]!)));
+    return normalize(probabilities);
+  }
+
+  /**
    * More options than labels: rank each chunk, then rank the chunk winners against
    * each other. A non-winner keeps its within-chunk ratio to its chunk's winner.
    */
   async #rank(instructions: Json, options: Option[]): Promise<number[]> {
     const size = CHOICE_LABELS.length;
     if (options.length <= size) return this.#rankOnce(instructions, options);
-    if (this.#options.wideChoice && this.#options.strategy === "scored" && this.#backend.wideLabels) {
-      const labels = await this.#backend.wideLabels(options.length);
-      return this.#ask(choicePrompt(this.#state, instructions, options, this.#options.order, labels), labels, options.length + WIDE_MARGIN);
-    }
+    if (this.#options.wideChoice && this.#options.strategy === "scored" && this.#backend.firstTokens) return this.#rankByName(instructions, options);
     const chunks: Option[][] = [];
     for (let i = 0; i < options.length; i += size) chunks.push(options.slice(i, i + size));
     const within = await Promise.all(chunks.map((chunk) => (chunk.length > 1 ? this.#rankOnce(instructions, chunk) : [1])));

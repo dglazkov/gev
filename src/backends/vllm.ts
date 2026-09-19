@@ -54,7 +54,7 @@ export class VllmBackend implements Backend {
   readonly #auth = new GoogleAuth();
   #frame: Promise<ChatFrame> | undefined;
   #idTokenClient: ReturnType<GoogleAuth["getIdTokenClient"]> | undefined;
-  #wideLabels: Promise<string[]> | undefined;
+  readonly #firstTokens = new Map<string, Promise<string[]>>();
 
   constructor(options: VllmOptions) {
     this.#options = { ...options, baseUrl: options.baseUrl.replace(/\/+$/, "") };
@@ -118,30 +118,33 @@ export class VllmBackend implements Backend {
     return this.#frame;
   }
 
-  /**
-   * Pairs of capital consonants that the tokenizer keeps whole, found with one /tokenize call. No
-   * vowels, so that no label is a word ("NO", "IT") the model might say for its own reasons.
-   */
-  wideLabels(count: number): Promise<string[]> {
-    this.#wideLabels ??= (async () => {
-      const letters = "BCDFGHJKLMNPQRSTVWXZ".split("");
-      const candidates = letters.flatMap((a) => letters.map((b) => a + b));
-      const root = this.#options.baseUrl.replace(/\/v1$/, "");
-      const { token_strs } = await postJson(`${root}/tokenize`, await this.#headers(), {
-        model: this.#options.model,
-        prompt: candidates.join("\n"),
-        add_special_tokens: false,
-        return_token_strs: true,
-      });
-      // A candidate that survived as one token shows up as itself between two newline tokens.
-      const whole = new Set((token_strs as string[]).filter((t, i, all) => all[i - 1] === "\n" && (all[i + 1] ?? "\n") === "\n"));
-      return candidates.filter((c) => whole.has(c));
-    })();
-    this.#wideLabels.catch(() => (this.#wideLabels = undefined));
-    return this.#wideLabels.then((labels) => {
-      if (labels.length < count) throw new Error(`Only ${labels.length} single-token labels found, ${count} needed`);
-      return labels.slice(0, count);
-    });
+  /** One /tokenize call for the whole list, remembered: an app asks about the same options every time. */
+  firstTokens(strings: string[]): Promise<string[]> {
+    const key = strings.join("\n");
+    let found = this.#firstTokens.get(key);
+    if (!found) {
+      found = (async () => {
+        const root = this.#options.baseUrl.replace(/\/v1$/, "");
+        const { token_strs } = await postJson(`${root}/tokenize`, await this.#headers(), {
+          model: this.#options.model,
+          prompt: key,
+          add_special_tokens: false,
+          return_token_strs: true,
+        });
+        // The first token of each line. A newline can share a token with what precedes it, never with what follows.
+        const firsts: string[] = [];
+        let atStart = true;
+        for (const token of token_strs as string[]) {
+          if (atStart && token.trim() !== "") firsts.push(token);
+          atStart = token.endsWith("\n");
+        }
+        if (firsts.length !== strings.length) throw new Error(`Expected ${strings.length} first tokens, found ${firsts.length}`);
+        return firsts;
+      })();
+      this.#firstTokens.set(key, found);
+      found.catch(() => this.#firstTokens.delete(key));
+    }
+    return found;
   }
 
   async score(system: string, prompts: string[], top = TOP_LOGPROBS): Promise<Scores> {

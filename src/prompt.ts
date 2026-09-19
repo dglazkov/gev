@@ -40,19 +40,20 @@ function frame(state: Json, body: string[], reply: string, order: PromptOrder): 
   }
 }
 
-export function choicePrompt(
-  state: Json,
-  instructions: Json,
-  options: [name: string, description: string | null][],
-  order: PromptOrder = "state-first",
-  labels: string[] = CHOICE_LABELS.slice(0, options.length),
-): string {
+export function choicePrompt(state: Json, instructions: Json, options: [name: string, description: string | null][], order: PromptOrder = "state-first"): string {
+  const labels = CHOICE_LABELS.slice(0, options.length);
   const body = [
     `QUESTION: ${render(instructions)}`,
     "ANSWERS:",
     ...options.map(([name, description], i) => `${labels[i]}: ${name}${description ? ` (${description})` : ""}`),
   ];
   return frame(state, body, `Reply with exactly one of: ${labels.join(", ")}`, order);
+}
+
+/** A choice answered with the option's own name instead of a letter, for option lists too long to letter. */
+export function namedChoicePrompt(state: Json, instructions: Json, options: [name: string, description: string | null][], order: PromptOrder = "state-first"): string {
+  const body = [`QUESTION: ${render(instructions)}`, "ANSWERS:", ...options.map(([name, description]) => `${name}${description ? ` (${description})` : ""}`)];
+  return frame(state, body, "Reply with exactly one of the ANSWERS, copied exactly, and nothing else.", order);
 }
 
 export function scorePrompt(state: Json, instructions: Json, levels: string[], order: PromptOrder = "state-first"): string {

@@ -1,5 +1,5 @@
 import { GoogleAuth } from "google-auth-library";
-import { type Backend, type Generation, type Position, TOP_LOGPROBS, postJson } from "./backend.ts";
+import { type Backend, type Generation, type Position, type Scores, TOP_LOGPROBS, postJson } from "./backend.ts";
 
 export type VllmOptions = {
   /** e.g. https://gev-model-xyz.a.run.app/v1 */
@@ -27,6 +27,15 @@ export function answerPositions(positions: WirePosition[]): Position[] {
     token: position.token,
     top: position.top_logprobs.map((c) => ({ token: c.token, logprob: c.logprob })),
   }));
+}
+
+/**
+ * What Gemma 4's chat template renders for a system and a user message with thinking disabled,
+ * up to and including the empty thought channel, so that the next token is the answer itself.
+ * vLLM's completions endpoint adds the leading <bos>.
+ */
+export function gemmaPrompt(system: string, prompt: string): string {
+  return `<|turn>system\n${system.trim()}<turn|>\n<|turn>user\n${prompt.trim()}<turn|>\n<|turn>model\n<|channel>thought\n<channel|>`;
 }
 
 /** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */
@@ -68,5 +77,23 @@ export class VllmBackend implements Backend {
         output_tokens: data.usage?.completion_tokens ?? 0,
       },
     };
+  }
+
+  async score(system: string, prompts: string[]): Promise<Scores> {
+    // The raw completions endpoint takes all the prompts in one request and schedules them as one
+    // batch. Chat completions would need a request per prompt and re-render the template each time.
+    const data = await postJson(`${this.#options.baseUrl}/completions`, await this.#headers(), {
+      model: this.#options.model,
+      prompt: prompts.map((prompt) => gemmaPrompt(system, prompt)),
+      temperature: 0,
+      max_tokens: 1,
+      logprobs: TOP_LOGPROBS,
+    });
+    const tops: Scores["tops"] = prompts.map(() => []);
+    for (const choice of data.choices ?? []) {
+      const top: Record<string, number> = choice.logprobs?.top_logprobs?.[0] ?? {};
+      tops[choice.index] = Object.entries(top).map(([token, logprob]) => ({ token, logprob }));
+    }
+    return { tops, usage: { input_tokens: data.usage?.prompt_tokens ?? 0, output_tokens: data.usage?.completion_tokens ?? 0 } };
   }
 }

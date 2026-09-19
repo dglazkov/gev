@@ -8,12 +8,21 @@ export type Position = { token: string; top: TokenLogprob[] };
 
 export type Generation = { positions: Position[]; usage: Usage };
 
+/** `tops[i]` belongs to `prompts[i]`. */
+export type Scores = { tops: TokenLogprob[][]; usage: Usage };
+
 /** A language model that reports top-k logprobs for every token of its answer. */
 export interface Backend {
   /** Reported in the response `model` field. */
   readonly model: string;
   /** Greedy generation of up to `maxTokens` answer tokens (any reasoning preamble excluded). */
   generate(system: string, prompt: string, maxTokens: number): Promise<Generation>;
+  /**
+   * The top-k candidates for the first answer token of every prompt, in one batched model call
+   * and without generating anything further. Only an autoregressive model can do this: one forward
+   * pass over a prompt already yields the distribution of the token that follows it.
+   */
+  score?(system: string, prompts: string[]): Promise<Scores>;
 }
 
 export class UpstreamError extends Error {

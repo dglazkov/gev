@@ -1,19 +1,24 @@
-// Talks to the model server directly (not through gev) to answer three questions about it:
+// Talks to the model server directly (not through gev) to answer four questions about it:
 //
+//   score        (autoregressive models) the "scored" strategy in each prompt order: label accuracy
+//                on the suite's hand labels, client time, and what vLLM computed versus cached
 //   latency      where a packed request's time goes, from vLLM's own timers: prefill vs denoising
 //                steps vs cache hits, next to the client-observed time
 //   overrides    whether per-request diffusion step/entropy overrides take effect
 //   concurrency  whether concurrent logprobs requests fail (vLLM #57414)
 //
 //   MODEL_URL=https://gev-model-….run.app TOKEN=$(gcloud auth print-identity-token) \
-//     node bench/model-probe.ts latency|overrides|concurrency [suite=jtbd]
+//     node bench/model-probe.ts latency|overrides|concurrency|score [suite=jtbd]
 //
 // The model server is private, so TOKEN is a Google identity token of an account with run.invoker.
 // A cold model server takes ~18 minutes to answer its first request; wait for /health first.
 
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
+import { VllmBackend } from "../src/backends/vllm.ts";
+import { DEFAULT_ENGINE_OPTIONS, systemOne } from "../src/engine.ts";
+import { PROMPT_ORDERS } from "../src/prompt.ts";
 import { SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, sheetLabels, sheetMaxTokens, sheetPrompt } from "../src/sheet.ts";
-import type { Question, SystemOneRequest } from "../src/types.ts";
+import type { Answer, Question, SystemOneRequest, SystemOneResponse } from "../src/types.ts";
 
 const [mode = "latency", suite = "jtbd"] = process.argv.slice(2);
 const { MODEL_URL, TOKEN, MODEL = "google/diffusiongemma-26B-A4B-it" } = process.env;
@@ -133,6 +138,67 @@ if (mode === "latency") {
     const failed = results.filter((r) => r.status !== 200);
     console.log(`${n} concurrent: ${failed.length} failed${failed[0] ? ` (HTTP ${failed[0].status} ${failed[0].error})` : ""}, ${Math.round(performance.now() - started)} ms`);
   }
+} else if (mode === "score") {
+  type Fixture = { request: SystemOneRequest; jev: { ms: number; response: SystemOneResponse } };
+  type Labels = Record<string, Record<string, string | boolean>>;
+  const dir = new URL(`./fixtures/${suite}/`, import.meta.url);
+  const fixtures: Fixture[] = await Promise.all((await readdir(dir)).filter((n) => n.endsWith(".json")).sort().map(async (n) => JSON.parse(await readFile(new URL(n, dir), "utf8"))));
+  const labels: Labels = await readFile(new URL(`./labels/${suite}.json`, import.meta.url), "utf8").then(JSON.parse, () => ({}));
+  const backend = new VllmBackend({ baseUrl: `${MODEL_URL}/v1`, model: MODEL, apiKey: TOKEN });
+  const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[xs.length >> 1] ?? NaN;
+  const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);
+
+  /** Hand labels are choice names, except highStakes, which jev2ui derives as stakes.score >= 1.5. */
+  const grade = (answers: Record<string, Answer>[]) => {
+    const right: Record<string, number> = {};
+    const confidence = { right: [] as number[], wrong: [] as number[] };
+    let certain = 0;
+    let choices = 0;
+    answers.forEach((a, i) => {
+      const state = fixtures[i]!.request.state as { user_request?: string };
+      for (const [key, want] of Object.entries(labels[state.user_request ?? ""] ?? {})) {
+        const got = key === "highStakes" ? a.stakes : a[key];
+        right[key] ??= 0;
+        if (got?.type === "score") right[key] += Number(got.score >= 1.5 === want);
+        if (got?.type !== "choice") continue;
+        right[key] += Number(got.choice === want);
+        confidence[got.choice === want ? "right" : "wrong"].push(got.confidence);
+        certain += Number(Math.max(...Object.values(got.probabilities)) > 0.99);
+        choices++;
+      }
+    });
+    const tally = Object.entries(right).map(([key, n]) => `${key} ${n}/${answers.length}`).join("  ");
+    return `${tally}   confidence right/wrong ${mean(confidence.right).toFixed(2)}/${mean(confidence.wrong).toFixed(2)}   top choice > 0.99: ${Math.round((100 * certain) / Math.max(1, choices))}%`;
+  };
+
+  console.log(`jev (recorded): median ${median(fixtures.map((f) => f.jev.ms))} ms   ${grade(fixtures.map((f) => f.jev.response.answers))}`);
+  for (const order of PROMPT_ORDERS) {
+    const options = { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" as const, order };
+    // Twice through the first requests: once to compile and warm up, once to fill the prefix cache
+    // with this order's question text, as a server that has seen the app before would have.
+    for (const f of [...fixtures.slice(0, 3), ...fixtures.slice(0, 3)]) await systemOne(backend, f.request, options);
+    const before = await counters();
+    const clientMs: number[] = [];
+    const answers: Record<string, Answer>[] = [];
+    let calls = 0;
+    for (const f of fixtures) {
+      const started = performance.now();
+      const response = await systemOne(backend, f.request, options);
+      clientMs.push(performance.now() - started);
+      answers.push(response.answers);
+      calls += response.gev?.model_calls ?? 0;
+    }
+    const after = await counters();
+    const d = (k: keyof Counters) => after[k] - before[k];
+    // vLLM counts every prompt of a batch as a request. The prompts of a batch run together, so
+    // the mean per-prompt time is about what the batch took.
+    const perPrompt = (k: keyof Counters) => ((1000 * d(k)) / Math.max(1, d("requests"))).toFixed(0);
+    console.log(`\n${order}`);
+    console.log(`  ${grade(answers)}`);
+    console.log(`  client: median ${Math.round(median(clientMs))} ms (min ${Math.round(Math.min(...clientMs))}, max ${Math.round(Math.max(...clientMs))})   model calls per request ${(calls / fixtures.length).toFixed(1)}`);
+    console.log(`  server per prompt: e2e ${perPrompt("e2e")} ms = queue ${perPrompt("queue")} + prefill ${perPrompt("prefill")} + decode ${perPrompt("decode")}`);
+    console.log(`  per request: ${(d("requests") / fixtures.length).toFixed(1)} prompts, ${(d("promptTokens") / fixtures.length).toFixed(0)} prompt tokens, prefix-cache hit ${((100 * d("cacheHits")) / Math.max(1, d("cacheQueries"))).toFixed(0)}%`);
+  }
 } else {
-  throw new Error(`unknown mode "${mode}" (expected latency, overrides, or concurrency)`);
+  throw new Error(`unknown mode "${mode}" (expected latency, overrides, concurrency, or score)`);
 }

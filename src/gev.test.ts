@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createApp } from "./app.ts";
-import { type Backend, type Generation, type Position, UpstreamError } from "./backends/backend.ts";
-import { answerPositions } from "./backends/vllm.ts";
+import { type Backend, type Generation, type Position, type Scores, UpstreamError } from "./backends/backend.ts";
+import { answerPositions, gemmaPrompt } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
 import { confidence, expectedLevel, labelDistribution } from "./scoring.ts";
+import { PROMPT_ORDERS, noulPrompt } from "./prompt.ts";
 import { readSheet } from "./sheet.ts";
 import type { SystemOneRequest } from "./types.ts";
 
@@ -46,8 +47,7 @@ class FakeBackend implements Backend {
     const plain = (token: string): Position => ({ token, top: [{ token, logprob: 0 }] });
 
     if (!prompt.includes("\nQUESTIONS:\n")) {
-      const labels = prompt.split("\n").at(-1)!.replace("Reply with exactly one of: ", "").split(", ");
-      return { positions: [this.#position(labels, prompt)], usage };
+      return { positions: [this.#position(replyLabels(prompt), prompt)], usage };
     }
     const blocks = prompt.split("\nQUESTIONS:\n")[1]!.split(/\n+Q\d+\. /).slice(1);
     const template = prompt.split("\n").filter((l) => /^Q\d+: /.test(l));
@@ -58,6 +58,20 @@ class FakeBackend implements Backend {
       return [plain("Q"), ...String(i + 1).split("").map(plain), plain(":"), this.#position(labels, blocks[i]!), plain("\n")];
     });
     return { positions, usage };
+  }
+}
+
+const replyLabels = (prompt: string) =>
+  prompt.split("\n").find((l) => l.startsWith("Reply with exactly one of: "))!.replace("Reply with exactly one of: ", "").split(", ");
+
+/** A FakeBackend that can also score a batch of isolated prompts, as an autoregressive model can. */
+class FakeScoringBackend extends FakeBackend {
+  readonly batches: string[][] = [];
+
+  async score(system: string, prompts: string[]): Promise<Scores> {
+    this.batches.push(prompts);
+    const generations = await Promise.all(prompts.map((prompt) => this.generate(system, prompt)));
+    return { tops: generations.map((g) => g.positions[0]!.top), usage: { input_tokens: 10 * prompts.length, output_tokens: prompts.length } };
   }
 }
 
@@ -166,6 +180,37 @@ test("more options than labels: tournament finds the winner and respects concurr
   assert.equal(backend.prompts.length, 4); // 3 chunks + 1 final
   assert.ok(backend.peak <= 2);
   near(Object.values(q.probabilities).reduce((a, b) => a + b, 0), 1, 0.01);
+});
+
+test("scored: a request is one batched call, plus one per extra tournament round, in any prompt order", async () => {
+  const criteria = Object.fromEntries(Array.from({ length: 40 }, (_, i) => [`option-${String(i).padStart(2, "0")}`, null]));
+  const request: SystemOneRequest = {
+    state: "the state",
+    questions: {
+      big: { type: "choice", instructions: "?", criteria },
+      flag: { type: "noul", instructions: "option-37 is mentioned" },
+      level: { type: "score", instructions: "?", criteria: ["low", "option-37", "high"] },
+    },
+  };
+  for (const order of PROMPT_ORDERS) {
+    const backend = new FakeScoringBackend("option-37");
+    const response = await systemOne(backend, request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", order });
+    assert.deepEqual(backend.batches.map((b) => b.length), [5, 1]); // 3 chunks + noul + score, then the final round
+    assert.deepEqual(response.gev, { strategy: "scored", model_calls: 2, repaired: 0 });
+    const { big, level } = response.answers;
+    assert.ok(big?.type === "choice" && level?.type === "score");
+    assert.equal(big.choice, "option-37");
+    near(level.score, 1, 0.2);
+  }
+  await assert.rejects(systemOne(new FakeBackend("x"), request, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored" }), /cannot/);
+});
+
+test("prompt orders move the STATE later so more of the prompt is the same on every request", () => {
+  const prompt = (order: (typeof PROMPT_ORDERS)[number]) => noulPrompt("the state", "it is raining", undefined, order);
+  assert.ok(prompt("state-first").startsWith("STATE:\nthe state"));
+  assert.ok(prompt("question-first").endsWith("STATE:\nthe state\n\nReply with exactly one of: yes, no"));
+  assert.ok(prompt("state-last").endsWith("Reply with exactly one of: yes, no\n\nSTATE:\nthe state"));
+  assert.equal(gemmaPrompt(" sys ", "user\n"), "<|turn>system\nsys<turn|>\n<|turn>user\nuser<turn|>\n<|turn>model\n<|channel>thought\n<channel|>");
 });
 
 test("packed: one model call answers the whole sheet; oversized choices go alone; skipped lines are repaired", async () => {

@@ -77,6 +77,8 @@ done
 
 ARGS="--model=/models/${MODEL},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
 ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-logprobs=20,--host=0.0.0.0,--port=8000"
+# Comma-separated extra vLLM flags, e.g. EXTRA_ARGS=--max-num-batched-tokens=16384
+[[ -n "${EXTRA_ARGS:-}" ]] && ARGS+=",${EXTRA_ARGS}"
 # Cold start is dominated by reading 48 GiB through the Cloud Storage FUSE mount at ~50 MB/s (~14 min).
 # vLLM's --safetensors-load-strategy=prefetch was measured and is slower (18 min): the mount's total
 # throughput is the limit, not read parallelism.

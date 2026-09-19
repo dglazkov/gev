@@ -23,7 +23,8 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 |---|---|---|
 | `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. |
 | `gev-model` | vLLM + DiffusionGemma, private | `https://gev-model-huio5ftumq-uc.a.run.app`. RTX PRO 6000 (96 GB), 20 vCPU / 80 GiB, scale to zero, max 1 instance. Serving revision `gev-model-00004-4fx`: image `vllm-openai:gemma`. |
-| `gs://gev-systemone-models` | Weights, 51.7 GB | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
+| `gev-ar`, `gev-ar-e4b` | **Experiment (2026-09-19):** autoregressive Gemma 4 on stock vLLM `v0.29.0`, private | `google/gemma-4-26B-A4B-it` and `google/gemma-4-E4B-it`, each on its own RTX PRO 6000, scale to zero, for the `scored` strategy (section 3). Not wired to `gev`. Delete when the experiment is settled. GPU quota in us-central1 is 3. |
+| `gs://gev-systemone-models` | Weights | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
 
 **The `gev` service is running a stale build.** It was deployed before the packed strategy and before
 the fix for DiffusionGemma's unclosed thought channel (section 5), so its isolated answers may
@@ -36,7 +37,7 @@ Service accounts: `gev-runtime@` (may only invoke `gev-model` and read its key s
 
 ## 3. How it works
 
-One API request carries a state and N typed questions (`choice`, `score`, `noul`). Two strategies
+One API request carries a state and N typed questions (`choice`, `score`, `noul`). Three strategies
 (`src/engine.ts`, chosen by `GEV_STRATEGY`):
 
 - **isolated**: one model call per question. The model emits one label token (`A`…`P`, `0`…`9`,
@@ -47,6 +48,14 @@ One API request carries a state and N typed questions (`choice`, `score`, `noul`
   lines in parallel, so a sheet costs about one question. Oversized choices stay isolated; any line
   the model skips is re-asked alone ("repair"). Responses carry a non-jev
   `gev: { strategy, model_calls, repaired }` field.
+
+- **scored** (autoregressive models only): the isolated prompts, but all of a request's prompts go to
+  vLLM's raw completions endpoint as one batch with `max_tokens: 1`. One forward pass, no generation;
+  answers stay independent. A tournament adds one batch per extra round. `GEV_PROMPT_ORDER`
+  (`state-first` | `question-first` | `state-last`) moves the STATE later in the prompt so the
+  question text, which is the same on every request, is served from the prefix cache. The workload
+  makes this matter: in both suites the state is ~15 tokens and the questions ~1,900.
+  `bench/model-probe.ts score` measures accuracy and timing for each order.
 
 Derived fields: `score` = expected zero-indexed level; `confidence` = 1 − normalized entropy (jev's
 formula is undocumented and differs: for [0, 0.03, 0.97] jev says 0.95, gev 0.88); `noul` = P(yes).

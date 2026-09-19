@@ -1,6 +1,6 @@
 import type { Backend } from "./backends/backend.ts";
-import { CHOICE_LABELS, NOUL_LABELS, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
-import { argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
+import { CHOICE_LABELS, NOUL_LABELS, type PromptOrder, SCORE_LABELS, SYSTEM_INSTRUCTION, choicePrompt, noulPrompt, scorePrompt } from "./prompt.ts";
+import { type TokenLogprob, argmax, confidence, expectedLevel, labelDistribution, mean, normalize, round } from "./scoring.ts";
 import { SHEET_SIZE, SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, readSheet, sheetLabels, sheetMaxTokens, sheetPrompt } from "./sheet.ts";
 import type { Answer, ChoiceQuestion, Json, Question, ScoreQuestion, SystemOneRequest, SystemOneResponse, Usage } from "./types.ts";
 
@@ -17,11 +17,16 @@ export type EngineOptions = {
    * "packed": questions share one call and are answered as a sheet. Far fewer calls, but the
    * answers are produced jointly. Questions that don't fit a sheet, or that the model fails
    * to answer on it, fall back to isolated.
+   * "scored": the isolated prompts, but every prompt that is ready at the same moment goes to the
+   * model in one batched call that only reads the first answer token's distribution. Needs a
+   * backend with `score` (an autoregressive model).
    */
-  strategy: "isolated" | "packed";
+  strategy: "isolated" | "packed" | "scored";
+  /** Where the STATE goes in an isolated prompt; see PromptOrder. */
+  order: PromptOrder;
 };
 
-export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated" };
+export const DEFAULT_ENGINE_OPTIONS: EngineOptions = { concurrency: 16, rotations: 1, strategy: "isolated", order: "state-first" };
 
 // Room for the label plus the end-of-turn token.
 const ANSWER_TOKENS = 2;
@@ -38,6 +43,8 @@ class Run {
   readonly #state: Json;
   #active = 0;
   readonly #waiting: (() => void)[] = [];
+  /** Prompts waiting for the next batched `score` call. */
+  #batch: { prompt: string; resolve: (top: TokenLogprob[]) => void; reject: (error: unknown) => void }[] = [];
 
   constructor(backend: Backend, options: EngineOptions, state: Json) {
     this.#backend = backend;
@@ -62,7 +69,33 @@ class Run {
     }
   }
 
+  /**
+   * Joins the batch that leaves once everything runnable right now has asked: all of a request's
+   * questions the first time, a tournament's final round the second.
+   */
+  #score(prompt: string): Promise<TokenLogprob[]> {
+    return new Promise((resolve, reject) => {
+      if (this.#batch.length === 0) setImmediate(() => void this.#flush());
+      this.#batch.push({ prompt, resolve, reject });
+    });
+  }
+
+  async #flush() {
+    const batch = this.#batch;
+    this.#batch = [];
+    try {
+      const { tops, usage } = await this.#backend.score!(SYSTEM_INSTRUCTION, batch.map((b) => b.prompt));
+      this.modelCalls++;
+      this.usage.input_tokens += usage.input_tokens;
+      this.usage.output_tokens += usage.output_tokens;
+      batch.forEach((b, i) => b.resolve(tops[i] ?? []));
+    } catch (error) {
+      batch.forEach((b) => b.reject(error));
+    }
+  }
+
   async #ask(prompt: string, labels: string[]): Promise<number[]> {
+    if (this.#options.strategy === "scored") return labelDistribution(await this.#score(prompt), labels);
     const [first] = await this.#generate(SYSTEM_INSTRUCTION, prompt, ANSWER_TOKENS);
     return labelDistribution(first?.top ?? [], labels);
   }
@@ -71,9 +104,9 @@ class Run {
   async isolated(question: Question): Promise<Answer> {
     switch (question.type) {
       case "noul":
-        return toAnswer(question, await this.#ask(noulPrompt(this.#state, question.instructions, question.criteria), NOUL_LABELS));
+        return toAnswer(question, await this.#ask(noulPrompt(this.#state, question.instructions, question.criteria, this.#options.order), NOUL_LABELS));
       case "score":
-        return toAnswer(question, await this.#ask(scorePrompt(this.#state, question.instructions, question.criteria), SCORE_LABELS.slice(0, question.criteria.length)));
+        return toAnswer(question, await this.#ask(scorePrompt(this.#state, question.instructions, question.criteria, this.#options.order), SCORE_LABELS.slice(0, question.criteria.length)));
       case "choice":
         return toAnswer(question, await this.#rank(question.instructions, Object.entries(question.criteria)));
     }
@@ -95,7 +128,7 @@ class Run {
       Array.from({ length: rotations }, async (_, r) => {
         const offset = Math.floor((r * n) / rotations);
         const rotated = options.map((_, i) => options[(i + offset) % n]!);
-        const p = await this.#ask(choicePrompt(this.#state, instructions, rotated), labels);
+        const p = await this.#ask(choicePrompt(this.#state, instructions, rotated, this.#options.order), labels);
         return options.map((_, i) => p[(i - offset + n) % n]!);
       }),
     );
@@ -179,6 +212,7 @@ async function answerPacked(run: Run, questions: [string, Question][]): Promise<
 }
 
 export async function systemOne(backend: Backend, request: SystemOneRequest, options: EngineOptions = DEFAULT_ENGINE_OPTIONS): Promise<SystemOneResponse> {
+  if (options.strategy === "scored" && !backend.score) throw new Error(`The "scored" strategy needs a backend that can score prompts; ${backend.model} cannot`);
   const run = new Run(backend, options, request.state);
   const questions = Object.entries(request.questions);
   const entries =

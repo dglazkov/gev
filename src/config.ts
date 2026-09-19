@@ -1,6 +1,7 @@
 import type { Backend } from "./backends/backend.ts";
 import { VllmBackend } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, type EngineOptions } from "./engine.ts";
+import { PROMPT_ORDERS, type PromptOrder } from "./prompt.ts";
 
 type Env = Record<string, string | undefined>;
 
@@ -26,9 +27,12 @@ export function backendFromEnv(env: Env = process.env): Backend {
 
 export function engineOptionsFromEnv(env: Env = process.env): EngineOptions {
   const strategy = env.GEV_STRATEGY ?? DEFAULT_ENGINE_OPTIONS.strategy;
-  if (strategy !== "isolated" && strategy !== "packed") throw new Error(`GEV_STRATEGY must be "isolated" or "packed", got "${strategy}"`);
+  if (strategy !== "isolated" && strategy !== "packed" && strategy !== "scored") throw new Error(`GEV_STRATEGY must be "isolated", "packed" or "scored", got "${strategy}"`);
+  const order = (env.GEV_PROMPT_ORDER ?? DEFAULT_ENGINE_OPTIONS.order) as PromptOrder;
+  if (!PROMPT_ORDERS.includes(order)) throw new Error(`GEV_PROMPT_ORDER must be one of ${PROMPT_ORDERS.join(", ")}, got "${order}"`);
   return {
     strategy,
+    order,
     concurrency: positiveInt(env, "GEV_CONCURRENCY", DEFAULT_ENGINE_OPTIONS.concurrency),
     rotations: positiveInt(env, "GEV_ROTATIONS", DEFAULT_ENGINE_OPTIONS.rotations),
   };

@@ -273,13 +273,32 @@ eval cases (408 questions), a second benchmark source.
 | One completions call read as wide as its widest prompt (logprobs 212 for all 37) | Plan 308 ms vs 176 with two calls: vLLM's wide-logprobs cost is per prompt. |
 | Logprob widths graded by label count (5 / 10 / 20) instead of nouls-only | jtbd 102 vs 104 ms, plan 132 vs 122: each extra width is another call. Reverted. |
 | `--moe-backend=flashinfer_trtllm` / `flashinfer_cutlass` for the FP8 checkpoint | Both refuse to start on this setup: TRTLLM "does not support current device", CUTLASS doesn't support the checkpoint's per-channel × per-token FP8 scheme. vLLM's pick, untuned Triton ("Using default MoE config"), is the only one; tuning it for this GPU is untried. Fails before loading weights, so cheap to find out. |
+| Streaming weights from the bucket (`--load-format=runai_streamer`, `MODEL_PATH=gs://…`) to shorten the cold start | Slower: 554 s vs 447 s through the mount for the 26 GiB FP8 weights. Works out of the box in the `v0.29.0` image once the service account has `storage.buckets.get` (`roles/storage.legacyBucketReader`). The limit is the container's network path to Cloud Storage (~50–60 MB/s) however the bytes are read; the untried fix is still Direct VPC egress + Private Google Access, or keeping an instance warm. |
 | Shortening the prompt after the state | Not tried, because measured to be pointless: see "per prompt, not per token". |
 | Sending token ids instead of text to skip vLLM's tokenizer | 151 vs 155 ms: tokenization is not the cost. `logprobs: 20` costs ~9 ms over none. |
 | Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 
 ## 7. Open decisions (the owner's)
 
-**New, 2026-09-19, ahead of the older list (much of which the scored result makes moot: 1, 2, 6, 9):**
+**As of the end of 2026-09-19 (supersedes the lists below where they overlap):**
+
+1. **Put round three live?** One ~2-minute API deploy of current `main` with the same settings as live
+   (`MODEL_SERVICE=gev-ar-fp8 MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic
+   EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last,GEV_WIDE_CHOICE=1 ./scripts/deploy.sh`).
+   Measured on `gev-scored`: plan 194 → 171 ms, jtbd unchanged, agreement with jev unchanged.
+2. **Keep the live model server warm (`--min-instances 1` on `gev-ar-fp8`)?** Without it every quiet
+   spell of ~10–15 minutes ends in a ~10-minute outage for the next caller. Costs one RTX PRO 6000
+   around the clock; price not checked. Nothing tried so far makes the cold start short.
+3. **Calibration:** apply `GEV_TEMPERATURE=choice=4,score=4`? Brings choices and scores to jev's
+   sharpness and closer to its probabilities on held-out fixtures; changes no decisions. Nouls don't
+   calibrate with a temperature (section 4); they need labeled data or a different idea.
+4. **Clean up:** delete `gev-ar-fp8x`, `gev-ar-e4b`, `gev-scored` (or keep `gev-scored` as the staging
+   API), and retire `gev-model` + the 52 GB of DiffusionGemma weights, plus the NVFP4 weights.
+5. **Further latency work, none of it tried:** tune the Triton FP8 MoE kernel for this GPU (vLLM warns
+   it runs a default config); run gev in the same container as vLLM (~23 ms per call is front end +
+   HTTP); a GPU quota above 3 so experiments stop competing with the live server for slots.
+
+**Earlier the same day, ahead of the older list (much of which the scored result makes moot: 1, 2, 6, 9):**
 
 - **a. Go live with `scored`?** Which model: 26B-A4B (jev-level labels, parity on jtbd, 265 ms on plan)
   or E4B (faster than jev on both, weaker labels). Then retire `gev-model` (DiffusionGemma) or keep it.

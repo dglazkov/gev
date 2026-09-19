@@ -98,7 +98,7 @@ export class VllmBackend implements Backend {
    * channel is part of the generation prompt), and a prompt that is off by one token answers "The".
    */
   #chatFrame(): Promise<ChatFrame> {
-    return (this.#frame ??= (async () => {
+    this.#frame ??= (async () => {
       const root = this.#options.baseUrl.replace(/\/v1$/, "");
       const { tokens } = await postJson(`${root}/tokenize`, await this.#headers(), {
         model: this.#options.model,
@@ -111,7 +111,10 @@ export class VllmBackend implements Backend {
       });
       const { prompt } = await postJson(`${root}/detokenize`, await this.#headers(), { model: this.#options.model, tokens });
       return chatFrame(prompt);
-    })());
+    })();
+    // A failure (say, a model server that is still starting) must not be remembered.
+    this.#frame.catch(() => (this.#frame = undefined));
+    return this.#frame;
   }
 
   async score(system: string, prompts: string[]): Promise<Scores> {

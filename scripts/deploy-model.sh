@@ -79,6 +79,8 @@ ARGS="--model=/models/${MODEL},--served-model-name=${MODEL},--max-model-len=${MA
 ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-logprobs=20,--host=0.0.0.0,--port=8000"
 # Comma-separated extra vLLM flags, e.g. EXTRA_ARGS=--max-num-batched-tokens=16384
 [[ -n "${EXTRA_ARGS:-}" ]] && ARGS+=",${EXTRA_ARGS}"
+# Comma-separated environment for the container, e.g. EXTRA_ENV=VLLM_LOGGING_LEVEL=DEBUG
+ENV_VARS="GEV_DEPLOYED_BY=deploy-model.sh${EXTRA_ENV:+,${EXTRA_ENV}}"
 # Cold start is dominated by reading 48 GiB through the Cloud Storage FUSE mount at ~50 MB/s (~14 min).
 # vLLM's --safetensors-load-strategy=prefetch was measured and is slower (18 min): the mount's total
 # throughput is the limit, not read parallelism.
@@ -86,7 +88,7 @@ ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-logprobs=20,--h
 # Private (--no-allow-unauthenticated): only the gev API's service account may invoke it.
 # The startup probe allows 30 minutes for weights to load from the bucket.
 gcloud run deploy "$SERVICE" --project "$PROJECT" --region "$REGION" \
-  --image "$IMAGE" --args="$ARGS" --port 8000 \
+  --image "$IMAGE" --args="$ARGS" --set-env-vars "$ENV_VARS" --port 8000 \
   --service-account "$SA" --no-allow-unauthenticated \
   --gpu 1 --gpu-type "$GPU_TYPE" --no-gpu-zonal-redundancy \
   --cpu "$CPU" --memory "$MEMORY" --no-cpu-throttling \

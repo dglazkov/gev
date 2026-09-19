@@ -116,6 +116,29 @@ jev from `bench/compare.ts` through `gev-scored` (laptop → API → model serve
 - Isolated prompts repeat the system text per question: 3,900 prompt tokens per jtbd request against
   1,940 packed. Cached, so it costs little.
 
+**Round two on `scored` (2026-09-19, later).** All through `gev-scored` from the laptop unless noted.
+
+| | jtbd median / p90 | plan median / p90 | hand labels (stage, done, highStakes) | agrees with jev, jtbd / plan |
+|---|---|---|---|---|
+| jev | 151 / 255 | 181 / 273 | 36, 29, 38 = 103 | |
+| 26B-A4B bf16, tournament | 146 / 156 | 264 / 328 | 38, 29, 39 = 106 | 78% / 85% |
+| **26B-A4B NVFP4 (RedHatAI), icons by name** | **119 / 140** | **206 / 251** | 34, 31, 38 = 103 | **74%** / 86% |
+
+- **Where the time goes** (`gev.ms`, `gev.model_ms` in every response; `compare.ts` prints the split).
+  bf16: jtbd 146 = 64 outside gev + 1 gev + 80 model wait; plan 264 = 82 + 3 + 178 (two calls).
+  NVFP4 + by-name: jtbd 119 = 62 + 1 + 56; plan 206 = 80 + 1 + 126. "Outside gev" is the laptop's
+  ~58 ms RTT plus a little; gev's own work is nothing; vLLM's e2e is ~20 ms less than the model wait.
+- **NVFP4 costs accuracy on jtbd**: choice agreement with jev 81% → 71%, overall 78% → 74%; hand labels
+  103 vs 106 (within noise). Speed gain is modest (vLLM e2e 58 → 50 ms). FP8 not yet measured.
+- **The icon question by name** (`GEV_WIDE_CHOICE=1`): the model answers with the icon's name and gev
+  reads the first token with `logprobs` = names + 40 (server needs `--max-logprobs=256`). 163 of the 186
+  names have a first token of their own; the 9 sets that share one (`shopping_cart`/`shopping_bag`,
+  six `local_*`) are split by lettered questions in the same batch. One round instead of two; picks
+  are as close to jev's as the tournament's (7/13 each) and sensible where they differ.
+- **Model-side time scales with the number of prompts in the batch**, ~2.5–3 ms per prompt even when
+  everything but the last block is cached: 1 prompt ≈ 17 ms, 18 ≈ 56–70, 27 ≈ 95, 36 ≈ 116
+  (NVFP4, laptop time minus RTT). Plan is slow because it is 37 prompts, not because of the icons.
+
 **Where a packed 18-question request's time goes** (`bench/model-probe.ts latency`, vLLM's own timers):
 
 | | ms |
@@ -211,6 +234,9 @@ eval cases (408 questions), a second benchmark source.
 | vLLM nightly for the concurrency fix | Crashes at warmup on this GPU; crash-looped and caused downtime. |
 | Per-request step/entropy overrides | Ignored by the `gemma` image. |
 | Questions-first prompt for cache hits | −60 ms, but −5/−6 on 40 labels. |
+| 186 icons under two-letter single-token labels in one prompt | As close to jev as the tournament (6/13) but the misses were nonsense (`location_on` for an energy dashboard): arbitrary labels bind poorly at that length. Answer-by-name replaced it. |
+| One completions call read as wide as its widest prompt (logprobs 212 for all 37) | Plan 308 ms vs 176 with two calls: vLLM's wide-logprobs cost is per prompt. |
+| Sending token ids instead of text to skip vLLM's tokenizer | 151 vs 155 ms: tokenization is not the cost. `logprobs: 20` costs ~9 ms over none. |
 | Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 
 ## 7. Open decisions (the owner's)

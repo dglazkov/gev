@@ -72,6 +72,9 @@ done
 
 ARGS="--model=/models/${MODEL},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
 ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-logprobs=20,--host=0.0.0.0,--port=8000"
+# vLLM reads a Cloud Storage FUSE mount one tensor at a time unless told to prefetch whole shards
+# into RAM; measured at ~55 MB/s (a 14-minute load for 48 GiB) without this. Needs MEMORY > weights.
+ARGS+=",--safetensors-load-strategy=prefetch"
 
 # Private (--no-allow-unauthenticated): only the gev API's service account may invoke it.
 # The startup probe allows 30 minutes for weights to load from the bucket.

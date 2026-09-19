@@ -113,7 +113,7 @@ test("more options than labels: tournament finds the winner and respects concurr
   near(Object.values(q.probabilities).reduce((a, b) => a + b, 0), 1, 0.01);
 });
 
-test("HTTP: auth, validation, and upstream error mapping", async () => {
+test("HTTP: auth, CORS, validation, and upstream error mapping", async () => {
   const post = (app: ReturnType<typeof createApp>, body: unknown, headers: Record<string, string> = {}) =>
     app.request("/v1/systemone", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body) });
   const valid = { state: "hi", model: "jev-latest", questions: { q: { type: "noul", instructions: "It is a greeting" } } };
@@ -137,6 +137,16 @@ test("HTTP: auth, validation, and upstream error mapping", async () => {
     assert.equal(response.status, 422, JSON.stringify(bad));
     assert.equal(((await response.json()) as any).error.type, "invalid_request");
   }
+
+  // CORS is wide open, and the preflight must pass without an API key.
+  const preflight = await app.request("/v1/systemone", {
+    method: "OPTIONS",
+    headers: { origin: "http://localhost:5173", "access-control-request-method": "POST", "access-control-request-headers": "authorization,content-type" },
+  });
+  assert.equal(preflight.status, 204);
+  assert.equal(preflight.headers.get("access-control-allow-origin"), "*");
+  assert.match(preflight.headers.get("access-control-allow-headers") ?? "", /authorization/i);
+  assert.equal(ok.headers.get("access-control-allow-origin"), "*");
 
   const failing = (status: number): Backend => ({
     model: "down",

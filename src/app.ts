@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { type Backend, UpstreamError } from "./backends/backend.ts";
 import { type EngineOptions, systemOne } from "./engine.ts";
 import { parseRequest } from "./schema.ts";
@@ -10,6 +11,9 @@ const error = (type: string, message: string, extra: object = {}) => ({ error: {
 
 export function createApp({ backend, engine, apiKeys }: AppOptions): Hono {
   const app = new Hono();
+
+  // Wide open: browser frontends on any origin may call the API. The bearer key is the only gate.
+  app.use("/v1/*", cors({ origin: "*", allowHeaders: ["authorization", "content-type"], maxAge: 86400 }));
 
   app.get("/healthz", (c) => c.json({ ok: true, model: backend.model }));
 

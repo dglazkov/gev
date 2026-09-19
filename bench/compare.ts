@@ -3,7 +3,7 @@
 //
 //   node --env-file=.env bench/compare.ts <suite> [--concurrency N] [-v]
 //
-// Needs GEV_URL and GEV_API_KEY. Writes gev's answers to bench/results/<suite>.json.
+// Needs GEV_URL and GEV_API_KEY. Writes gev's answers to bench/results/<suite>.<strategy>.json.
 
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import type { Answer, SystemOneRequest, SystemOneResponse } from "../src/types.ts";
@@ -107,4 +107,7 @@ rows.filter((r) => r.error).slice(0, 5).forEach((r) => console.log(`ERROR ${r.fi
 if (verbose) for (const t of Object.values(tally)) t.misses.forEach((m) => console.log(`  ${m}`));
 
 await mkdir(new URL("./results/", import.meta.url), { recursive: true });
-await writeFile(new URL(`./results/${suite}.json`, import.meta.url), JSON.stringify(rows, null, 1));
+const strategy = ok[0]?.response?.gev?.strategy ?? "isolated";
+const calls = ok.map((r) => r.response?.gev?.model_calls ?? NaN);
+console.log(`strategy: ${strategy}   model calls per request: median ${quantile(calls, 0.5)}   repaired answers: ${ok.reduce((n, r) => n + (r.response?.gev?.repaired ?? 0), 0)}`);
+await writeFile(new URL(`./results/${suite}.${strategy}.json`, import.meta.url), JSON.stringify(rows, null, 1));

@@ -86,6 +86,8 @@ test("answerPositions drops Gemma's empty thought channel", () => {
   const tokens = (names: string[]) => answerPositions(names.map(at)).map((p) => p.token);
   // As observed from DiffusionGemma with thinking disabled.
   assert.deepEqual(tokens(["<|channel>", "thought", "\n", "<channel|>", "A", "<turn|>"]), ["A", "<turn|>"]);
+  // About a third of the time it leaves the channel unclosed and goes straight to the answer.
+  assert.deepEqual(tokens(["<|channel>", "thought", "\n", "Q", "1", ":", " F", "\n"]), ["Q", "1", ":", " F", "\n"]);
   assert.deepEqual(tokens(["B", "<turn|>"]), ["B", "<turn|>"]);
   assert.deepEqual(tokens(["<|channel>", "thought"]), []);
 });

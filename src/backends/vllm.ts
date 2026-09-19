@@ -12,20 +12,21 @@ export type VllmOptions = {
 
 type WirePosition = { token: string; top_logprobs: { token: string; logprob: number }[] };
 
-// Even with thinking disabled, Gemma 4 models open with an empty thought channel
-// ("<|channel>thought\n<channel|>") before the answer, so the answer is not the first token.
+// Even with thinking disabled, Gemma 4 models open with an empty thought channel before the answer:
+// "<|channel>thought\n<channel|>". DiffusionGemma leaves off the closing marker about a third of
+// the time and goes straight into the answer, so the preamble is matched token by token rather
+// than as a delimited block.
 const PREAMBLE_TOKENS = 6;
+const PREAMBLE = new Set(["<|channel>", "<channel|>", "thought"]);
 
-/** Drops <|channel>…<channel|> blocks, leaving only the positions of the answer itself. */
+/** Drops the empty thought preamble, leaving only the positions of the answer itself. */
 export function answerPositions(positions: WirePosition[]): Position[] {
-  const answer: Position[] = [];
-  let inChannel = false;
-  for (const position of positions) {
-    if (position.token === "<|channel>") inChannel = true;
-    else if (position.token === "<channel|>") inChannel = false;
-    else if (!inChannel) answer.push({ token: position.token, top: position.top_logprobs.map((c) => ({ token: c.token, logprob: c.logprob })) });
-  }
-  return answer;
+  let start = 0;
+  while (start < positions.length && (PREAMBLE.has(positions[start]!.token) || positions[start]!.token.trim() === "")) start++;
+  return positions.slice(start).map((position) => ({
+    token: position.token,
+    top: position.top_logprobs.map((c) => ({ token: c.token, logprob: c.logprob })),
+  }));
 }
 
 /** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */

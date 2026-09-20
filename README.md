@@ -74,6 +74,7 @@ There are three strategies, chosen with `GEV_STRATEGY`. **scored** (what runs li
 export GOOGLE_CLOUD_PROJECT=my-project
 ./scripts/deploy-model.sh    # bucket + one-time weight copy (Cloud Build) + vLLM on a Cloud Run GPU
 ./scripts/deploy.sh          # the gev API, wired to the model server; prints an API key once
+./scripts/keys.sh add alice  # another key, for someone else; also `revoke <name>` and `list`
 ```
 
 `deploy-model.sh` takes `SERVICE`, `MODEL`, `IMAGE`, `GPU_TYPE`, `CPU`, `MEMORY`, `MAX_MODEL_LEN`, `MAX_NUM_SEQS`, `MIN_INSTANCES`, `EXTRA_ARGS`, `EXTRA_ENV`, `MODEL_PATH`, `REGION`; its defaults are the live model server. RTX PRO 6000 GPUs need quota in the region (us-central1 by default) and a minimum of 20 vCPU / 80 GiB. To try something, deploy it as a separate service and point a separate API at it, never the live ones:

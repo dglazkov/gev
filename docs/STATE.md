@@ -35,8 +35,11 @@ GPU quota in us-central1 is 3 RTX PRO 6000s across all services; a fourth instan
 "Quota exceeded for total allowable count of GPUs". Idle services at zero instances don't count.
 
 **API keys** (`gev-api-keys` in Secret Manager, comma-separated; the APIs read it at instance start, so
-after adding a version roll them: `gcloud run services update gev --update-env-vars GEV_KEYS_VERSION=<n>`,
-same for `gev-scored`). Two keys as of 2026-09-20: the original (`GEV_API_KEY` in `.env`) and a dedicated
+after adding a version they must be rolled: `gcloud run services update gev --update-env-vars
+GEV_KEYS_VERSION=<n>`, same for `gev-scored`). `./scripts/keys.sh add <name> | revoke <name> | list`
+does all of it: it issues `sk-gev-<name>-…`, writes the secret version, rolls both APIs and checks the
+result. It rolls the live `gev` (a new revision of the Node service only; the model server is not
+touched). There are no per-key limits or usage tracking: every key shares the one GPU. Two keys as of 2026-09-20: the original (`GEV_API_KEY` in `.env`) and a dedicated
 one for jev2ui (`sk-gev-jev2ui-…`), stored as secret `GEV_API_KEY` in jev2ui's own project
 (`jev2ui-3281b2`, readable by `jev2ui-run@`). jev2ui is deployed at jev2ui.cnfg.ai, Cloud Run in
 us-central1, and **still talks to jev**: its service was not touched. Switching is two settings on its

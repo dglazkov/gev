@@ -2,7 +2,7 @@
  {
   "fixture": "001.json",
   "state": "{\"user_request\":\"Why has my electricity usage been so high lately?\"}",
-  "ms": 198,
+  "ms": 267,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -10,52 +10,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.019,
+      "comparing": 0.0167,
+      "deciding": 0.0103,
+      "committing": 0.0061,
+      "doing": 0.0118,
+      "checking": 0.9361
      },
-     "confidence": 0.9999
+     "confidence": 0.8126
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.937,
+      "picked": 0.0094,
+      "handed_over": 0.0073,
+      "finished_task": 0.0073,
+      "reassured": 0.0318,
+      "configured": 0.0073
      },
-     "confidence": 1
+     "confidence": 0.8203
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9736,
+      "person_to_system": 0.0124,
+      "both": 0.0141
      },
-     "confidence": 1
+     "confidence": 0.8723
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0095,
+      "few": 0.003,
+      "many": 0.0033,
+      "none": 0.9842
      },
-     "confidence": 1
+     "confidence": 0.9305
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0551,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -63,16 +63,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9524,
+      "1": 0.0425,
+      "2": 0.0028,
+      "3": 0.0023
      },
-     "confidence": 1
+     "confidence": 0.8476
     },
     "attention": {
      "type": "score",
-     "score": 2.0036,
+     "score": 2.0901,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -80,27 +80,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0.9964,
-      "3": 0.0036
+      "0": 0.01,
+      "1": 0.035,
+      "2": 0.8098,
+      "3": 0.1452
      },
-     "confidence": 0.9827
+     "confidence": 0.5566
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0778,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9249,
+      "1": 0.0724,
+      "2": 0.0027
      },
-     "confidence": 0.9999
+     "confidence": 0.7466
     },
     "habitual": {
      "type": "noul",
@@ -155,15 +155,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 59
+    "ms": 111,
+    "model_ms": 111
    }
   }
  },
  {
   "fixture": "002.json",
   "state": "{\"user_request\":\"Am I going to be surprised by my electricity bill this month?\"}",
-  "ms": 181,
+  "ms": 182,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -171,52 +171,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0135,
+      "comparing": 0.0135,
+      "deciding": 0.0081,
+      "committing": 0.0041,
+      "doing": 0.0057,
+      "checking": 0.9552
      },
-     "confidence": 1
+     "confidence": 0.86
     },
     "done": {
      "type": "choice",
      "choice": "reassured",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 1,
-      "configured": 0
+      "know": 0.0036,
+      "picked": 0.0052,
+      "handed_over": 0.003,
+      "finished_task": 0.0021,
+      "reassured": 0.9824,
+      "configured": 0.0037
      },
-     "confidence": 1
+     "confidence": 0.9352
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9692,
+      "person_to_system": 0.0153,
+      "both": 0.0155
      },
-     "confidence": 1
+     "confidence": 0.8552
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0.2814,
-      "few": 0,
-      "many": 0,
-      "none": 0.7186
+      "one": 0.435,
+      "few": 0.0081,
+      "many": 0.0071,
+      "none": 0.5498
      },
-     "confidence": 0.5713
+     "confidence": 0.4481
     },
     "stakes": {
      "type": "score",
-     "score": 0.0076,
+     "score": 0.2754,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -224,16 +224,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9924,
-      "1": 0.0076,
-      "2": 0,
-      "3": 0
+      "0": 0.7369,
+      "1": 0.2547,
+      "2": 0.0048,
+      "3": 0.0037
      },
-     "confidence": 0.9679
+     "confidence": 0.553
     },
     "attention": {
      "type": "score",
-     "score": 0.5312,
+     "score": 0.48,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -241,31 +241,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.4688,
-      "1": 0.5312,
-      "2": 0,
-      "3": 0
+      "0": 0.5483,
+      "1": 0.427,
+      "2": 0.0209,
+      "3": 0.0037
      },
-     "confidence": 0.5014
+     "confidence": 0.4268
     },
     "urgency": {
      "type": "score",
-     "score": 0.0005,
+     "score": 0.0605,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9995,
-      "1": 0.0005,
-      "2": 0
+      "0": 0.9427,
+      "1": 0.054,
+      "2": 0.0033
      },
-     "confidence": 0.9962
+     "confidence": 0.7889
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0216
+     "noul": 0.0293
     },
     "anx_cost": {
      "type": "noul",
@@ -273,7 +273,7 @@
     },
     "anx_commitment": {
      "type": "noul",
-     "noul": 0.9984
+     "noul": 0.9944
     },
     "anx_loss": {
      "type": "noul",
@@ -281,7 +281,7 @@
     },
     "anx_mistake": {
      "type": "noul",
-     "noul": 0.9985
+     "noul": 0.9983
     },
     "anx_safety": {
      "type": "noul",
@@ -289,7 +289,7 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.023
+     "noul": 0.4073
     },
     "by_quality": {
      "type": "noul",
@@ -316,15 +316,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 67,
+    "model_ms": 67
    }
   }
  },
  {
   "fixture": "003.json",
   "state": "{\"user_request\":\"Book the 7am flight to Denver tomorrow for me\"}",
-  "ms": 119,
+  "ms": 130,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -332,52 +332,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0053,
+      "comparing": 0.0087,
+      "deciding": 0.0059,
+      "committing": 0.9679,
+      "doing": 0.0056,
+      "checking": 0.0066
      },
-     "confidence": 1
+     "confidence": 0.8923
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0052,
+      "picked": 0.0091,
+      "handed_over": 0.9625,
+      "finished_task": 0.0107,
+      "reassured": 0.0079,
+      "configured": 0.0045
      },
-     "confidence": 1
+     "confidence": 0.878
     },
     "flow": {
      "type": "choice",
-     "choice": "system_to_person",
+     "choice": "both",
      "probabilities": {
-      "system_to_person": 0.9241,
-      "person_to_system": 0,
-      "both": 0.0759
+      "system_to_person": 0.2042,
+      "person_to_system": 0.0604,
+      "both": 0.7354
      },
-     "confidence": 0.7553
+     "confidence": 0.3447
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9737,
+      "few": 0.0097,
+      "many": 0.0062,
+      "none": 0.0104
      },
-     "confidence": 1
+     "confidence": 0.8917
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9865,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -385,16 +385,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0034,
+      "1": 0.0089,
+      "2": 0.9855,
+      "3": 0.0022
      },
-     "confidence": 1
+     "confidence": 0.9357
     },
     "attention": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.1045,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -402,27 +402,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.9088,
+      "1": 0.0807,
+      "2": 0.0076,
+      "3": 0.0029
      },
-     "confidence": 0.9988
+     "confidence": 0.7519
     },
     "urgency": {
      "type": "score",
-     "score": 1.0293,
+     "score": 1.2051,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.9707,
-      "2": 0.0293
+      "0": 0.0101,
+      "1": 0.7748,
+      "2": 0.2152
      },
-     "confidence": 0.8795
+     "confidence": 0.477
     },
     "habitual": {
      "type": "noul",
@@ -458,11 +458,11 @@
     },
     "by_location": {
      "type": "noul",
-     "noul": 0.0007
+     "noul": 0.0124
     },
     "by_time": {
      "type": "noul",
-     "noul": 0.9998
+     "noul": 0.9954
     },
     "by_looks": {
      "type": "noul",
@@ -477,15 +477,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 56,
-    "model_ms": 56
+    "ms": 64,
+    "model_ms": 63
    }
   }
  },
  {
   "fixture": "004.json",
   "state": "{\"user_request\":\"Find me three Italian restaurants near downtown Seattle for tonight\"}",
-  "ms": 124,
+  "ms": 148,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -493,52 +493,52 @@
      "type": "choice",
      "choice": "comparing",
      "probabilities": {
-      "exploring": 0.0567,
-      "comparing": 0.9433,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.1989,
+      "comparing": 0.7746,
+      "deciding": 0.0081,
+      "committing": 0.0053,
+      "doing": 0.0078,
+      "checking": 0.0053
      },
-     "confidence": 0.8785
+     "confidence": 0.6365
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0,
-      "picked": 1,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0307,
+      "picked": 0.9258,
+      "handed_over": 0.0144,
+      "finished_task": 0.0093,
+      "reassured": 0.0124,
+      "configured": 0.0073
      },
-     "confidence": 0.9999
+     "confidence": 0.7916
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.946,
+      "person_to_system": 0.0184,
+      "both": 0.0356
      },
-     "confidence": 1
+     "confidence": 0.7772
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0,
-      "few": 1,
-      "many": 0,
-      "none": 0
+      "one": 0.0087,
+      "few": 0.9812,
+      "many": 0.0069,
+      "none": 0.0033
      },
-     "confidence": 1
+     "confidence": 0.9186
     },
     "stakes": {
      "type": "score",
-     "score": 0.5,
+     "score": 0.7797,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -546,16 +546,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.5,
-      "1": 0.5,
-      "2": 0,
-      "3": 0
+      "0": 0.2317,
+      "1": 0.7596,
+      "2": 0.0062,
+      "3": 0.0026
      },
-     "confidence": 0.5
+     "confidence": 0.5711
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 0.9964,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -563,31 +563,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0158,
+      "1": 0.9745,
+      "2": 0.0073,
+      "3": 0.0024
      },
-     "confidence": 1
+     "confidence": 0.8981
     },
     "urgency": {
      "type": "score",
-     "score": 1,
+     "score": 1.001,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0
+      "0": 0.0211,
+      "1": 0.9567,
+      "2": 0.0222
      },
-     "confidence": 1
+     "confidence": 0.8104
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.9994
+     "noul": 0.0015
     },
     "anx_cost": {
      "type": "noul",
@@ -611,11 +611,11 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.0006
+     "noul": 0.4073
     },
     "by_quality": {
      "type": "noul",
-     "noul": 0.9325
+     "noul": 0.9526
     },
     "by_location": {
      "type": "noul",
@@ -627,7 +627,7 @@
     },
     "by_looks": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     }
    },
    "usage": {
@@ -638,15 +638,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 60
+    "ms": 78,
+    "model_ms": 76
    }
   }
  },
  {
   "fixture": "005.json",
   "state": "{\"user_request\":\"What's good to eat in Seattle?\"}",
-  "ms": 127,
+  "ms": 132,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -654,52 +654,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 1,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.9727,
+      "comparing": 0.0085,
+      "deciding": 0.0047,
+      "committing": 0.0047,
+      "doing": 0.0047,
+      "checking": 0.0047
      },
-     "confidence": 1
+     "confidence": 0.9062
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.9992,
-      "picked": 0.0008,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.8851,
+      "picked": 0.0738,
+      "handed_over": 0.0092,
+      "finished_task": 0.0074,
+      "reassured": 0.017,
+      "configured": 0.0074
      },
-     "confidence": 0.9963
+     "confidence": 0.729
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9845,
+      "person_to_system": 0.0088,
+      "both": 0.0067
      },
-     "confidence": 1
+     "confidence": 0.9177
     },
     "cardinality": {
      "type": "choice",
      "choice": "many",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 1,
-      "none": 0
+      "one": 0.0057,
+      "few": 0.0569,
+      "many": 0.932,
+      "none": 0.0055
      },
-     "confidence": 0.9999
+     "confidence": 0.7932
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0406,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -707,16 +707,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9685,
+      "1": 0.025,
+      "2": 0.0039,
+      "3": 0.0026
      },
-     "confidence": 1
+     "confidence": 0.8843
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 1.0221,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -724,27 +724,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.022,
+      "1": 0.9363,
+      "2": 0.0393,
+      "3": 0.0024
      },
-     "confidence": 1
+     "confidence": 0.7926
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.03,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9761,
+      "1": 0.0177,
+      "2": 0.0062
      },
-     "confidence": 1
+     "confidence": 0.8849
     },
     "habitual": {
      "type": "noul",
@@ -776,7 +776,7 @@
     },
     "by_quality": {
      "type": "noul",
-     "noul": 0.9604
+     "noul": 0.9948
     },
     "by_location": {
      "type": "noul",
@@ -799,15 +799,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 63,
-    "model_ms": 62
+    "ms": 70,
+    "model_ms": 70
    }
   }
  },
  {
   "fixture": "006.json",
   "state": "{\"user_request\":\"What happens to my data if I delete my account?\"}",
-  "ms": 142,
+  "ms": 157,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -815,52 +815,52 @@
      "type": "choice",
      "choice": "deciding",
      "probabilities": {
-      "exploring": 0.0637,
-      "comparing": 0.0003,
-      "deciding": 0.936,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.1933,
+      "comparing": 0.0608,
+      "deciding": 0.6853,
+      "committing": 0.0128,
+      "doing": 0.0268,
+      "checking": 0.0209
      },
-     "confidence": 0.8661
+     "confidence": 0.4527
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.9608,
+      "picked": 0.0071,
+      "handed_over": 0.0051,
+      "finished_task": 0.0051,
+      "reassured": 0.0166,
+      "configured": 0.0051
      },
-     "confidence": 1
+     "confidence": 0.8756
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9867,
+      "person_to_system": 0.0078,
+      "both": 0.0055
      },
-     "confidence": 1
+     "confidence": 0.9274
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0088,
+      "few": 0.0024,
+      "many": 0.0024,
+      "none": 0.9864
      },
-     "confidence": 1
+     "confidence": 0.9394
     },
     "stakes": {
      "type": "score",
-     "score": 0.1675,
+     "score": 1.0355,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -868,16 +868,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.8341,
-      "1": 0.1642,
-      "2": 0.0016,
-      "3": 0
+      "0": 0.4122,
+      "1": 0.2349,
+      "2": 0.258,
+      "3": 0.0949
      },
-     "confidence": 0.6693
+     "confidence": 0.0777
     },
     "attention": {
      "type": "score",
-     "score": 1.9841,
+     "score": 1.7366,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -885,27 +885,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.0159,
-      "2": 0.9841,
-      "3": 0
+      "0": 0.04,
+      "1": 0.2,
+      "2": 0.7433,
+      "3": 0.0167
      },
-     "confidence": 0.941
+     "confidence": 0.4666
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0311,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9726,
+      "1": 0.0236,
+      "2": 0.0038
      },
-     "confidence": 1
+     "confidence": 0.8758
     },
     "habitual": {
      "type": "noul",
@@ -917,7 +917,7 @@
     },
     "anx_commitment": {
      "type": "noul",
-     "noul": 0.018
+     "noul": 0.0052
     },
     "anx_loss": {
      "type": "noul",
@@ -960,15 +960,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 55,
-    "model_ms": 54
+    "ms": 69,
+    "model_ms": 68
    }
   }
  },
  {
   "fixture": "007.json",
   "state": "{\"user_request\":\"I need a new laptop, what's out there?\"}",
-  "ms": 128,
+  "ms": 129,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -976,52 +976,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 1,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.9759,
+      "comparing": 0.0061,
+      "deciding": 0.0045,
+      "committing": 0.0045,
+      "doing": 0.0045,
+      "checking": 0.0045
      },
-     "confidence": 1
+     "confidence": 0.915
     },
     "done": {
      "type": "choice",
-     "choice": "know",
+     "choice": "picked",
      "probabilities": {
-      "know": 0.7982,
-      "picked": 0.2018,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.3281,
+      "picked": 0.6325,
+      "handed_over": 0.011,
+      "finished_task": 0.0069,
+      "reassured": 0.0147,
+      "configured": 0.0069
      },
-     "confidence": 0.7193
+     "confidence": 0.5337
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9997,
-      "person_to_system": 0,
-      "both": 0.0002
+      "system_to_person": 0.7814,
+      "person_to_system": 0.0549,
+      "both": 0.1638
      },
-     "confidence": 0.9979
+     "confidence": 0.4098
     },
     "cardinality": {
      "type": "choice",
      "choice": "many",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 1,
-      "none": 0
+      "one": 0.003,
+      "few": 0.0111,
+      "many": 0.9813,
+      "none": 0.0046
      },
-     "confidence": 1
+     "confidence": 0.9202
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.1319,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1029,16 +1029,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.8759,
+      "1": 0.1185,
+      "2": 0.0033,
+      "3": 0.0023
      },
-     "confidence": 0.9997
+     "confidence": 0.7105
     },
     "attention": {
      "type": "score",
-     "score": 1.8122,
+     "score": 1.448,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1046,27 +1046,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.2338,
-      "2": 0.7202,
-      "3": 0.046
+      "0": 0.0207,
+      "1": 0.5876,
+      "2": 0.3145,
+      "3": 0.0771
      },
-     "confidence": 0.4821
+     "confidence": 0.3117
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0336,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9688,
+      "1": 0.0288,
+      "2": 0.0024
      },
-     "confidence": 1
+     "confidence": 0.8658
     },
     "habitual": {
      "type": "noul",
@@ -1121,15 +1121,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "008.json",
   "state": "{\"user_request\":\"Compare the MacBook Air and the Dell XPS 13\"}",
-  "ms": 140,
+  "ms": 139,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1137,52 +1137,52 @@
      "type": "choice",
      "choice": "comparing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 1,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0022,
+      "comparing": 0.9888,
+      "deciding": 0.0022,
+      "committing": 0.0022,
+      "doing": 0.0022,
+      "checking": 0.0022
      },
-     "confidence": 1
+     "confidence": 0.9557
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0.0003,
-      "picked": 0.9997,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.069,
+      "picked": 0.9086,
+      "handed_over": 0.0067,
+      "finished_task": 0.0042,
+      "reassured": 0.0074,
+      "configured": 0.0042
      },
-     "confidence": 0.9984
+     "confidence": 0.784
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9793,
+      "person_to_system": 0.011,
+      "both": 0.0097
      },
-     "confidence": 1
+     "confidence": 0.8953
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0,
-      "few": 1,
-      "many": 0,
-      "none": 0
+      "one": 0.0089,
+      "few": 0.9846,
+      "many": 0.0037,
+      "none": 0.0028
      },
-     "confidence": 1
+     "confidence": 0.9318
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0384,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1190,16 +1190,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9684,
+      "1": 0.027,
+      "2": 0.0023,
+      "3": 0.0023
      },
-     "confidence": 1
+     "confidence": 0.8872
     },
     "attention": {
      "type": "score",
-     "score": 2.0001,
+     "score": 1.9942,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1207,27 +1207,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0.9999,
-      "3": 0.0001
+      "0": 0.0095,
+      "1": 0.0357,
+      "2": 0.9061,
+      "3": 0.0488
      },
-     "confidence": 0.9992
+     "confidence": 0.7117
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0286,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9757,
+      "1": 0.0199,
+      "2": 0.0043
      },
-     "confidence": 1
+     "confidence": 0.8856
     },
     "habitual": {
      "type": "noul",
@@ -1271,7 +1271,7 @@
     },
     "by_looks": {
      "type": "noul",
-     "noul": 0.9978
+     "noul": 0.9968
     }
    },
    "usage": {
@@ -1282,15 +1282,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "009.json",
   "state": "{\"user_request\":\"Where could I fly for a long weekend in October?\"}",
-  "ms": 128,
+  "ms": 143,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1298,52 +1298,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 1,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.9753,
+      "comparing": 0.0071,
+      "deciding": 0.0044,
+      "committing": 0.0044,
+      "doing": 0.0044,
+      "checking": 0.0044
      },
-     "confidence": 1
+     "confidence": 0.9135
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0,
-      "picked": 1,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0763,
+      "picked": 0.8866,
+      "handed_over": 0.01,
+      "finished_task": 0.0079,
+      "reassured": 0.0121,
+      "configured": 0.0071
      },
-     "confidence": 0.9999
+     "confidence": 0.7343
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9389,
+      "person_to_system": 0.0235,
+      "both": 0.0376
      },
-     "confidence": 1
+     "confidence": 0.7537
     },
     "cardinality": {
      "type": "choice",
      "choice": "many",
      "probabilities": {
-      "one": 0,
-      "few": 0.2451,
-      "many": 0.7549,
-      "none": 0
+      "one": 0.006,
+      "few": 0.1313,
+      "many": 0.8564,
+      "none": 0.0062
      },
-     "confidence": 0.5983
+     "confidence": 0.6669
     },
     "stakes": {
      "type": "score",
-     "score": 0.0005,
+     "score": 0.3836,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1351,16 +1351,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9995,
-      "1": 0.0005,
-      "2": 0,
-      "3": 0
+      "0": 0.6255,
+      "1": 0.3677,
+      "2": 0.0044,
+      "3": 0.0023
      },
-     "confidence": 0.997
+     "confidence": 0.4954
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 1.0043,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1368,31 +1368,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0381,
+      "1": 0.9228,
+      "2": 0.0358,
+      "3": 0.0033
      },
-     "confidence": 1
+     "confidence": 0.7572
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0461,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9575,
+      "1": 0.0389,
+      "2": 0.0036
      },
-     "confidence": 1
+     "confidence": 0.8287
     },
     "habitual": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0002
     },
     "anx_cost": {
      "type": "noul",
@@ -1416,7 +1416,7 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.0008
+     "noul": 0.852
     },
     "by_quality": {
      "type": "noul",
@@ -1424,11 +1424,11 @@
     },
     "by_location": {
      "type": "noul",
-     "noul": 0.9997
+     "noul": 0.9975
     },
     "by_time": {
      "type": "noul",
-     "noul": 0.9707
+     "noul": 0.9241
     },
     "by_looks": {
      "type": "noul",
@@ -1443,15 +1443,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 63,
-    "model_ms": 62
+    "ms": 80,
+    "model_ms": 79
    }
   }
  },
  {
   "fixture": "010.json",
   "state": "{\"user_request\":\"Delete my account and all of its data\"}",
-  "ms": 127,
+  "ms": 142,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1459,52 +1459,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0058,
+      "comparing": 0.0104,
+      "deciding": 0.0074,
+      "committing": 0.9571,
+      "doing": 0.0074,
+      "checking": 0.0118
      },
-     "confidence": 1
+     "confidence": 0.8635
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0038,
+      "picked": 0.008,
+      "handed_over": 0.9684,
+      "finished_task": 0.009,
+      "reassured": 0.0068,
+      "configured": 0.0039
      },
-     "confidence": 1
+     "confidence": 0.8944
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9939,
-      "person_to_system": 0.0002,
-      "both": 0.0059
+      "system_to_person": 0.6674,
+      "person_to_system": 0.116,
+      "both": 0.2167
      },
-     "confidence": 0.9656
+     "confidence": 0.2253
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0201,
+      "few": 0.0025,
+      "many": 0.0033,
+      "none": 0.9741
      },
-     "confidence": 1
+     "confidence": 0.9005
     },
     "stakes": {
      "type": "score",
-     "score": 3,
+     "score": 2.9355,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1512,16 +1512,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0,
-      "3": 1
+      "0": 0.0077,
+      "1": 0.0056,
+      "2": 0.0303,
+      "3": 0.9565
      },
-     "confidence": 1
+     "confidence": 0.845
     },
     "attention": {
      "type": "score",
-     "score": 0.001,
+     "score": 0.182,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1529,27 +1529,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.999,
-      "1": 0.001,
-      "2": 0,
-      "3": 0
+      "0": 0.8459,
+      "1": 0.1297,
+      "2": 0.0208,
+      "3": 0.0035
      },
-     "confidence": 0.9941
+     "confidence": 0.6341
     },
     "urgency": {
      "type": "score",
-     "score": 0.0163,
+     "score": 0.3459,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9839,
-      "1": 0.0159,
-      "2": 0.0002
+      "0": 0.7146,
+      "1": 0.2249,
+      "2": 0.0605
      },
-     "confidence": 0.9241
+     "confidence": 0.3215
     },
     "habitual": {
      "type": "noul",
@@ -1604,15 +1604,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 77,
+    "model_ms": 76
    }
   }
  },
  {
   "fixture": "011.json",
   "state": "{\"user_request\":\"How do I make sourdough starter from scratch?\"}",
-  "ms": 122,
+  "ms": 135,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1620,52 +1620,52 @@
      "type": "choice",
      "choice": "doing",
      "probabilities": {
-      "exploring": 0.5,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0.5,
-      "checking": 0
+      "exploring": 0.1719,
+      "comparing": 0.0184,
+      "deciding": 0.0098,
+      "committing": 0.0086,
+      "doing": 0.7823,
+      "checking": 0.009
      },
-     "confidence": 0.6131
+     "confidence": 0.6111
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.9699,
+      "picked": 0.006,
+      "handed_over": 0.006,
+      "finished_task": 0.006,
+      "reassured": 0.006,
+      "configured": 0.006
      },
-     "confidence": 1
+     "confidence": 0.8975
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9782,
+      "person_to_system": 0.0125,
+      "both": 0.0093
      },
-     "confidence": 1
+     "confidence": 0.8909
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0024,
+      "few": 0.0017,
+      "many": 0.0017,
+      "none": 0.9943
      },
-     "confidence": 1
+     "confidence": 0.97
     },
     "stakes": {
      "type": "score",
-     "score": 0.0052,
+     "score": 0.2763,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1673,16 +1673,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9948,
-      "1": 0.0052,
-      "2": 0,
-      "3": 0
+      "0": 0.7367,
+      "1": 0.2546,
+      "2": 0.0044,
+      "3": 0.0043
      },
-     "confidence": 0.9765
+     "confidence": 0.5523
     },
     "attention": {
      "type": "score",
-     "score": 2.982,
+     "score": 2.5867,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1690,27 +1690,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0.018,
-      "3": 0.982
+      "0": 0.0037,
+      "1": 0.0116,
+      "2": 0.379,
+      "3": 0.6057
      },
-     "confidence": 0.935
+     "confidence": 0.4635
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0253,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9791,
+      "1": 0.0165,
+      "2": 0.0044
      },
-     "confidence": 1
+     "confidence": 0.8977
     },
     "habitual": {
      "type": "noul",
@@ -1765,15 +1765,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "012.json",
   "state": "{\"user_request\":\"Turn off all notifications except direct messages\"}",
-  "ms": 133,
+  "ms": 141,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1781,52 +1781,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0141,
+      "comparing": 0.0167,
+      "deciding": 0.0141,
+      "committing": 0.8974,
+      "doing": 0.0348,
+      "checking": 0.023
      },
-     "confidence": 1
+     "confidence": 0.7271
     },
     "done": {
      "type": "choice",
      "choice": "configured",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 1
+      "know": 0.0069,
+      "picked": 0.0135,
+      "handed_over": 0.0066,
+      "finished_task": 0.0061,
+      "reassured": 0.0074,
+      "configured": 0.9595
      },
-     "confidence": 1
+     "confidence": 0.8702
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9998,
-      "person_to_system": 0.0002,
-      "both": 0.0001
+      "system_to_person": 0.4608,
+      "person_to_system": 0.3942,
+      "both": 0.145
      },
-     "confidence": 0.9978
+     "confidence": 0.0861
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0037,
+      "few": 0.0038,
+      "many": 0.0037,
+      "none": 0.9888
      },
-     "confidence": 1
+     "confidence": 0.9466
     },
     "stakes": {
      "type": "score",
-     "score": 1,
+     "score": 0.9918,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1834,16 +1834,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0187,
+      "1": 0.9729,
+      "2": 0.0063,
+      "3": 0.0021
      },
-     "confidence": 1
+     "confidence": 0.8947
     },
     "attention": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.1476,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -1851,27 +1851,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.8693,
+      "1": 0.1176,
+      "2": 0.0092,
+      "3": 0.0038
      },
-     "confidence": 0.9986
+     "confidence": 0.684
     },
     "urgency": {
      "type": "score",
-     "score": 0.018,
+     "score": 0.3272,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.982,
-      "1": 0.018,
-      "2": 0
+      "0": 0.6921,
+      "1": 0.2885,
+      "2": 0.0193
      },
-     "confidence": 0.918
+     "confidence": 0.3723
     },
     "habitual": {
      "type": "noul",
@@ -1926,15 +1926,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 79,
+    "model_ms": 79
    }
   }
  },
  {
   "fixture": "013.json",
   "state": "{\"user_request\":\"My sourdough starter smells like acetone, is it dead?\"}",
-  "ms": 119,
+  "ms": 129,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -1942,52 +1942,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0.0003,
-      "checking": 0.9996
+      "exploring": 0.0421,
+      "comparing": 0.0441,
+      "deciding": 0.0355,
+      "committing": 0.0174,
+      "doing": 0.0787,
+      "checking": 0.7822
      },
-     "confidence": 0.998
+     "confidence": 0.5244
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.997,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0.003,
-      "configured": 0
+      "know": 0.8019,
+      "picked": 0.0102,
+      "handed_over": 0.0048,
+      "finished_task": 0.0048,
+      "reassured": 0.1734,
+      "configured": 0.0048
      },
-     "confidence": 0.9887
+     "confidence": 0.6625
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9841,
+      "person_to_system": 0.009,
+      "both": 0.0069
      },
-     "confidence": 1
+     "confidence": 0.9158
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.8868,
+      "few": 0.004,
+      "many": 0.004,
+      "none": 0.1051
      },
-     "confidence": 0.9998
+     "confidence": 0.7203
     },
     "stakes": {
      "type": "score",
-     "score": 0.0001,
+     "score": 0.1611,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -1995,16 +1995,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9999,
-      "1": 0.0001,
-      "2": 0,
-      "3": 0
+      "0": 0.8497,
+      "1": 0.1431,
+      "2": 0.0034,
+      "3": 0.0037
      },
-     "confidence": 0.9991
+     "confidence": 0.6705
     },
     "attention": {
      "type": "score",
-     "score": 1.0167,
+     "score": 1.2432,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2012,27 +2012,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.0013,
-      "1": 0.9807,
-      "2": 0.018,
-      "3": 0
+      "0": 0.077,
+      "1": 0.6057,
+      "2": 0.3143,
+      "3": 0.003
      },
-     "confidence": 0.9279
+     "confidence": 0.3636
     },
     "urgency": {
      "type": "score",
-     "score": 0.0004,
+     "score": 0.1414,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9996,
-      "1": 0.0004,
-      "2": 0
+      "0": 0.8612,
+      "1": 0.1363,
+      "2": 0.0026
      },
-     "confidence": 0.9969
+     "confidence": 0.6217
     },
     "habitual": {
      "type": "noul",
@@ -2048,11 +2048,11 @@
     },
     "anx_loss": {
      "type": "noul",
-     "noul": 0.999
+     "noul": 0.9994
     },
     "anx_mistake": {
      "type": "noul",
-     "noul": 0.9924
+     "noul": 0.9991
     },
     "anx_safety": {
      "type": "noul",
@@ -2087,15 +2087,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 57,
-    "model_ms": 57
+    "ms": 66,
+    "model_ms": 66
    }
   }
  },
  {
   "fixture": "014.json",
   "state": "{\"user_request\":\"Show me my notification settings\"}",
-  "ms": 131,
+  "ms": 127,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2103,52 +2103,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0.0006,
-      "comparing": 0.0002,
-      "deciding": 0.0001,
-      "committing": 0.0001,
-      "doing": 0.0022,
-      "checking": 0.9969
+      "exploring": 0.0828,
+      "comparing": 0.0644,
+      "deciding": 0.0518,
+      "committing": 0.0605,
+      "doing": 0.157,
+      "checking": 0.5834
      },
-     "confidence": 0.9868
+     "confidence": 0.2683
     },
     "done": {
      "type": "choice",
      "choice": "configured",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 1
+      "know": 0.0642,
+      "picked": 0.0383,
+      "handed_over": 0.0159,
+      "finished_task": 0.0156,
+      "reassured": 0.0202,
+      "configured": 0.8458
      },
-     "confidence": 0.9998
+     "confidence": 0.6358
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9648,
+      "person_to_system": 0.0188,
+      "both": 0.0163
      },
-     "confidence": 1
+     "confidence": 0.8393
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0.0001,
-      "few": 0,
-      "many": 0,
-      "none": 0.9999
+      "one": 0.1044,
+      "few": 0.0568,
+      "many": 0.0177,
+      "none": 0.8211
      },
-     "confidence": 0.9991
+     "confidence": 0.5441
     },
     "stakes": {
      "type": "score",
-     "score": 0.0059,
+     "score": 0.3395,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2156,16 +2156,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9941,
-      "1": 0.0059,
-      "2": 0,
-      "3": 0
+      "0": 0.6686,
+      "1": 0.3258,
+      "2": 0.0032,
+      "3": 0.0024
      },
-     "confidence": 0.9739
+     "confidence": 0.5186
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 0.9645,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2173,31 +2173,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0572,
+      "1": 0.9237,
+      "2": 0.0164,
+      "3": 0.0027
      },
-     "confidence": 0.9998
+     "confidence": 0.769
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0959,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9098,
+      "1": 0.0846,
+      "2": 0.0056
      },
-     "confidence": 0.9999
+     "confidence": 0.7049
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0005
+     "noul": 0
     },
     "anx_cost": {
      "type": "noul",
@@ -2248,15 +2248,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 62
+    "ms": 66,
+    "model_ms": 66
    }
   }
  },
  {
   "fixture": "015.json",
   "state": "{\"user_request\":\"Sign me up for the Saturday pottery workshop\"}",
-  "ms": 118,
+  "ms": 146,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2264,52 +2264,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0049,
+      "comparing": 0.0087,
+      "deciding": 0.006,
+      "committing": 0.9699,
+      "doing": 0.0044,
+      "checking": 0.0061
      },
-     "confidence": 1
+     "confidence": 0.8979
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0039,
+      "picked": 0.0079,
+      "handed_over": 0.9749,
+      "finished_task": 0.0053,
+      "reassured": 0.005,
+      "configured": 0.003
      },
-     "confidence": 1
+     "confidence": 0.9128
     },
     "flow": {
      "type": "choice",
-     "choice": "system_to_person",
+     "choice": "both",
      "probabilities": {
-      "system_to_person": 0.8175,
-      "person_to_system": 0.0001,
-      "both": 0.1824
+      "system_to_person": 0.3348,
+      "person_to_system": 0.0591,
+      "both": 0.6062
      },
-     "confidence": 0.5669
+     "confidence": 0.2382
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9567,
+      "few": 0.0074,
+      "many": 0.0074,
+      "none": 0.0286
      },
-     "confidence": 0.9999
+     "confidence": 0.8439
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9787,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2317,16 +2317,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0048,
+      "1": 0.0138,
+      "2": 0.9793,
+      "3": 0.0021
      },
-     "confidence": 1
+     "confidence": 0.9148
     },
     "attention": {
      "type": "score",
-     "score": 0.0005,
+     "score": 0.1191,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2334,27 +2334,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9995,
-      "1": 0.0005,
-      "2": 0,
-      "3": 0
+      "0": 0.8933,
+      "1": 0.0971,
+      "2": 0.0068,
+      "3": 0.0028
      },
-     "confidence": 0.997
+     "confidence": 0.7276
     },
     "urgency": {
      "type": "score",
-     "score": 0.2018,
+     "score": 0.4462,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.7982,
-      "1": 0.2018,
-      "2": 0
+      "0": 0.5591,
+      "1": 0.4355,
+      "2": 0.0054
      },
-     "confidence": 0.5422
+     "confidence": 0.349
     },
     "habitual": {
      "type": "noul",
@@ -2409,15 +2409,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 82,
+    "model_ms": 82
    }
   }
  },
  {
   "fixture": "016.json",
   "state": "{\"user_request\":\"Are there any pottery workshops around here?\"}",
-  "ms": 125,
+  "ms": 126,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2425,52 +2425,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 1,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.9762,
+      "comparing": 0.0076,
+      "deciding": 0.0041,
+      "committing": 0.0041,
+      "doing": 0.0041,
+      "checking": 0.0041
      },
-     "confidence": 1
+     "confidence": 0.9163
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0.0026,
-      "picked": 0.9974,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.3527,
+      "picked": 0.5907,
+      "handed_over": 0.0122,
+      "finished_task": 0.0116,
+      "reassured": 0.0238,
+      "configured": 0.009
      },
-     "confidence": 0.9898
+     "confidence": 0.4893
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9594,
+      "person_to_system": 0.018,
+      "both": 0.0226
      },
-     "confidence": 1
+     "confidence": 0.8202
     },
     "cardinality": {
      "type": "choice",
      "choice": "many",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 1,
-      "none": 0
+      "one": 0.0056,
+      "few": 0.0842,
+      "many": 0.9048,
+      "none": 0.0054
      },
-     "confidence": 0.9998
+     "confidence": 0.7431
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.2267,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2478,16 +2478,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.7826,
+      "1": 0.2106,
+      "2": 0.0044,
+      "3": 0.0024
      },
-     "confidence": 0.9998
+     "confidence": 0.5973
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 0.9911,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2495,27 +2495,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0234,
+      "1": 0.9646,
+      "2": 0.0095,
+      "3": 0.0025
      },
-     "confidence": 1
+     "confidence": 0.8689
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0351,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9678,
+      "1": 0.0292,
+      "2": 0.003
      },
-     "confidence": 1
+     "confidence": 0.8615
     },
     "habitual": {
      "type": "noul",
@@ -2543,7 +2543,7 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0007
     },
     "by_quality": {
      "type": "noul",
@@ -2555,7 +2555,7 @@
     },
     "by_time": {
      "type": "noul",
-     "noul": 0.9957
+     "noul": 0.011
     },
     "by_looks": {
      "type": "noul",
@@ -2570,15 +2570,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 65,
+    "model_ms": 65
    }
   }
  },
  {
   "fixture": "017.json",
   "state": "{\"user_request\":\"Should I see a doctor about this mole?\"}",
-  "ms": 122,
+  "ms": 131,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2586,52 +2586,52 @@
      "type": "choice",
      "choice": "deciding",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 1,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0206,
+      "comparing": 0.0446,
+      "deciding": 0.91,
+      "committing": 0.0069,
+      "doing": 0.0106,
+      "checking": 0.0073
      },
-     "confidence": 0.9999
+     "confidence": 0.7639
     },
     "done": {
      "type": "choice",
      "choice": "reassured",
      "probabilities": {
-      "know": 0.0001,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0.9999,
-      "configured": 0
+      "know": 0.0619,
+      "picked": 0.0279,
+      "handed_over": 0.0091,
+      "finished_task": 0.008,
+      "reassured": 0.8819,
+      "configured": 0.0112
      },
-     "confidence": 0.9994
+     "confidence": 0.7128
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9717,
+      "person_to_system": 0.0135,
+      "both": 0.0148
      },
-     "confidence": 1
+     "confidence": 0.865
     },
     "cardinality": {
      "type": "choice",
-     "choice": "one",
+     "choice": "none",
      "probabilities": {
-      "one": 0.9883,
-      "few": 0,
-      "many": 0,
-      "none": 0.0117
+      "one": 0.1464,
+      "few": 0.0048,
+      "many": 0.0064,
+      "none": 0.8425
      },
-     "confidence": 0.9541
+     "confidence": 0.6513
     },
     "stakes": {
      "type": "score",
-     "score": 0.0097,
+     "score": 0.3518,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2639,16 +2639,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9903,
-      "1": 0.0097,
-      "2": 0,
-      "3": 0
+      "0": 0.6646,
+      "1": 0.3239,
+      "2": 0.0065,
+      "3": 0.005
      },
-     "confidence": 0.9606
+     "confidence": 0.4981
     },
     "attention": {
      "type": "score",
-     "score": 2.7309,
+     "score": 2.1805,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2656,27 +2656,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0.2689,
-      "3": 0.731
+      "0": 0.0577,
+      "1": 0.0577,
+      "2": 0.5309,
+      "3": 0.3536
      },
-     "confidence": 0.5796
+     "confidence": 0.2548
     },
     "urgency": {
      "type": "score",
-     "score": 0.0015,
+     "score": 0.2155,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9985,
-      "1": 0.0015,
-      "2": 0
+      "0": 0.8123,
+      "1": 0.1599,
+      "2": 0.0278
      },
-     "confidence": 0.9897
+     "confidence": 0.4888
     },
     "habitual": {
      "type": "noul",
@@ -2696,7 +2696,7 @@
     },
     "anx_mistake": {
      "type": "noul",
-     "noul": 0.9998
+     "noul": 0.9999
     },
     "anx_safety": {
      "type": "noul",
@@ -2731,15 +2731,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "018.json",
   "state": "{\"user_request\":\"Where is my package?\"}",
-  "ms": 124,
+  "ms": 122,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2747,52 +2747,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0044,
+      "comparing": 0.0051,
+      "deciding": 0.0029,
+      "committing": 0.0029,
+      "doing": 0.0035,
+      "checking": 0.9811
      },
-     "confidence": 1
+     "confidence": 0.9309
     },
     "done": {
      "type": "choice",
-     "choice": "reassured",
+     "choice": "know",
      "probabilities": {
-      "know": 0.0117,
-      "picked": 0.0005,
-      "handed_over": 0.0014,
-      "finished_task": 0,
-      "reassured": 0.9863,
-      "configured": 0
+      "know": 0.5006,
+      "picked": 0.0798,
+      "handed_over": 0.0556,
+      "finished_task": 0.0331,
+      "reassured": 0.3132,
+      "configured": 0.0177
      },
-     "confidence": 0.9557
+     "confidence": 0.2987
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9645,
+      "person_to_system": 0.0176,
+      "both": 0.0179
      },
-     "confidence": 1
+     "confidence": 0.8381
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.971,
+      "few": 0.0154,
+      "many": 0.0065,
+      "none": 0.0072
      },
-     "confidence": 1
+     "confidence": 0.8839
     },
     "stakes": {
      "type": "score",
-     "score": 0.0006,
+     "score": 0.204,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2800,16 +2800,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9994,
-      "1": 0.0006,
-      "2": 0,
-      "3": 0
+      "0": 0.8126,
+      "1": 0.1757,
+      "2": 0.0066,
+      "3": 0.005
      },
-     "confidence": 0.9962
+     "confidence": 0.6149
     },
     "attention": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.1032,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2817,31 +2817,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.909,
+      "1": 0.082,
+      "2": 0.0058,
+      "3": 0.0032
      },
-     "confidence": 0.9984
+     "confidence": 0.7547
     },
     "urgency": {
      "type": "score",
-     "score": 0.0474,
+     "score": 0.2576,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9526,
-      "1": 0.0474,
-      "2": 0
+      "0": 0.7495,
+      "1": 0.2433,
+      "2": 0.0071
      },
-     "confidence": 0.8263
+     "confidence": 0.4582
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0005
     },
     "anx_cost": {
      "type": "noul",
@@ -2892,15 +2892,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 61,
-    "model_ms": 61
+    "ms": 58,
+    "model_ms": 58
    }
   }
  },
  {
   "fixture": "019.json",
   "state": "{\"user_request\":\"Book a dermatologist appointment for next week\"}",
-  "ms": 133,
+  "ms": 127,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -2908,52 +2908,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0074,
+      "comparing": 0.0136,
+      "deciding": 0.0095,
+      "committing": 0.9518,
+      "doing": 0.0087,
+      "checking": 0.009
      },
-     "confidence": 1
+     "confidence": 0.8494
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0049,
+      "picked": 0.0091,
+      "handed_over": 0.9683,
+      "finished_task": 0.0078,
+      "reassured": 0.0067,
+      "configured": 0.0031
      },
-     "confidence": 1
+     "confidence": 0.8941
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0.0067,
-      "person_to_system": 0,
-      "both": 0.9933
+      "system_to_person": 0.1463,
+      "person_to_system": 0.0629,
+      "both": 0.7908
      },
-     "confidence": 0.9632
+     "confidence": 0.4167
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0.0002,
-      "few": 0.9987,
-      "many": 0,
-      "none": 0.001
+      "one": 0.1368,
+      "few": 0.6424,
+      "many": 0.0249,
+      "none": 0.1959
      },
-     "confidence": 0.9925
+     "confidence": 0.3019
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9729,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -2961,16 +2961,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0043,
+      "1": 0.0205,
+      "2": 0.9732,
+      "3": 0.002
      },
-     "confidence": 1
+     "confidence": 0.8976
     },
     "attention": {
      "type": "score",
-     "score": 0.0003,
+     "score": 0.1197,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -2978,27 +2978,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9997,
-      "1": 0.0003,
-      "2": 0,
-      "3": 0
+      "0": 0.8961,
+      "1": 0.0915,
+      "2": 0.009,
+      "3": 0.0034
      },
-     "confidence": 0.9978
+     "confidence": 0.7267
     },
     "urgency": {
      "type": "score",
-     "score": 0.9325,
+     "score": 0.7239,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.0675,
-      "1": 0.9325,
-      "2": 0
+      "0": 0.2802,
+      "1": 0.7156,
+      "2": 0.0041
      },
-     "confidence": 0.7749
+     "confidence": 0.437
     },
     "habitual": {
      "type": "noul",
@@ -3022,7 +3022,7 @@
     },
     "anx_safety": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "by_price": {
      "type": "noul",
@@ -3053,15 +3053,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 63,
-    "model_ms": 63
+    "ms": 66,
+    "model_ms": 66
    }
   }
  },
  {
   "fixture": "020.json",
   "state": "{\"user_request\":\"I need to return the shoes I ordered\"}",
-  "ms": 122,
+  "ms": 128,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3069,52 +3069,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0.0001,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0.0003,
-      "doing": 0.0036,
-      "checking": 0.996
+      "exploring": 0.0646,
+      "comparing": 0.048,
+      "deciding": 0.038,
+      "committing": 0.0744,
+      "doing": 0.1117,
+      "checking": 0.6632
      },
-     "confidence": 0.9844
+     "confidence": 0.3539
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0113,
+      "picked": 0.0196,
+      "handed_over": 0.9142,
+      "finished_task": 0.0301,
+      "reassured": 0.0173,
+      "configured": 0.0075
      },
-     "confidence": 0.9999
+     "confidence": 0.7644
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0.0006,
-      "person_to_system": 0.0032,
-      "both": 0.9962
+      "system_to_person": 0.0855,
+      "person_to_system": 0.1755,
+      "both": 0.7389
      },
-     "confidence": 0.9758
+     "confidence": 0.3271
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0.0007,
-      "few": 0,
-      "many": 0,
-      "none": 0.9993
+      "one": 0.1101,
+      "few": 0.022,
+      "many": 0.0149,
+      "none": 0.8529
      },
-     "confidence": 0.9957
+     "confidence": 0.621
     },
     "stakes": {
      "type": "score",
-     "score": 1.0052,
+     "score": 1.1831,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3122,16 +3122,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.9948,
-      "2": 0.0052,
-      "3": 0
+      "0": 0.0117,
+      "1": 0.7963,
+      "2": 0.1891,
+      "3": 0.0028
      },
-     "confidence": 0.9765
+     "confidence": 0.5924
     },
     "attention": {
      "type": "score",
-     "score": 0.8933,
+     "score": 0.7072,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3139,31 +3139,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.1067,
-      "1": 0.8933,
-      "2": 0,
-      "3": 0
+      "0": 0.3659,
+      "1": 0.5667,
+      "2": 0.0616,
+      "3": 0.0057
      },
-     "confidence": 0.7548
+     "confidence": 0.3573
     },
     "urgency": {
      "type": "score",
-     "score": 0.0006,
+     "score": 0.1469,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9994,
-      "1": 0.0006,
-      "2": 0
+      "0": 0.8566,
+      "1": 0.1398,
+      "2": 0.0035
      },
-     "confidence": 0.9952
+     "confidence": 0.6108
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.8933
+     "noul": 0.1067
     },
     "anx_cost": {
      "type": "noul",
@@ -3214,15 +3214,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 69,
+    "model_ms": 68
    }
   }
  },
  {
   "fixture": "021.json",
   "state": "{\"user_request\":\"Is The Incredibles okay for a five-year-old?\"}",
-  "ms": 119,
+  "ms": 129,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3230,52 +3230,52 @@
      "type": "choice",
      "choice": "deciding",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 1,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.011,
+      "comparing": 0.031,
+      "deciding": 0.9349,
+      "committing": 0.0063,
+      "doing": 0.0069,
+      "checking": 0.0099
      },
-     "confidence": 0.9999
+     "confidence": 0.8147
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.9988,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0.0012,
-      "configured": 0
+      "know": 0.5184,
+      "picked": 0.0138,
+      "handed_over": 0.0062,
+      "finished_task": 0.0058,
+      "reassured": 0.4504,
+      "configured": 0.0055
      },
-     "confidence": 0.9949
+     "confidence": 0.5265
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9841,
+      "person_to_system": 0.009,
+      "both": 0.0068
      },
-     "confidence": 1
+     "confidence": 0.9159
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9678,
+      "few": 0.0045,
+      "many": 0.0045,
+      "none": 0.0231
      },
-     "confidence": 1
+     "confidence": 0.8791
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0497,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3283,16 +3283,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9577,
+      "1": 0.0371,
+      "2": 0.0029,
+      "3": 0.0023
      },
-     "confidence": 1
+     "confidence": 0.8599
     },
     "attention": {
      "type": "score",
-     "score": 0.2942,
+     "score": 0.2613,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3300,31 +3300,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.7058,
-      "1": 0.2942,
-      "2": 0,
-      "3": 0
+      "0": 0.753,
+      "1": 0.2369,
+      "2": 0.0058,
+      "3": 0.0043
      },
-     "confidence": 0.5629
+     "confidence": 0.5615
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0408,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9621,
+      "1": 0.035,
+      "2": 0.0029
      },
-     "confidence": 1
+     "confidence": 0.8438
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0005
+     "noul": 0.8872
     },
     "anx_cost": {
      "type": "noul",
@@ -3375,15 +3375,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 55,
-    "model_ms": 55
+    "ms": 67,
+    "model_ms": 67
    }
   }
  },
  {
   "fixture": "022.json",
   "state": "{\"user_request\":\"How much did I spend on eating out last month?\"}",
-  "ms": 196,
+  "ms": 139,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3391,52 +3391,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0095,
+      "comparing": 0.0087,
+      "deciding": 0.0061,
+      "committing": 0.0039,
+      "doing": 0.0056,
+      "checking": 0.9662
      },
-     "confidence": 1
+     "confidence": 0.888
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.882,
+      "picked": 0.0347,
+      "handed_over": 0.0184,
+      "finished_task": 0.0224,
+      "reassured": 0.0297,
+      "configured": 0.0126
      },
-     "confidence": 0.9999
+     "confidence": 0.6953
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9779,
+      "person_to_system": 0.0116,
+      "both": 0.0104
      },
-     "confidence": 1
+     "confidence": 0.8897
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9748,
+      "few": 0.0138,
+      "many": 0.0054,
+      "none": 0.006
      },
-     "confidence": 1
+     "confidence": 0.897
     },
     "stakes": {
      "type": "score",
-     "score": 0.0006,
+     "score": 0.1536,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3444,16 +3444,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9994,
-      "1": 0.0006,
-      "2": 0,
-      "3": 0
+      "0": 0.8593,
+      "1": 0.1318,
+      "2": 0.005,
+      "3": 0.0039
      },
-     "confidence": 0.9966
+     "confidence": 0.6785
     },
     "attention": {
      "type": "score",
-     "score": 0.9948,
+     "score": 0.7,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3461,35 +3461,35 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.0052,
-      "1": 0.9948,
-      "2": 0,
-      "3": 0
+      "0": 0.3169,
+      "1": 0.6708,
+      "2": 0.0078,
+      "3": 0.0045
      },
-     "confidence": 0.9765
+     "confidence": 0.4992
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0432,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9598,
+      "1": 0.0372,
+      "2": 0.003
      },
-     "confidence": 0.9999
+     "confidence": 0.8368
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.9707
+     "noul": 0.9149
     },
     "anx_cost": {
      "type": "noul",
-     "noul": 0.1733
+     "noul": 0.0032
     },
     "anx_commitment": {
      "type": "noul",
@@ -3536,15 +3536,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 57,
-    "model_ms": 57
+    "ms": 62,
+    "model_ms": 62
    }
   }
  },
  {
   "fixture": "023.json",
   "state": "{\"user_request\":\"Pick a movie for family night\"}",
-  "ms": 123,
+  "ms": 271,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3552,52 +3552,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 0.9972,
-      "comparing": 0.0028,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.7829,
+      "comparing": 0.1448,
+      "deciding": 0.0276,
+      "committing": 0.0137,
+      "doing": 0.0193,
+      "checking": 0.0117
      },
-     "confidence": 0.9892
+     "confidence": 0.5772
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0,
-      "picked": 1,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0057,
+      "picked": 0.9775,
+      "handed_over": 0.0055,
+      "finished_task": 0.0031,
+      "reassured": 0.0045,
+      "configured": 0.0037
      },
-     "confidence": 1
+     "confidence": 0.9201
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9914,
-      "person_to_system": 0,
-      "both": 0.0086
+      "system_to_person": 0.6902,
+      "person_to_system": 0.0396,
+      "both": 0.2703
      },
-     "confidence": 0.9549
+     "confidence": 0.3289
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0,
-      "few": 1,
-      "many": 0,
-      "none": 0
+      "one": 0.027,
+      "few": 0.9093,
+      "many": 0.0538,
+      "none": 0.0099
      },
-     "confidence": 0.9999
+     "confidence": 0.7208
     },
     "stakes": {
      "type": "score",
-     "score": 0.9876,
+     "score": 0.8178,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3605,16 +3605,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.0124,
-      "1": 0.9876,
-      "2": 0,
-      "3": 0
+      "0": 0.1907,
+      "1": 0.803,
+      "2": 0.004,
+      "3": 0.0023
      },
-     "confidence": 0.9517
+     "confidence": 0.6191
     },
     "attention": {
      "type": "score",
-     "score": 0.999,
+     "score": 0.9183,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3622,31 +3622,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.001,
-      "1": 0.999,
-      "2": 0,
-      "3": 0
+      "0": 0.11,
+      "1": 0.8652,
+      "2": 0.0213,
+      "3": 0.0035
      },
-     "confidence": 0.9941
+     "confidence": 0.6611
     },
     "urgency": {
      "type": "score",
-     "score": 0.0001,
+     "score": 0.1659,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9999,
-      "1": 0.0001,
-      "2": 0
+      "0": 0.8372,
+      "1": 0.1598,
+      "2": 0.0031
      },
-     "confidence": 0.999
+     "confidence": 0.5817
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.9968
+     "noul": 0.982
     },
     "anx_cost": {
      "type": "noul",
@@ -3674,7 +3674,7 @@
     },
     "by_quality": {
      "type": "noul",
-     "noul": 0.1824
+     "noul": 0.0056
     },
     "by_location": {
      "type": "noul",
@@ -3697,15 +3697,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 58,
-    "model_ms": 58
+    "ms": 209,
+    "model_ms": 209
    }
   }
  },
  {
   "fixture": "024.json",
   "state": "{\"user_request\":\"Send $50 to Alex\"}",
-  "ms": 127,
+  "ms": 132,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3713,52 +3713,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0048,
+      "comparing": 0.0097,
+      "deciding": 0.0056,
+      "committing": 0.9678,
+      "doing": 0.0054,
+      "checking": 0.0066
      },
-     "confidence": 1
+     "confidence": 0.8921
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0087,
+      "picked": 0.0136,
+      "handed_over": 0.9111,
+      "finished_task": 0.0447,
+      "reassured": 0.0133,
+      "configured": 0.0087
      },
-     "confidence": 1
+     "confidence": 0.7646
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0.018,
-      "person_to_system": 0.0003,
-      "both": 0.9817
+      "system_to_person": 0.2703,
+      "person_to_system": 0.0812,
+      "both": 0.6485
      },
-     "confidence": 0.9156
+     "confidence": 0.2369
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 0.9997,
-      "few": 0,
-      "many": 0,
-      "none": 0.0003
+      "one": 0.8727,
+      "few": 0.0155,
+      "many": 0.0075,
+      "none": 0.1042
      },
-     "confidence": 0.9983
+     "confidence": 0.6712
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9834,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3766,16 +3766,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0041,
+      "1": 0.0107,
+      "2": 0.9829,
+      "3": 0.0023
      },
-     "confidence": 1
+     "confidence": 0.9264
     },
     "attention": {
      "type": "score",
-     "score": 0,
+     "score": 0.0532,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3783,31 +3783,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9617,
+      "1": 0.0269,
+      "2": 0.008,
+      "3": 0.0035
      },
-     "confidence": 1
+     "confidence": 0.8609
     },
     "urgency": {
      "type": "score",
-     "score": 1.9998,
+     "score": 1.7033,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.0002,
-      "2": 0.9998
+      "0": 0.0629,
+      "1": 0.171,
+      "2": 0.7662
      },
-     "confidence": 0.9979
+     "confidence": 0.381
     },
     "habitual": {
      "type": "noul",
-     "noul": 0
+     "noul": 0.0001
     },
     "anx_cost": {
      "type": "noul",
@@ -3858,15 +3858,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 61
+    "ms": 66,
+    "model_ms": 66
    }
   }
  },
  {
   "fixture": "025.json",
   "state": "{\"user_request\":\"Cancel my hotel reservation in Lisbon\"}",
-  "ms": 130,
+  "ms": 134,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -3874,52 +3874,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0.9981,
-      "doing": 0,
-      "checking": 0.0019
+      "exploring": 0.0264,
+      "comparing": 0.029,
+      "deciding": 0.0309,
+      "committing": 0.7477,
+      "doing": 0.0361,
+      "checking": 0.1299
      },
-     "confidence": 0.992
+     "confidence": 0.493
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0103,
+      "picked": 0.0181,
+      "handed_over": 0.9054,
+      "finished_task": 0.0423,
+      "reassured": 0.0146,
+      "configured": 0.0093
      },
-     "confidence": 0.9999
+     "confidence": 0.7495
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9873,
-      "person_to_system": 0.0002,
-      "both": 0.0124
+      "system_to_person": 0.6015,
+      "person_to_system": 0.0765,
+      "both": 0.322
      },
-     "confidence": 0.9371
+     "confidence": 0.2106
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 0.9986,
-      "few": 0,
-      "many": 0,
-      "none": 0.0014
+      "one": 0.8394,
+      "few": 0.0123,
+      "many": 0.0091,
+      "none": 0.1392
      },
-     "confidence": 0.9923
+     "confidence": 0.6262
     },
     "stakes": {
      "type": "score",
-     "score": 1.9975,
+     "score": 1.6513,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -3927,16 +3927,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.0025,
-      "2": 0.9975,
-      "3": 0
+      "0": 0.0191,
+      "1": 0.3137,
+      "2": 0.664,
+      "3": 0.0032
      },
-     "confidence": 0.9875
+     "confidence": 0.4736
     },
     "attention": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.101,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -3944,27 +3944,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.9172,
+      "1": 0.0685,
+      "2": 0.0103,
+      "3": 0.0039
      },
-     "confidence": 0.9986
+     "confidence": 0.7605
     },
     "urgency": {
      "type": "score",
-     "score": 0.0293,
+     "score": 0.4911,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9707,
-      "1": 0.0293,
-      "2": 0
+      "0": 0.5284,
+      "1": 0.452,
+      "2": 0.0196
      },
-     "confidence": 0.8795
+     "confidence": 0.2965
     },
     "habitual": {
      "type": "noul",
@@ -3976,7 +3976,7 @@
     },
     "anx_commitment": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.0004
     },
     "anx_loss": {
      "type": "noul",
@@ -4019,15 +4019,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 60
+    "ms": 64,
+    "model_ms": 64
    }
   }
  },
  {
   "fixture": "026.json",
   "state": "{\"user_request\":\"Show me my upcoming trips\"}",
-  "ms": 153,
+  "ms": 125,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4035,52 +4035,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0084,
+      "comparing": 0.009,
+      "deciding": 0.0051,
+      "committing": 0.0039,
+      "doing": 0.0057,
+      "checking": 0.9679
      },
-     "confidence": 1
+     "confidence": 0.8928
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.9999,
-      "picked": 0.0001,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.8113,
+      "picked": 0.0626,
+      "handed_over": 0.0261,
+      "finished_task": 0.0362,
+      "reassured": 0.0385,
+      "configured": 0.0253
      },
-     "confidence": 0.9994
+     "confidence": 0.5665
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9811,
+      "person_to_system": 0.0103,
+      "both": 0.0087
      },
-     "confidence": 1
+     "confidence": 0.9026
     },
     "cardinality": {
      "type": "choice",
-     "choice": "few",
+     "choice": "many",
      "probabilities": {
-      "one": 0,
-      "few": 0.9604,
-      "many": 0.0396,
-      "none": 0
+      "one": 0.0127,
+      "few": 0.4402,
+      "many": 0.5393,
+      "none": 0.0078
      },
-     "confidence": 0.8797
+     "confidence": 0.4318
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.1535,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4088,16 +4088,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.8547,
+      "1": 0.1395,
+      "2": 0.0033,
+      "3": 0.0025
      },
-     "confidence": 0.9999
+     "confidence": 0.6807
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 1.002,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4105,27 +4105,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0114,
+      "1": 0.9777,
+      "2": 0.0083,
+      "3": 0.0025
      },
-     "confidence": 1
+     "confidence": 0.9076
     },
     "urgency": {
      "type": "score",
-     "score": 0.0009,
+     "score": 0.2097,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9991,
-      "1": 0.0009,
-      "2": 0
+      "0": 0.7975,
+      "1": 0.1954,
+      "2": 0.0071
      },
-     "confidence": 0.9934
+     "confidence": 0.5133
     },
     "habitual": {
      "type": "noul",
@@ -4180,15 +4180,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 62
+    "ms": 61,
+    "model_ms": 61
    }
   }
  },
  {
   "fixture": "027.json",
   "state": "{\"user_request\":\"I got a weird login email. Was my account hacked?\"}",
-  "ms": 123,
+  "ms": 133,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4196,52 +4196,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0423,
+      "comparing": 0.0315,
+      "deciding": 0.0305,
+      "committing": 0.0129,
+      "doing": 0.0194,
+      "checking": 0.8635
      },
-     "confidence": 0.9999
+     "confidence": 0.6605
     },
     "done": {
      "type": "choice",
      "choice": "reassured",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 1,
-      "configured": 0
+      "know": 0.0035,
+      "picked": 0.0042,
+      "handed_over": 0.0024,
+      "finished_task": 0.0019,
+      "reassured": 0.9845,
+      "configured": 0.0036
      },
-     "confidence": 1
+     "confidence": 0.9417
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9399,
+      "person_to_system": 0.0233,
+      "both": 0.0367
      },
-     "confidence": 1
+     "confidence": 0.7567
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0134,
+      "few": 0.0031,
+      "many": 0.0034,
+      "none": 0.9801
      },
-     "confidence": 1
+     "confidence": 0.9174
     },
     "stakes": {
      "type": "score",
-     "score": 0.0007,
+     "score": 0.2542,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4249,16 +4249,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9993,
-      "1": 0.0007,
-      "2": 0,
-      "3": 0
+      "0": 0.7593,
+      "1": 0.2316,
+      "2": 0.0046,
+      "3": 0.0045
      },
-     "confidence": 0.9958
+     "confidence": 0.5695
     },
     "attention": {
      "type": "score",
-     "score": 1.9945,
+     "score": 1.6687,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4266,27 +4266,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.0009,
-      "1": 0.0041,
-      "2": 0.9946,
-      "3": 0.0004
+      "0": 0.1141,
+      "1": 0.1661,
+      "2": 0.6568,
+      "3": 0.063
      },
-     "confidence": 0.9733
+     "confidence": 0.2814
     },
     "urgency": {
      "type": "score",
-     "score": 1.8931,
+     "score": 1.5709,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.0001,
-      "1": 0.1067,
-      "2": 0.8932
+      "0": 0.0446,
+      "1": 0.3399,
+      "2": 0.6155
      },
-     "confidence": 0.6902
+     "confidence": 0.268
     },
     "habitual": {
      "type": "noul",
@@ -4302,11 +4302,11 @@
     },
     "anx_loss": {
      "type": "noul",
-     "noul": 1
+     "noul": 0.9999
     },
     "anx_mistake": {
      "type": "noul",
-     "noul": 0.9784
+     "noul": 0.9992
     },
     "anx_safety": {
      "type": "noul",
@@ -4341,15 +4341,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 62
+    "ms": 67,
+    "model_ms": 67
    }
   }
  },
  {
   "fixture": "028.json",
   "state": "{\"user_request\":\"Reset my password\"}",
-  "ms": 123,
+  "ms": 121,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4357,52 +4357,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0.9906,
-      "doing": 0.0086,
-      "checking": 0.0008
+      "exploring": 0.039,
+      "comparing": 0.0428,
+      "deciding": 0.0428,
+      "committing": 0.6597,
+      "doing": 0.122,
+      "checking": 0.0936
      },
-     "confidence": 0.9685
+     "confidence": 0.3586
     },
     "done": {
      "type": "choice",
      "choice": "finished_task",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0.0004,
-      "finished_task": 0.9995,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0822,
+      "picked": 0.0592,
+      "handed_over": 0.1335,
+      "finished_task": 0.6468,
+      "reassured": 0.0401,
+      "configured": 0.0382
      },
-     "confidence": 0.9974
+     "confidence": 0.343
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0.2689,
-      "person_to_system": 0.0002,
-      "both": 0.7309
+      "system_to_person": 0.1905,
+      "person_to_system": 0.0794,
+      "both": 0.7301
      },
-     "confidence": 0.4683
+     "confidence": 0.3204
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0067,
+      "few": 0.0043,
+      "many": 0.004,
+      "none": 0.9851
      },
-     "confidence": 1
+     "confidence": 0.9326
     },
     "stakes": {
      "type": "score",
-     "score": 0.9994,
+     "score": 0.8545,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4410,16 +4410,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.0006,
-      "1": 0.9994,
-      "2": 0,
-      "3": 0
+      "0": 0.1823,
+      "1": 0.7921,
+      "2": 0.0143,
+      "3": 0.0113
      },
-     "confidence": 0.9962
+     "confidence": 0.5627
     },
     "attention": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.0817,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4427,31 +4427,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.9341,
+      "1": 0.0535,
+      "2": 0.009,
+      "3": 0.0034
      },
-     "confidence": 0.9986
+     "confidence": 0.7965
     },
     "urgency": {
      "type": "score",
-     "score": 1.0529,
+     "score": 1.0045,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.0005,
-      "1": 0.9462,
-      "2": 0.0534
+      "0": 0.1406,
+      "1": 0.7142,
+      "2": 0.1451
      },
-     "confidence": 0.8067
+     "confidence": 0.2751
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0
     },
     "anx_cost": {
      "type": "noul",
@@ -4502,15 +4502,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 62
+    "ms": 64,
+    "model_ms": 63
    }
   }
  },
  {
   "fixture": "029.json",
   "state": "{\"user_request\":\"How do I get to the Golden Gate Bridge from Union Square right now?\"}",
-  "ms": 120,
+  "ms": 129,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4518,52 +4518,52 @@
      "type": "choice",
      "choice": "doing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 1,
-      "checking": 0
+      "exploring": 0.0513,
+      "comparing": 0.0425,
+      "deciding": 0.0393,
+      "committing": 0.0352,
+      "doing": 0.7893,
+      "checking": 0.0425
      },
-     "confidence": 0.9998
+     "confidence": 0.5242
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.9213,
+      "picked": 0.0218,
+      "handed_over": 0.0116,
+      "finished_task": 0.0129,
+      "reassured": 0.0239,
+      "configured": 0.0084
      },
-     "confidence": 1
+     "confidence": 0.7788
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9603,
+      "person_to_system": 0.0189,
+      "both": 0.0207
      },
-     "confidence": 1
+     "confidence": 0.8231
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0.0041,
-      "few": 0.0003,
-      "many": 0,
-      "none": 0.9956
+      "one": 0.2949,
+      "few": 0.1654,
+      "many": 0.0141,
+      "none": 0.5257
      },
-     "confidence": 0.9787
+     "confidence": 0.2384
     },
     "stakes": {
      "type": "score",
-     "score": 0.0003,
+     "score": 0.2042,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4571,16 +4571,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9997,
-      "1": 0.0003,
-      "2": 0,
-      "3": 0
+      "0": 0.8036,
+      "1": 0.1909,
+      "2": 0.0031,
+      "3": 0.0024
      },
-     "confidence": 0.9978
+     "confidence": 0.6219
     },
     "attention": {
      "type": "score",
-     "score": 0.9149,
+     "score": 0.6351,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4588,27 +4588,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.0851,
-      "1": 0.9149,
-      "2": 0,
-      "3": 0
+      "0": 0.3749,
+      "1": 0.6181,
+      "2": 0.0041,
+      "3": 0.003
      },
-     "confidence": 0.7901
+     "confidence": 0.4915
     },
     "urgency": {
      "type": "score",
-     "score": 2,
+     "score": 1.9875,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1
+      "0": 0.0032,
+      "1": 0.0061,
+      "2": 0.9907
      },
-     "confidence": 1
+     "confidence": 0.9465
     },
     "habitual": {
      "type": "noul",
@@ -4644,7 +4644,7 @@
     },
     "by_location": {
      "type": "noul",
-     "noul": 0.9149
+     "noul": 0.7773
     },
     "by_time": {
      "type": "noul",
@@ -4663,15 +4663,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 58,
-    "model_ms": 57
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "030.json",
   "state": "{\"user_request\":\"Tell me about the Golden Gate Bridge\"}",
-  "ms": 120,
+  "ms": 127,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4679,52 +4679,52 @@
      "type": "choice",
      "choice": "exploring",
      "probabilities": {
-      "exploring": 1,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.9694,
+      "comparing": 0.0103,
+      "deciding": 0.0051,
+      "committing": 0.0051,
+      "doing": 0.0051,
+      "checking": 0.0051
      },
-     "confidence": 1
+     "confidence": 0.8972
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.9725,
+      "picked": 0.0063,
+      "handed_over": 0.0053,
+      "finished_task": 0.0053,
+      "reassured": 0.0053,
+      "configured": 0.0053
      },
-     "confidence": 1
+     "confidence": 0.905
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9864,
+      "person_to_system": 0.0082,
+      "both": 0.0055
      },
-     "confidence": 1
+     "confidence": 0.926
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9602,
+      "few": 0.0107,
+      "many": 0.0073,
+      "none": 0.0219
      },
-     "confidence": 1
+     "confidence": 0.8508
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0297,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4732,16 +4732,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9778,
+      "1": 0.0168,
+      "2": 0.0033,
+      "3": 0.0021
      },
-     "confidence": 1
+     "confidence": 0.9117
     },
     "attention": {
      "type": "score",
-     "score": 2,
+     "score": 1.958,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4749,27 +4749,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.013,
+      "1": 0.0317,
+      "2": 0.9397,
+      "3": 0.0157
      },
-     "confidence": 1
+     "confidence": 0.7913
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0238,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9812,
+      "1": 0.0139,
+      "2": 0.0049
      },
-     "confidence": 1
+     "confidence": 0.9051
     },
     "habitual": {
      "type": "noul",
@@ -4824,15 +4824,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 65,
+    "model_ms": 64
    }
   }
  },
  {
   "fixture": "031.json",
   "state": "{\"user_request\":\"How is my running going this month?\"}",
-  "ms": 118,
+  "ms": 126,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -4840,52 +4840,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0046,
+      "comparing": 0.0048,
+      "deciding": 0.0032,
+      "committing": 0.0032,
+      "doing": 0.0032,
+      "checking": 0.9811
      },
-     "confidence": 1
+     "confidence": 0.9311
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.9999,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.8548,
+      "picked": 0.0326,
+      "handed_over": 0.0157,
+      "finished_task": 0.0279,
+      "reassured": 0.0522,
+      "configured": 0.0168
      },
-     "confidence": 0.9996
+     "confidence": 0.6464
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.98,
+      "person_to_system": 0.0109,
+      "both": 0.0091
      },
-     "confidence": 1
+     "confidence": 0.8983
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9416,
+      "few": 0.0401,
+      "many": 0.0104,
+      "none": 0.0079
      },
-     "confidence": 1
+     "confidence": 0.8042
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.1138,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -4893,16 +4893,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.8993,
+      "1": 0.0919,
+      "2": 0.0047,
+      "3": 0.0042
      },
-     "confidence": 0.9999
+     "confidence": 0.7382
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 0.9921,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -4910,31 +4910,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0715,
+      "1": 0.8706,
+      "2": 0.0523,
+      "3": 0.0056
      },
-     "confidence": 0.9997
+     "confidence": 0.6446
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0284,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9767,
+      "1": 0.0182,
+      "2": 0.0051
      },
-     "confidence": 1
+     "confidence": 0.8882
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.9988
+     "noul": 0.997
     },
     "anx_cost": {
      "type": "noul",
@@ -4985,15 +4985,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 58,
-    "model_ms": 58
+    "ms": 66,
+    "model_ms": 65
    }
   }
  },
  {
   "fixture": "032.json",
   "state": "{\"user_request\":\"Schedule a 30 minute call with Priya next week\"}",
-  "ms": 123,
+  "ms": 140,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5001,52 +5001,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0057,
+      "comparing": 0.0113,
+      "deciding": 0.0067,
+      "committing": 0.9592,
+      "doing": 0.008,
+      "checking": 0.0091
      },
-     "confidence": 1
+     "confidence": 0.8688
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0107,
+      "picked": 0.0214,
+      "handed_over": 0.9228,
+      "finished_task": 0.0196,
+      "reassured": 0.0156,
+      "configured": 0.0099
      },
-     "confidence": 1
+     "confidence": 0.781
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9981,
-      "person_to_system": 0,
-      "both": 0.0019
+      "system_to_person": 0.7256,
+      "person_to_system": 0.0664,
+      "both": 0.2079
      },
-     "confidence": 0.987
+     "confidence": 0.3269
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 0.9961,
-      "few": 0.0003,
-      "many": 0,
-      "none": 0.0036
+      "one": 0.6996,
+      "few": 0.0862,
+      "many": 0.0137,
+      "none": 0.2004
      },
-     "confidence": 0.981
+     "confidence": 0.3924
     },
     "stakes": {
      "type": "score",
-     "score": 1.6792,
+     "score": 1.76,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5054,16 +5054,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0.3208,
-      "2": 0.6792,
-      "3": 0
+      "0": 0.0049,
+      "1": 0.2321,
+      "2": 0.7611,
+      "3": 0.0019
      },
-     "confidence": 0.5474
+     "confidence": 0.5782
     },
     "attention": {
      "type": "score",
-     "score": 0.0032,
+     "score": 0.2231,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5071,27 +5071,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9968,
-      "1": 0.0032,
-      "2": 0,
-      "3": 0
+      "0": 0.7905,
+      "1": 0.1999,
+      "2": 0.0057,
+      "3": 0.0039
      },
-     "confidence": 0.9845
+     "confidence": 0.5968
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.061,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9441,
+      "1": 0.0508,
+      "2": 0.0051
      },
-     "confidence": 0.9998
+     "confidence": 0.7882
     },
     "habitual": {
      "type": "noul",
@@ -5146,15 +5146,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 60
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "033.json",
   "state": "{\"user_request\":\"Upgrade me to the annual plan\"}",
-  "ms": 126,
+  "ms": 131,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5162,52 +5162,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.005,
+      "comparing": 0.009,
+      "deciding": 0.0058,
+      "committing": 0.9689,
+      "doing": 0.0048,
+      "checking": 0.0065
      },
-     "confidence": 1
+     "confidence": 0.8952
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0059,
+      "picked": 0.0147,
+      "handed_over": 0.9581,
+      "finished_task": 0.0076,
+      "reassured": 0.0083,
+      "configured": 0.0054
      },
-     "confidence": 1
+     "confidence": 0.8669
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0.0124,
-      "person_to_system": 0.0002,
-      "both": 0.9874
+      "system_to_person": 0.174,
+      "person_to_system": 0.1159,
+      "both": 0.7101
      },
-     "confidence": 0.9373
+     "confidence": 0.2744
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 0.9995,
-      "few": 0,
-      "many": 0,
-      "none": 0.0005
+      "one": 0.8277,
+      "few": 0.0406,
+      "many": 0.0125,
+      "none": 0.1192
      },
-     "confidence": 0.9971
+     "confidence": 0.571
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9748,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5215,16 +5215,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0054,
+      "1": 0.0163,
+      "2": 0.9764,
+      "3": 0.0019
      },
-     "confidence": 1
+     "confidence": 0.9059
     },
     "attention": {
      "type": "score",
-     "score": 0.0001,
+     "score": 0.1078,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5232,27 +5232,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.9999,
-      "1": 0.0001,
-      "2": 0,
-      "3": 0
+      "0": 0.9081,
+      "1": 0.0793,
+      "2": 0.0092,
+      "3": 0.0034
      },
-     "confidence": 0.9995
+     "confidence": 0.7469
     },
     "urgency": {
      "type": "score",
-     "score": 0.0041,
+     "score": 0.1651,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.9959,
-      "1": 0.0041,
-      "2": 0
+      "0": 0.842,
+      "1": 0.151,
+      "2": 0.0071
      },
-     "confidence": 0.9759
+     "confidence": 0.5765
     },
     "habitual": {
      "type": "noul",
@@ -5280,7 +5280,7 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.999
+     "noul": 0.977
     },
     "by_quality": {
      "type": "noul",
@@ -5307,7 +5307,7 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 64,
+    "ms": 65,
     "model_ms": 64
    }
   }
@@ -5315,7 +5315,7 @@
  {
   "fixture": "034.json",
   "state": "{\"user_request\":\"Which plan is right for a team of five?\"}",
-  "ms": 119,
+  "ms": 269,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5323,52 +5323,52 @@
      "type": "choice",
      "choice": "comparing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 1,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.051,
+      "comparing": 0.8629,
+      "deciding": 0.0552,
+      "committing": 0.0105,
+      "doing": 0.0116,
+      "checking": 0.0089
      },
-     "confidence": 0.9999
+     "confidence": 0.6761
     },
     "done": {
      "type": "choice",
      "choice": "picked",
      "probabilities": {
-      "know": 0,
-      "picked": 1,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0681,
+      "picked": 0.8964,
+      "handed_over": 0.01,
+      "finished_task": 0.0073,
+      "reassured": 0.0108,
+      "configured": 0.0074
      },
-     "confidence": 0.9998
+     "confidence": 0.7498
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.8832,
+      "person_to_system": 0.042,
+      "both": 0.0748
      },
-     "confidence": 0.9999
+     "confidence": 0.6025
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0,
-      "few": 1,
-      "many": 0,
-      "none": 0
+      "one": 0.0429,
+      "few": 0.9323,
+      "many": 0.0167,
+      "none": 0.0081
      },
-     "confidence": 0.9999
+     "confidence": 0.7781
     },
     "stakes": {
      "type": "score",
-     "score": 0.9399,
+     "score": 0.7067,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5376,16 +5376,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.0601,
-      "1": 0.9399,
-      "2": 0,
-      "3": 0
+      "0": 0.3047,
+      "1": 0.6867,
+      "2": 0.0058,
+      "3": 0.0028
      },
-     "confidence": 0.8361
+     "confidence": 0.5191
     },
     "attention": {
      "type": "score",
-     "score": 0.999,
+     "score": 0.8586,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5393,27 +5393,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.001,
-      "1": 0.999,
-      "2": 0,
-      "3": 0
+      "0": 0.1617,
+      "1": 0.8214,
+      "2": 0.0135,
+      "3": 0.0034
      },
-     "confidence": 0.9941
+     "confidence": 0.6149
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0281,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9763,
+      "1": 0.0193,
+      "2": 0.0044
      },
-     "confidence": 1
+     "confidence": 0.8877
     },
     "habitual": {
      "type": "noul",
@@ -5421,7 +5421,7 @@
     },
     "anx_cost": {
      "type": "noul",
-     "noul": 0.0001
+     "noul": 0.8267
     },
     "anx_commitment": {
      "type": "noul",
@@ -5441,11 +5441,11 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.9924
+     "noul": 1
     },
     "by_quality": {
      "type": "noul",
-     "noul": 0.003
+     "noul": 0.0003
     },
     "by_location": {
      "type": "noul",
@@ -5468,15 +5468,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 56,
-    "model_ms": 56
+    "ms": 84,
+    "model_ms": 84
    }
   }
  },
  {
   "fixture": "035.json",
   "state": "{\"user_request\":\"Log today's run: 5k in 27 minutes\"}",
-  "ms": 125,
+  "ms": 132,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5484,52 +5484,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0.9991,
-      "doing": 0.0003,
-      "checking": 0.0006
+      "exploring": 0.0266,
+      "comparing": 0.0326,
+      "deciding": 0.0254,
+      "committing": 0.6979,
+      "doing": 0.107,
+      "checking": 0.1104
      },
-     "confidence": 0.9957
+     "confidence": 0.4223
     },
     "done": {
      "type": "choice",
      "choice": "finished_task",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 1,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.022,
+      "picked": 0.0223,
+      "handed_over": 0.0531,
+      "finished_task": 0.8571,
+      "reassured": 0.0205,
+      "configured": 0.025
      },
-     "confidence": 0.9998
+     "confidence": 0.6492
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 0.9982,
-      "person_to_system": 0.0017,
-      "both": 0.0001
+      "system_to_person": 0.717,
+      "person_to_system": 0.1813,
+      "both": 0.1017
      },
-     "confidence": 0.988
+     "confidence": 0.2895
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9613,
+      "few": 0.0065,
+      "many": 0.0056,
+      "none": 0.0266
      },
-     "confidence": 1
+     "confidence": 0.8586
     },
     "stakes": {
      "type": "score",
-     "score": 1,
+     "score": 0.9896,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5537,16 +5537,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0403,
+      "1": 0.9325,
+      "2": 0.0245,
+      "3": 0.0027
      },
-     "confidence": 0.9999
+     "confidence": 0.7824
     },
     "attention": {
      "type": "score",
-     "score": 0,
+     "score": 0.0932,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5554,27 +5554,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9231,
+      "1": 0.0648,
+      "2": 0.0079,
+      "3": 0.0042
      },
-     "confidence": 0.9997
+     "confidence": 0.7747
     },
     "urgency": {
      "type": "score",
-     "score": 0.9627,
+     "score": 0.7834,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.0373,
-      "1": 0.9627,
-      "2": 0
+      "0": 0.2719,
+      "1": 0.6729,
+      "2": 0.0552
      },
-     "confidence": 0.8549
+     "confidence": 0.2894
     },
     "habitual": {
      "type": "noul",
@@ -5629,15 +5629,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 53,
-    "model_ms": 52
+    "ms": 67,
+    "model_ms": 66
    }
   }
  },
  {
   "fixture": "036.json",
   "state": "{\"user_request\":\"When is my car due for service?\"}",
-  "ms": 122,
+  "ms": 130,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5645,52 +5645,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0149,
+      "comparing": 0.0136,
+      "deciding": 0.0104,
+      "committing": 0.0062,
+      "doing": 0.0103,
+      "checking": 0.9446
      },
-     "confidence": 1
+     "confidence": 0.8319
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.8716,
+      "picked": 0.0313,
+      "handed_over": 0.0201,
+      "finished_task": 0.0188,
+      "reassured": 0.0439,
+      "configured": 0.0144
      },
-     "confidence": 0.9999
+     "confidence": 0.6765
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9746,
+      "person_to_system": 0.0126,
+      "both": 0.0128
      },
-     "confidence": 1
+     "confidence": 0.8762
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9802,
+      "few": 0.0103,
+      "many": 0.004,
+      "none": 0.0055
      },
-     "confidence": 1
+     "confidence": 0.9154
     },
     "stakes": {
      "type": "score",
-     "score": 0.0001,
+     "score": 0.1356,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5698,16 +5698,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9999,
-      "1": 0.0001,
-      "2": 0,
-      "3": 0
+      "0": 0.8724,
+      "1": 0.1218,
+      "2": 0.0035,
+      "3": 0.0023
      },
-     "confidence": 0.9993
+     "confidence": 0.7049
     },
     "attention": {
      "type": "score",
-     "score": 0.023,
+     "score": 0.2358,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5715,31 +5715,31 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.977,
-      "1": 0.023,
-      "2": 0,
-      "3": 0
+      "0": 0.7761,
+      "1": 0.2155,
+      "2": 0.0048,
+      "3": 0.0036
      },
-     "confidence": 0.9211
+     "confidence": 0.5866
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0391,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9649,
+      "1": 0.031,
+      "2": 0.0041
      },
-     "confidence": 1
+     "confidence": 0.8503
     },
     "habitual": {
      "type": "noul",
-     "noul": 0.0005
+     "noul": 0.0001
     },
     "anx_cost": {
      "type": "noul",
@@ -5790,15 +5790,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 62,
-    "model_ms": 61
+    "ms": 68,
+    "model_ms": 67
    }
   }
  },
  {
   "fixture": "037.json",
   "state": "{\"user_request\":\"My car won't start, what do I do?\"}",
-  "ms": 180,
+  "ms": 132,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5806,52 +5806,52 @@
      "type": "choice",
      "choice": "doing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 1,
-      "checking": 0
+      "exploring": 0.0126,
+      "comparing": 0.0184,
+      "deciding": 0.0082,
+      "committing": 0.0056,
+      "doing": 0.9419,
+      "checking": 0.0133
      },
-     "confidence": 1
+     "confidence": 0.8265
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.974,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0.026,
-      "configured": 0
+      "know": 0.7227,
+      "picked": 0.036,
+      "handed_over": 0.021,
+      "finished_task": 0.025,
+      "reassured": 0.1771,
+      "configured": 0.0182
      },
-     "confidence": 0.9325
+     "confidence": 0.4937
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9616,
+      "person_to_system": 0.0168,
+      "both": 0.0216
      },
-     "confidence": 1
+     "confidence": 0.8279
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.0081,
+      "few": 0.0037,
+      "many": 0.0039,
+      "none": 0.9843
      },
-     "confidence": 1
+     "confidence": 0.9301
     },
     "stakes": {
      "type": "score",
-     "score": 0.0005,
+     "score": 0.1825,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -5859,16 +5859,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9995,
-      "1": 0.0005,
-      "2": 0,
-      "3": 0
+      "0": 0.8311,
+      "1": 0.1586,
+      "2": 0.0069,
+      "3": 0.0034
      },
-     "confidence": 0.997
+     "confidence": 0.6398
     },
     "attention": {
      "type": "score",
-     "score": 2.0002,
+     "score": 1.9683,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -5876,27 +5876,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 0.9998,
-      "3": 0.0002
+      "0": 0.0219,
+      "1": 0.0718,
+      "2": 0.8222,
+      "3": 0.084
      },
-     "confidence": 0.9984
+     "confidence": 0.537
     },
     "urgency": {
      "type": "score",
-     "score": 2,
+     "score": 1.9719,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1
+      "0": 0.0041,
+      "1": 0.0199,
+      "2": 0.976
      },
-     "confidence": 1
+     "confidence": 0.8869
     },
     "habitual": {
      "type": "noul",
@@ -5951,15 +5951,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 69,
+    "model_ms": 69
    }
   }
  },
  {
   "fixture": "038.json",
   "state": "{\"user_request\":\"File a claim for my cracked phone screen\"}",
-  "ms": 144,
+  "ms": 129,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -5967,52 +5967,52 @@
      "type": "choice",
      "choice": "committing",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 1,
-      "doing": 0,
-      "checking": 0
+      "exploring": 0.0074,
+      "comparing": 0.0153,
+      "deciding": 0.0087,
+      "committing": 0.9466,
+      "doing": 0.0109,
+      "checking": 0.0112
      },
-     "confidence": 1
+     "confidence": 0.8367
     },
     "done": {
      "type": "choice",
      "choice": "handed_over",
      "probabilities": {
-      "know": 0,
-      "picked": 0,
-      "handed_over": 1,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.0048,
+      "picked": 0.0088,
+      "handed_over": 0.9637,
+      "finished_task": 0.0096,
+      "reassured": 0.009,
+      "configured": 0.004
      },
-     "confidence": 1
+     "confidence": 0.8813
     },
     "flow": {
      "type": "choice",
      "choice": "both",
      "probabilities": {
-      "system_to_person": 0,
-      "person_to_system": 0.0006,
-      "both": 0.9994
+      "system_to_person": 0.0394,
+      "person_to_system": 0.1177,
+      "both": 0.8429
      },
-     "confidence": 0.9954
+     "confidence": 0.5236
     },
     "cardinality": {
      "type": "choice",
      "choice": "none",
      "probabilities": {
-      "one": 0,
-      "few": 0,
-      "many": 0,
-      "none": 1
+      "one": 0.044,
+      "few": 0.0077,
+      "many": 0.0083,
+      "none": 0.94
      },
-     "confidence": 1
+     "confidence": 0.8031
     },
     "stakes": {
      "type": "score",
-     "score": 2,
+     "score": 1.9713,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -6020,16 +6020,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0,
-      "1": 0,
-      "2": 1,
-      "3": 0
+      "0": 0.0091,
+      "1": 0.0222,
+      "2": 0.9571,
+      "3": 0.0117
      },
-     "confidence": 1
+     "confidence": 0.8405
     },
     "attention": {
      "type": "score",
-     "score": 0.2482,
+     "score": 0.528,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -6037,27 +6037,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.7536,
-      "1": 0.2447,
-      "2": 0.0016,
-      "3": 0.0001
+      "0": 0.593,
+      "1": 0.3076,
+      "2": 0.0778,
+      "3": 0.0216
      },
-     "confidence": 0.5897
+     "confidence": 0.3118
     },
     "urgency": {
      "type": "score",
-     "score": 0.2227,
+     "score": 0.431,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.7773,
-      "1": 0.2227,
-      "2": 0
+      "0": 0.5744,
+      "1": 0.4202,
+      "2": 0.0054
      },
-     "confidence": 0.5173
+     "confidence": 0.3528
     },
     "habitual": {
      "type": "noul",
@@ -6065,7 +6065,7 @@
     },
     "anx_cost": {
      "type": "noul",
-     "noul": 0.7663
+     "noul": 0.9959
     },
     "anx_commitment": {
      "type": "noul",
@@ -6073,7 +6073,7 @@
     },
     "anx_loss": {
      "type": "noul",
-     "noul": 0.7773
+     "noul": 0.2227
     },
     "anx_mistake": {
      "type": "noul",
@@ -6112,15 +6112,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 60
+    "ms": 65,
+    "model_ms": 65
    }
   }
  },
  {
   "fixture": "039.json",
   "state": "{\"user_request\":\"Is a cracked screen covered by my plan?\"}",
-  "ms": 120,
+  "ms": 126,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -6128,52 +6128,52 @@
      "type": "choice",
      "choice": "deciding",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0.0002,
-      "deciding": 0.9997,
-      "committing": 0,
-      "doing": 0,
-      "checking": 0.0002
+      "exploring": 0.0263,
+      "comparing": 0.0535,
+      "deciding": 0.7681,
+      "committing": 0.022,
+      "doing": 0.0245,
+      "checking": 0.1056
      },
-     "confidence": 0.9982
+     "confidence": 0.5161
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 0.9944,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0.0056,
-      "configured": 0
+      "know": 0.848,
+      "picked": 0.0214,
+      "handed_over": 0.0108,
+      "finished_task": 0.0086,
+      "reassured": 0.1029,
+      "configured": 0.0083
      },
-     "confidence": 0.9808
+     "confidence": 0.6731
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9758,
+      "person_to_system": 0.0125,
+      "both": 0.0116
      },
-     "confidence": 1
+     "confidence": 0.8812
     },
     "cardinality": {
      "type": "choice",
      "choice": "one",
      "probabilities": {
-      "one": 1,
-      "few": 0,
-      "many": 0,
-      "none": 0
+      "one": 0.9607,
+      "few": 0.0059,
+      "many": 0.0046,
+      "none": 0.0288
      },
-     "confidence": 1
+     "confidence": 0.8589
     },
     "stakes": {
      "type": "score",
-     "score": 0.0002,
+     "score": 0.1476,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -6181,16 +6181,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 0.9998,
-      "1": 0.0002,
-      "2": 0,
-      "3": 0
+      "0": 0.8593,
+      "1": 0.136,
+      "2": 0.0027,
+      "3": 0.0021
      },
-     "confidence": 0.9989
+     "confidence": 0.6895
     },
     "attention": {
      "type": "score",
-     "score": 0.023,
+     "score": 0.2221,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -6198,27 +6198,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0.977,
-      "1": 0.023,
-      "2": 0,
-      "3": 0
+      "0": 0.7878,
+      "1": 0.2055,
+      "2": 0.0033,
+      "3": 0.0033
      },
-     "confidence": 0.9211
+     "confidence": 0.6026
     },
     "urgency": {
      "type": "score",
-     "score": 0,
+     "score": 0.0626,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0
+      "0": 0.9405,
+      "1": 0.0565,
+      "2": 0.003
      },
-     "confidence": 0.9999
+     "confidence": 0.7837
     },
     "habitual": {
      "type": "noul",
@@ -6246,7 +6246,7 @@
     },
     "by_price": {
      "type": "noul",
-     "noul": 0.0002
+     "noul": 0.0001
     },
     "by_quality": {
      "type": "noul",
@@ -6273,15 +6273,15 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 59,
-    "model_ms": 59
+    "ms": 62,
+    "model_ms": 62
    }
   }
  },
  {
   "fixture": "040.json",
   "state": "{\"user_request\":\"What's on my calendar tomorrow?\"}",
-  "ms": 121,
+  "ms": 132,
   "response": {
    "model": "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic",
    "answers": {
@@ -6289,52 +6289,52 @@
      "type": "choice",
      "choice": "checking",
      "probabilities": {
-      "exploring": 0,
-      "comparing": 0,
-      "deciding": 0,
-      "committing": 0,
-      "doing": 0,
-      "checking": 1
+      "exploring": 0.0134,
+      "comparing": 0.0118,
+      "deciding": 0.0072,
+      "committing": 0.0048,
+      "doing": 0.0078,
+      "checking": 0.955
      },
-     "confidence": 1
+     "confidence": 0.8588
     },
     "done": {
      "type": "choice",
      "choice": "know",
      "probabilities": {
-      "know": 1,
-      "picked": 0,
-      "handed_over": 0,
-      "finished_task": 0,
-      "reassured": 0,
-      "configured": 0
+      "know": 0.9295,
+      "picked": 0.0192,
+      "handed_over": 0.0096,
+      "finished_task": 0.0118,
+      "reassured": 0.0221,
+      "configured": 0.0077
      },
-     "confidence": 1
+     "confidence": 0.7975
     },
     "flow": {
      "type": "choice",
      "choice": "system_to_person",
      "probabilities": {
-      "system_to_person": 1,
-      "person_to_system": 0,
-      "both": 0
+      "system_to_person": 0.9841,
+      "person_to_system": 0.0089,
+      "both": 0.007
      },
-     "confidence": 1
+     "confidence": 0.9157
     },
     "cardinality": {
      "type": "choice",
      "choice": "few",
      "probabilities": {
-      "one": 0,
-      "few": 0.9992,
-      "many": 0.0008,
-      "none": 0
+      "one": 0.0196,
+      "few": 0.6739,
+      "many": 0.2991,
+      "none": 0.0074
      },
-     "confidence": 0.9953
+     "confidence": 0.4659
     },
     "stakes": {
      "type": "score",
-     "score": 0,
+     "score": 0.0355,
      "legend": {
       "0": "Nothing to undo. They are only looking.",
       "1": "Easily undone or changed later.",
@@ -6342,16 +6342,16 @@
       "3": "Cannot be undone."
      },
      "probabilities": {
-      "0": 1,
-      "1": 0,
-      "2": 0,
-      "3": 0
+      "0": 0.9729,
+      "1": 0.0212,
+      "2": 0.0035,
+      "3": 0.0024
      },
-     "confidence": 1
+     "confidence": 0.897
     },
     "attention": {
      "type": "score",
-     "score": 1,
+     "score": 0.9984,
      "legend": {
       "0": "A glance: one or two numbers or words.",
       "1": "A scan: skim a short list or a few facts.",
@@ -6359,27 +6359,27 @@
       "3": "A study: careful, extended attention."
      },
      "probabilities": {
-      "0": 0,
-      "1": 1,
-      "2": 0,
-      "3": 0
+      "0": 0.0135,
+      "1": 0.977,
+      "2": 0.0072,
+      "3": 0.0024
      },
-     "confidence": 1
+     "confidence": 0.9058
     },
     "urgency": {
      "type": "score",
-     "score": 0.7982,
+     "score": 0.5907,
      "legend": {
       "0": "No time pressure.",
       "1": "Within a day or so.",
       "2": "Right now."
      },
      "probabilities": {
-      "0": 0.2018,
-      "1": 0.7982,
-      "2": 0
+      "0": 0.4133,
+      "1": 0.5828,
+      "2": 0.004
      },
-     "confidence": 0.5422
+     "confidence": 0.3613
     },
     "habitual": {
      "type": "noul",
@@ -6419,7 +6419,7 @@
     },
     "by_time": {
      "type": "noul",
-     "noul": 0.9325
+     "noul": 0.9579
     },
     "by_looks": {
      "type": "noul",
@@ -6434,8 +6434,8 @@
     "strategy": "scored",
     "model_calls": 2,
     "repaired": 0,
-    "ms": 60,
-    "model_ms": 60
+    "ms": 64,
+    "model_ms": 64
    }
   }
  }

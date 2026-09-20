@@ -1,22 +1,23 @@
 # State of gev
 
-Last updated 2026-09-19. Keep this current: update it in the same commit as any change that makes
+Last updated 2026-09-20. Keep this current: update it in the same commit as any change that makes
 part of it untrue. House rules are in [CLAUDE.md](../CLAUDE.md).
 
 ## 1. Objective
 
 Match [jev](https://docs.typesafe.ai/)'s latency with an open model on GCP.
 
-| from a laptop, median / p90 | jev | **gev live** (FP8 Gemma 4 26B-A4B, `scored`) | gev before (DiffusionGemma, packed) |
+| from a laptop, median / p90 | jev | **gev live** (FP8 Gemma 4 26B-A4B, `scored`) | gev on the morning of 2026-09-19 (DiffusionGemma, packed) |
 |---|---|---|---|
-| 18 questions (jtbd) | 151 / 255 ms | **127 / 141 ms** | ~376 ms |
-| 28 questions incl. 186 icons (plan) | 181 / 273 ms | **194 / 248 ms** | ~3,300 ms |
-| of which waiting on the model server | ~110 ms | 63 ms (jtbd), 94 ms (plan) | 220–310 ms |
+| 18 questions (jtbd) | 151 / 255 ms | **132 / 182 ms** (127–132 / 136–182 across runs) | ~376 ms |
+| 28 questions incl. 186 icons (plan) | 181 / 273 ms | **175 / 206 ms** (171–178 / 206–246 across runs) | ~3,300 ms |
+| of which waiting on the model server | ~110 ms | ~65 ms (jtbd), ~80 ms (plan) | 220–310 ms |
 
-**The latency objective is met and live since 2026-09-19.** The laptop's RTT to us-central1 is ~58 ms
-against ~41 ms to jev, which is the whole of the remaining plan-suite gap. It was reached by dropping
-diffusion for one batched forward pass of an autoregressive model (section 3, `scored`). Accuracy is at
-jev's level on the hand labels; **calibration is the open quality gap** (sections 4 and 7).
+**The latency objective is met and live since 2026-09-19**, from a laptop whose RTT to us-central1 (~58 ms)
+is 17 ms worse than its RTT to jev. It was reached by dropping diffusion for one batched forward pass
+of an autoregressive model (section 3, `scored`). Accuracy is at jev's level on the hand labels (109/120
+vs jev's 103). Choices and scores are calibrated with a temperature; **noul probabilities are still
+overconfident** (section 4). **Next thing to try: gev in the same container as vLLM** (section 7).
 
 ## 2. What is deployed
 
@@ -24,19 +25,17 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 
 | Service | What | Notes |
 |---|---|---|
-| `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. **Live config:** model service `gev-ar-fp8`, `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `GEV_WIDE_CHOICE=1`, no temperature. |
-| `gev-ar-fp8` | **The live model server.** vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, scale to zero, max 1. `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256` (answer-by-name needs the last). A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
-| `gev-ar` | Same model in bf16 (Google's own weights), private | The fallback if FP8 is ever in doubt. `--max-logprobs 20`, so no `GEV_WIDE_CHOICE` on it as deployed. |
-| `gev-ar-fp8x`, `gev-ar-e4b` | Experiments: a twin of the live FP8 server for trying serving flags, and Gemma 4 E4B as the speed reference. (`gev-ar-nvfp4` was deleted to free GPU quota; its weights are still in the bucket.) | **Remind the owner to delete these when experimenting is done.** |
-| `gev-scored` | Experimental copy of the API for trying settings before `gev`, `https://gev-scored-huio5ftumq-uc.a.run.app` | Shares `gev`'s keys. Repoint: `SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=… MODEL=… EXTRA_ENV=… ./scripts/deploy.sh`. |
-| `gev-model` | DiffusionGemma on vLLM `gemma` image, private | No longer used by `gev`. Owner to decide whether to retire it. |
-| `gs://gev-systemone-models` | Weights | `google/diffusiongemma-26B-A4B-it` (ungated, Apache 2.0), mounted read-only at `/models`. |
+| `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. **Live settings** (the defaults of `scripts/deploy.sh`): model service `gev-ar-fp8`, `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `GEV_WIDE_CHOICE=1`, `GEV_TEMPERATURE=choice=4;score=4`. |
+| `gev-ar-fp8` | **The live model server** (the defaults of `scripts/deploy-model.sh`). vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, **min 1 / max 1 instance: a GPU around the clock**, because a cold start takes ~10 minutes (section 5). `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256`. A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
+| `gev-ar` | The same model in bf16 (Google's own weights), private, scale to zero | The fallback if FP8 is ever in doubt. Deployed with `--max-logprobs 20`: redeploy it with the current script before using `GEV_WIDE_CHOICE` on it. |
+| `gev-scored` | Staging copy of the API, `https://gev-scored-huio5ftumq-uc.a.run.app` | Shares `gev`'s keys; same settings as live, pointed at the live model server. Try API-side changes here first: `SERVICE=gev-scored SECRET=gev-api-keys [MODEL_SERVICE=… MODEL=… EXTRA_ENV=…] ./scripts/deploy.sh`. |
+| `gs://gev-systemone-models` | Weights | `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic` (live), `google/gemma-4-26B-A4B-it`, `google/gemma-4-E4B-it`; mounted read-only at `/models`. DiffusionGemma and NVFP4 weights were deleted 2026-09-20; `deploy-model.sh` re-copies any model from Hugging Face on demand. |
 
 GPU quota in us-central1 is 3 RTX PRO 6000s across all services; a fourth instance fails to deploy with
 "Quota exceeded for total allowable count of GPUs". Idle services at zero instances don't count.
 
-Service accounts: `gev-runtime@` (may only invoke `gev-model` and read its key secret), `gev-model@`
-(may only read the bucket).
+Service accounts: `gev-runtime@` and `gev-scored-runtime@` (may only invoke the model services and read
+the key secret), `gev-ar-fp8@` and `gev-ar@` (may only read the bucket).
 
 ## 3. How it works
 
@@ -237,9 +236,12 @@ is second. Everything else is noise.
 
 **Cloud Run GPU**
 - RTX PRO 6000 quota was available on a brand-new project in us-central1 (the only US region with it).
-- **Cold start ≈ 18 minutes**, ~14 of them reading 48 GiB through the Cloud Storage FUSE mount at
-  ~50 MB/s regardless of read parallelism. Cloud Build moved the same bytes HF → bucket in 4 minutes.
-- Idle instances are reclaimed after ~10 minutes. With max 1 instance this makes timing runs fragile.
+- **Cold start ≈ 10 minutes for the 26 GiB FP8 weights** (≈ 18 for 48 GiB of bf16): the Cloud Storage
+  FUSE mount delivers ~50–60 MB/s regardless of read parallelism, and two services loading at once
+  share it. Cloud Build moved the same bytes HF → bucket in 4 minutes.
+- Idle instances are reclaimed after ~10–15 minutes unless `--min-instances 1` (the live server has it).
+  Requests that arrive during a load hang, and those queued behind them get 429s. Experiment services
+  at min 0 idle out between measurements: check `/health` first.
 - A failed newest revision is retried indefinitely (a full GPU load each time) and cannot be deleted
   until a newer revision exists.
 - `gcloud run deploy --source` uploads everything not in `.gcloudignore`, including `.env` if absent.
@@ -278,97 +280,69 @@ eval cases (408 questions), a second benchmark source.
 | Sending token ids instead of text to skip vLLM's tokenizer | 151 vs 155 ms: tokenization is not the cost. `logprobs: 20` costs ~9 ms over none. |
 | Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 
-## 7. Open decisions (the owner's)
+## 7. Next, and open decisions
 
-**As of the end of 2026-09-19 (supersedes the lists below where they overlap):**
+Decided by the owner on 2026-09-19/20 and done: go live on the FP8 26B-A4B with `scored`; round three
+(rotated names, 5 logprobs for nouls) live; `GEV_TEMPERATURE=choice=4;score=4` live; keep the live
+model server warm; delete `gev-model`, `gev-ar-e4b`, `gev-ar-fp8x`, `gev-ar-nvfp4` and the DiffusionGemma
+and NVFP4 weights.
 
-1. **Put round three live?** One ~2-minute API deploy of current `main` with the same settings as live
-   (`MODEL_SERVICE=gev-ar-fp8 MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic
-   EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last,GEV_WIDE_CHOICE=1 ./scripts/deploy.sh`).
-   Measured on `gev-scored`: plan 194 → 171 ms, jtbd unchanged, agreement with jev unchanged.
-2. **Keep the live model server warm (`--min-instances 1` on `gev-ar-fp8`)?** Without it every quiet
-   spell of ~10–15 minutes ends in a ~10-minute outage for the next caller. Costs one RTX PRO 6000
-   around the clock; price not checked. Nothing tried so far makes the cold start short.
-3. **Calibration:** apply `GEV_TEMPERATURE=choice=4,score=4`? Brings choices and scores to jev's
-   sharpness and closer to its probabilities on held-out fixtures; changes no decisions. Nouls don't
-   calibrate with a temperature (section 4); they need labeled data or a different idea.
-4. **Clean up:** delete `gev-ar-fp8x`, `gev-ar-e4b`, `gev-scored` (or keep `gev-scored` as the staging
-   API), and retire `gev-model` + the 52 GB of DiffusionGemma weights, plus the NVFP4 weights.
-5. **Further latency work, none of it tried:** tune the Triton FP8 MoE kernel for this GPU (vLLM warns
-   it runs a default config); run gev in the same container as vLLM (~23 ms per call is front end +
-   HTTP); a GPU quota above 3 so experiments stop competing with the live server for slots.
+**Next thing to try (owner, 2026-09-20): run gev in the same container as vLLM.** In-region a model call
+takes ~60–65 ms where vLLM's own e2e is ~37–45 ms; the ~20 ms between is Cloud Run's front end, the ID
+token check, TLS and vLLM's HTTP layer, paid once per call (jtbd 2 parallel calls, plan 3). Sketch:
+one Cloud Run service with two containers, gev as the ingress container and vLLM as a sidecar holding
+the GPU, talking over localhost with no auth (`GEV_MODEL_URL=http://localhost:8000/v1`). Things to
+settle: the service becomes public *and* holds the GPU (scaling, min 1, the 20 vCPU / 80 GiB minimum
+is per service), startup ordering (gev must report healthy only when vLLM is), API deploys would then
+restart vLLM unless the revision keeps the instance, which it won't, so **every API deploy becomes a
+~10-minute model load**; a staging twin needs a second GPU. Build it as a separate service, measure with
+`bench/compare.ts` (the `model_ms` split shows the gain directly), and only then ask to switch.
+Expected gain: 10–20 ms per request, unmeasured.
 
-**Earlier the same day, ahead of the older list (much of which the scored result makes moot: 1, 2, 6, 9):**
+Other open items:
 
-- **a. Go live with `scored`?** Which model: 26B-A4B (jev-level labels, parity on jtbd, 265 ms on plan)
-  or E4B (faster than jev on both, weaker labels). Then retire `gev-model` (DiffusionGemma) or keep it.
-- **b. Close the plan-suite gap on the 26B-A4B** (untried): FP8/NVFP4 weights; the icon question in one
-  batch (raise `--max-logprobs` and use 186 single-token labels, or score option names as
-  continuations); drop the repeated system text; run the API in the same container as vLLM.
-- **c. Calibration**, now the main quality gap: temperature scaling per question type on half the
-  labels (old item 7). Independent answers make this more promising than it was for packed.
-- **d. Cold start and idle-out** still apply to any Cloud Run GPU service (old items 3, 8).
+1. **Noul calibration.** One temperature doesn't do it (section 4). Needs labeled nouls, or a different
+   idea (per-question bias terms fitted against jev, asking both polarities).
+2. **Tune the Triton FP8 MoE kernel for this GPU**: vLLM warns it runs a default config
+   (`E=128,N=704,…RTX_PRO_6000…fp8_w8a8.json` not found). vLLM ships a tuning script; needs its own GPU
+   service for an hour or so. Gain unknown.
+3. **GPU quota is 3**; with the live server holding one permanently, two experiments at most. Ask for more
+   before the next round of serving experiments.
+4. **Cold start** still ~10 minutes whenever the live revision is replaced or crashes. Untried: Direct VPC
+   egress + Private Google Access for the bucket path.
+5. **What the warm GPU costs** has not been looked up.
+6. `gev-ar` (bf16 fallback) and the E4B weights are kept; delete when no longer wanted.
 
-1. **How to reach ~1–2 denoising steps.**
-   - **A. Custom model server (recommended):** Python + Transformers with open-jev's fixed canvas and
-     final-logit readout, plus probabilities; replaces vLLM. The only route with published jev-range
-     timings. Also fixes the icon question (one read of full-vocab logits at a slot instead of 13
-     calls), sidesteps both vLLM bugs, and allows reading probabilities before the canvas hardens.
-     Risks: their numbers are H100 + short prompts; ours is an RTX PRO 6000 + 1,900-token prompts;
-     prefix caching must be hand-built; may land at 150–250 ms.
-   - **B. Cheap probe first:** a *separate* vLLM service with a high `diffusion_entropy_bound` to see
-     what 1–2 steps do to speed and to free-form sheet accuracy. ~40 GPU-minutes. Expectation: the
-     free-form sheet breaks at low steps, which is why open-jev fixed the structure.
-   - **C. Stop**, if 150–250 ms would not be good enough.
-2. **Where to develop A.** Cloud Run costs 20 minutes per iteration. A GPU VM (or Modal, as open-jev
-   used) with weights on local disk restarts in under a minute; port to Cloud Run once fast.
-3. **Keep one model instance warm while working?** Avoids the 18-minute waits; costs a GPU around the
-   clock until turned off. Price not yet checked.
-4. **Redeploy the stale `gev` API** with current `main` (section 2).
-5. **Default strategy** once latency is settled: packed (fast, jev-level accuracy, useless
-   probabilities) or isolated (independent answers, slow).
-6. **The icon question**, if not solved by A: shortlist by category then choose (2 calls), or make it
-   a separate non-blocking request on the jev2ui side.
-7. **Calibration:** temperature-scale logits on half the labeled set, test on the other half.
-8. **Cold start**, untried: Direct VPC egress + Private Google Access; copy weights into RAM with
-   parallel `gcloud storage cp` at startup (needs more memory); Run:ai streamer from `gs://`.
-9. **The vLLM bug**, if staying on vLLM: force `TRITON_ATTN` on a nightly, wait for a rebuilt `gemma`
-   image, or set `--max-num-seqs 1`. Packed mode makes it matter much less.
+## 8. History of the approach (for context; superseded)
 
-## 8. Suggested plan for option A
-
-1. Get a GPU box with the weights on local disk. Reproduce open-jev's 1-step timing on *our* GPU with a
-   jev2ui-sized prompt. **This is the go/no-go: if 1–2 steps isn't under ~150 ms server-side here,
-   stop.**
-2. Build the canvas from gev's question types: fixed `Q<n>:` structure, one answer slot per question;
-   read the full-vocab logits at each slot from the final step; softmax over that question's allowed
-   tokens. Try real values as tokens instead of letters (open-jev found letters weak in a canvas).
-   Multi-token options need their trie approach; 186 icons need a check that names are distinct in
-   their first token or a label scheme.
-3. Add prefix/KV reuse for the constant question block (remember the prompt-order accuracy finding).
-4. Serve it behind the same interface as `src/backends/vllm.ts` (`generate` → positions with
-   top-k logprobs), or add a richer backend method that returns per-slot distributions directly.
-5. Run `bench/compare.ts` on both suites; compare to the tables in section 4.
-6. Port to Cloud Run; fix cold start separately.
+Until the afternoon of 2026-09-19 the plan was to make DiffusionGemma fast: a packed answer sheet on
+vLLM (~376 ms), then a custom fixed-canvas server after [open-jev](https://github.com/JoshuaSP/open-jev)
+to get to 1–2 denoising steps. The observation that ended it: the state is ~15 tokens and the questions
+~1,900 and constant per app, and at one denoising step a diffusion model does nothing that a single
+autoregressive forward pass doesn't. The DiffusionGemma measurements and learnings in sections 4–6 are
+kept because they are true, not because they are the way forward.
 
 ## 9. Runbook
 
 ```bash
 npm test && npm run typecheck
 
-# Is the model warm? (a hang here means a ~18 min cold start is in progress)
-export MODEL_URL=https://gev-model-huio5ftumq-uc.a.run.app TOKEN=$(gcloud auth print-identity-token)
+# Is the model up? (kept warm; a hang here means a ~10 min load is in progress after a redeploy or crash)
+export MODEL_URL=https://gev-ar-fp8-huio5ftumq-uc.a.run.app TOKEN=$(gcloud auth print-identity-token)
 curl -s -m 25 -o /dev/null -w "%{http_code}\n" $MODEL_URL/health -H "authorization: Bearer $TOKEN"
 
 # Run gev locally against the live model (identity tokens last 1 hour)
-GEV_STRATEGY=packed GEV_CONCURRENCY=1 GEV_MODEL_URL=$MODEL_URL/v1 GEV_MODEL_API_KEY=$TOKEN PORT=8787 node src/server.ts
+GEV_STRATEGY=scored GEV_PROMPT_ORDER=state-last GEV_WIDE_CHOICE=1 GEV_TEMPERATURE="choice=4;score=4" \
+  GEV_MODEL_URL=$MODEL_URL/v1 GEV_MODEL_API_KEY=$TOKEN PORT=8787 node src/server.ts
 
 # Benchmark a gev against recorded jev2ui traffic (suites: jtbd, plan) → bench/results/<suite>.<strategy>.json
 GEV_URL=http://localhost:8787 GEV_API_KEY=x node bench/compare.ts jtbd [-v]
 node --env-file=.env bench/compare.ts jtbd            # against the deployed API
 
-# Model-server diagnostics
-node bench/model-probe.ts latency | overrides | concurrency
+# Model-server diagnostics (MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic for the live server)
+ORDERS=state-last WIDE=1 node bench/model-probe.ts score jtbd|plan   # accuracy, client ms, vLLM's own timers
+node bench/calibrate.ts jtbd plan --temperatures 1,2,3,4,5,6         # GEV_TEMPERATURE sweep against jev
+node bench/model-probe.ts latency | overrides | concurrency          # DiffusionGemma-era probes
 
 # Record new fixtures from jev2ui (real jev calls, uses JEV_API_KEY)
 node --env-file=.env bench/record.ts <suite>          # proxy on :8790
@@ -377,12 +351,12 @@ node --env-file=.env bench/record.ts <suite>          # proxy on :8790
 
 # Point jev2ui at gev: TYPESAFE_BASE_URL=$GEV_URL JEV_API_KEY=$GEV_API_KEY
 
-# Deploys (ask first). Model: ~20 min. API: ~2 min.
+# Deploys (ask first). Defaults are the live services. Model: ~10 min. API: ~2 min.
 GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy-model.sh
 GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy.sh
 
 # State of the model service; clearing a failed newest revision = deploy a good one, then delete it
-gcloud run revisions list --service gev-model --project gev-systemone --region us-central1
-gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gev-model"' \
+gcloud run revisions list --service gev-ar-fp8 --project gev-systemone --region us-central1
+gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="gev-ar-fp8"' \
   --project gev-systemone --limit 30 --freshness 30m --format="value(timestamp,textPayload)"
 ```

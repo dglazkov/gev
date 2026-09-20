@@ -5,7 +5,7 @@ import { PROMPT_ORDERS, type PromptOrder } from "./prompt.ts";
 
 type Env = Record<string, string | undefined>;
 
-export const DEFAULT_MODEL = "google/diffusiongemma-26B-A4B-it";
+export const DEFAULT_MODEL = "RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic";
 
 function positiveInt(env: Env, name: string, fallback: number): number {
   const raw = env[name];
@@ -25,10 +25,13 @@ export function backendFromEnv(env: Env = process.env): Backend {
   });
 }
 
-/** GEV_TEMPERATURE: one number for every question type ("2.5"), or per type ("choice=3,score=2,noul=2.5"). */
+/**
+ * GEV_TEMPERATURE: one number for every question type ("2.5"), or per type ("choice=3,score=2,noul=2.5").
+ * Parts may also be separated by ";", because gcloud splits --set-env-vars values on commas.
+ */
 function temperatureFromEnv(env: Env): EngineOptions["temperature"] {
   const temperature = { ...DEFAULT_ENGINE_OPTIONS.temperature };
-  for (const part of (env.GEV_TEMPERATURE ?? "").split(",").filter(Boolean)) {
+  for (const part of (env.GEV_TEMPERATURE ?? "").split(/[,;]/).filter(Boolean)) {
     const [type, raw] = part.includes("=") ? part.split("=") : [undefined, part];
     const value = Number(raw);
     if (!(value > 0) || (type !== undefined && !(type in temperature))) throw new Error(`GEV_TEMPERATURE must be a positive number or choice=…,score=…,noul=…, got "${env.GEV_TEMPERATURE}"`);

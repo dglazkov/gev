@@ -157,6 +157,7 @@ test("temperature softens probabilities without changing the decision", async ()
   assert.ok(plain.answers.flag?.type === "noul" && soft.answers.flag?.type === "noul");
   assert.ok(soft.answers.flag.noul < plain.answers.flag.noul && soft.answers.flag.noul > 0.5);
   assert.deepEqual(engineOptionsFromEnv({ GEV_TEMPERATURE: "2,noul=3" }).temperature, { choice: 2, score: 2, noul: 3 });
+  assert.deepEqual(engineOptionsFromEnv({ GEV_TEMPERATURE: "choice=4;score=4" }).temperature, { choice: 4, score: 4, noul: 1 });
   assert.throws(() => engineOptionsFromEnv({ GEV_TEMPERATURE: "maybe=2" }), /GEV_TEMPERATURE/);
 });
 

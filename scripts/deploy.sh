@@ -2,19 +2,19 @@
 # Deploys the gev API to Cloud Run, pointed at the model server from ./scripts/deploy-model.sh.
 #
 #   ./scripts/deploy.sh
-#   MODEL=google/gemma-4-26B-A4B-it ./scripts/deploy.sh   # must match what the model server serves
+#   MODEL_SERVICE=gev-ar MODEL=google/gemma-4-26B-A4B-it ./scripts/deploy.sh   # must match what that model server serves
 set -euo pipefail
 
 PROJECT="${GOOGLE_CLOUD_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
 REGION="${REGION:-us-central1}"
 SERVICE="${SERVICE:-gev}"
-MODEL_SERVICE="${MODEL_SERVICE:-gev-model}"
-MODEL="${MODEL:-google/diffusiongemma-26B-A4B-it}"
+MODEL_SERVICE="${MODEL_SERVICE:-gev-ar-fp8}"
+MODEL="${MODEL:-RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic}"
 SA="${SERVICE}-runtime@${PROJECT}.iam.gserviceaccount.com"
 # An experimental copy of the API can share the main one's keys: SECRET=gev-api-keys SERVICE=gev-scored …
 SECRET="${SECRET:-${SERVICE}-api-keys}"
-# Comma-separated extra settings, e.g. EXTRA_ENV=GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last
-EXTRA_ENV="${EXTRA_ENV:-}"
+# Comma-separated settings; the default is what runs live. A value can't contain a comma, hence the ";".
+EXTRA_ENV="${EXTRA_ENV-GEV_STRATEGY=scored,GEV_PROMPT_ORDER=state-last,GEV_WIDE_CHOICE=1,GEV_TEMPERATURE=choice=4;score=4}"
 
 MODEL_URL="$(gcloud run services describe "$MODEL_SERVICE" --project "$PROJECT" --region "$REGION" --format 'value(status.url)' 2>/dev/null || true)"
 if [[ -z "$MODEL_URL" ]]; then

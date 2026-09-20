@@ -245,6 +245,8 @@ is second. Everything else is noise.
 - A failed newest revision is retried indefinitely (a full GPU load each time) and cannot be deleted
   until a newer revision exists.
 - `gcloud run deploy --source` uploads everything not in `.gcloudignore`, including `.env` if absent.
+- Cloud Run's front end keeps `/healthz` for itself: gev's `/healthz` answers locally but returns a
+  Google 404 when deployed. To check the live API, send a real request (or open `/`).
 
 **jev and jev2ui**
 - jev's wire format matches its docs; gev's types mirror it. jev rounds probabilities to 2 places.
@@ -312,6 +314,9 @@ Other open items:
    egress + Private Google Access for the bucket path.
 5. **What the warm GPU costs** has not been looked up.
 6. `gev-ar` (bf16 fallback) and the E4B weights are kept; delete when no longer wanted.
+7. **The API itself still scales to zero**: the first request after an idle spell takes ~1.8 s (Node
+   starting, fetching an ID token, learning the chat template) instead of ~130 ms. `--min-instances 1`
+   on `gev` is a small CPU-only standing cost; not applied, owner's call.
 
 ## 8. History of the approach (for context; superseded)
 

@@ -30,7 +30,7 @@ curl -s "$GEV_URL/v1/systemone" -H "authorization: Bearer $GEV_API_KEY" -H 'cont
 }
 ```
 
-(Illustrative numbers.) The request and response shapes follow jev's `POST /v1/systemone`, so a jev client pointed at a gev base URL should work. `model` is accepted and ignored.
+(Illustrative numbers.) Calling a running gev: [docs/API.md](docs/API.md). The request and response shapes follow jev's `POST /v1/systemone`, so a jev client pointed at a gev base URL should work. `model` is accepted and ignored.
 
 ## How it works
 

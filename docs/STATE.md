@@ -34,6 +34,15 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 GPU quota in us-central1 is 3 RTX PRO 6000s across all services; a fourth instance fails to deploy with
 "Quota exceeded for total allowable count of GPUs". Idle services at zero instances don't count.
 
+**API keys** (`gev-api-keys` in Secret Manager, comma-separated; the APIs read it at instance start, so
+after adding a version roll them: `gcloud run services update gev --update-env-vars GEV_KEYS_VERSION=<n>`,
+same for `gev-scored`). Two keys as of 2026-09-20: the original (`GEV_API_KEY` in `.env`) and a dedicated
+one for jev2ui (`sk-gev-jev2ui-…`), stored as secret `GEV_API_KEY` in jev2ui's own project
+(`jev2ui-3281b2`, readable by `jev2ui-run@`). jev2ui is deployed at jev2ui.cnfg.ai, Cloud Run in
+us-central1, and **still talks to jev**: its service was not touched. Switching is two settings on its
+side (`TYPESAFE_BASE_URL`, `JEV_API_KEY` from that secret); a user-selectable "gev mode" is
+[dglazkov/jev2ui#3](https://github.com/dglazkov/jev2ui/issues/3).
+
 Service accounts: `gev-runtime@` and `gev-scored-runtime@` (may only invoke the model services and read
 the key secret), `gev-ar-fp8@` and `gev-ar@` (may only read the bucket).
 

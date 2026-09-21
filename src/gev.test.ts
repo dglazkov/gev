@@ -254,6 +254,18 @@ test("scored: a request is one batched call, plus one per extra tournament round
   near(big.probabilities["option-37"]!, 0.9 * 0.9, 0.01);
 });
 
+// More names share a first token than one lettered question can hold. This used to send the group
+// back to the by-name ranking, which grouped it the same way, forever: the heap filled and the process died.
+test("scored by name: a group sharing a first token that outgrows the labels falls back to the tournament", async () => {
+  const criteria = Object.fromEntries(Array.from({ length: 20 }, (_, i) => [`item1${String.fromCharCode(97 + i)}`, null]));
+  const backend = new FakeScoringBackend("item1r");
+  const response = await systemOne(backend, { state: "s", questions: { q: { type: "choice", instructions: "?", criteria } } }, { ...DEFAULT_ENGINE_OPTIONS, strategy: "scored", wideChoice: true });
+  const q = response.answers.q;
+  assert.ok(q?.type === "choice");
+  assert.equal(q.choice, "item1r");
+  near(Object.values(q.probabilities).reduce((a, b) => a + b, 0), 1, 0.01);
+});
+
 test("prompt orders move the STATE later so more of the prompt is the same on every request", () => {
   const prompt = (order: (typeof PROMPT_ORDERS)[number]) => noulPrompt("the state", "it is raining", undefined, order);
   assert.ok(prompt("state-first").startsWith("STATE:\nthe state"));

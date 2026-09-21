@@ -194,7 +194,8 @@ class Run {
     const keys = [...groups.keys()];
     const [byGroup, ...within] = await Promise.all([
       this.#ask(namedChoicePrompt(this.#state, instructions, options, this.#options.order), keys, keys.length + WIDE_MARGIN),
-      ...keys.map((key) => (groups.get(key)!.length > 1 ? this.#rank(instructions, groups.get(key)!.map((i) => options[i]!)) : [1])),
+      // Not by name again: these names share a first token, so they would group the same way forever.
+      ...keys.map((key) => (groups.get(key)!.length > 1 ? this.#rank(instructions, groups.get(key)!.map((i) => options[i]!), false) : [1])),
     ]);
     const probabilities = options.map(() => 0);
     keys.forEach((key, g) => groups.get(key)!.forEach((i, m) => (probabilities[i] = byGroup![g]! * within[g]![m]!)));
@@ -234,15 +235,15 @@ class Run {
    * More options than labels: rank each chunk, then rank the chunk winners against
    * each other. A non-winner keeps its within-chunk ratio to its chunk's winner.
    */
-  async #rank(instructions: Json, options: Option[]): Promise<number[]> {
+  async #rank(instructions: Json, options: Option[], byName = true): Promise<number[]> {
     const size = CHOICE_LABELS.length;
     if (options.length <= size) return this.#rankOnce(instructions, options);
-    if (this.#options.wideChoice && this.#options.strategy === "scored" && this.#backend.firstTokens) return this.#rankByName(instructions, options);
+    if (byName && this.#options.wideChoice && this.#options.strategy === "scored" && this.#backend.firstTokens) return this.#rankByName(instructions, options);
     const chunks: Option[][] = [];
     for (let i = 0; i < options.length; i += size) chunks.push(options.slice(i, i + size));
     const within = await Promise.all(chunks.map((chunk) => (chunk.length > 1 ? this.#rankOnce(instructions, chunk) : [1])));
     const winners = within.map((p) => argmax(p));
-    const final = await this.#rank(instructions, chunks.map((chunk, c) => chunk[winners[c]!]!));
+    const final = await this.#rank(instructions, chunks.map((chunk, c) => chunk[winners[c]!]!), byName);
     return normalize(within.flatMap((p, c) => p.map((pi) => (final[c]! * pi) / p[winners[c]!]!)));
   }
 }

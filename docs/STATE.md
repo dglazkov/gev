@@ -153,6 +153,10 @@ jev from `bench/compare.ts` through `gev-scored` (laptop → API → model serve
   names have a first token of their own; the 9 sets that share one (`shopping_cart`/`shopping_bag`,
   six `local_*`) are split by lettered questions in the same batch. One round instead of two; picks
   are as close to jev's as the tournament's (7/13 each) and sensible where they differ.
+  **Bug (issue #1, fixed in `main` 2026-09-21, not yet on live `gev`):** more than 16 names sharing a
+  first token (`item1a`…`item1t`) sent that group back to the by-name ranking, which grouped it the
+  same way forever; the API process died of heap exhaustion, for every caller. Such a group now goes
+  to the tournament. The icon set's largest group is well under 16, so the benchmarks never hit this.
 - **Model-side time scales with the number of prompts in the batch**, ~2.5–3 ms per prompt even when
   everything but the last block is cached: 1 prompt ≈ 17 ms, 18 ≈ 56–70, 27 ≈ 95, 36 ≈ 116
   (NVFP4, laptop time minus RTT). Plan is slow because it is 37 prompts, not because of the icons.

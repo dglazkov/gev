@@ -42,12 +42,16 @@ if ! gcloud secrets describe "$SECRET" --project "$PROJECT" >/dev/null 2>&1; the
 fi
 gcloud secrets add-iam-policy-binding "$SECRET" --project "$PROJECT" --member "serviceAccount:${SA}" \
   --role roles/secretmanager.secretAccessor --quiet >/dev/null
+# The same marker ./scripts/keys.sh sets when it rolls the APIs onto new keys. --set-env-vars replaces
+# every variable, so without this a deploy would silently drop it.
+KEYS_VERSION="$(gcloud secrets versions describe latest --secret "$SECRET" --project "$PROJECT" --format 'value(name)')"
+KEYS_VERSION="${KEYS_VERSION##*/}"
 
 # --timeout covers a request that arrives while the model server is cold-starting.
 gcloud run deploy "$SERVICE" --source . --project "$PROJECT" --region "$REGION" \
   --service-account "$SA" --allow-unauthenticated \
   --cpu 1 --memory 512Mi --concurrency 80 --max-instances 10 --timeout 900 \
-  --set-env-vars "GEV_MODEL_URL=${MODEL_URL}/v1,GEV_MODEL=${MODEL},GEV_MODEL_GCP_AUTH=1${EXTRA_ENV:+,${EXTRA_ENV}}" \
+  --set-env-vars "GEV_MODEL_URL=${MODEL_URL}/v1,GEV_MODEL=${MODEL},GEV_MODEL_GCP_AUTH=1,GEV_KEYS_VERSION=${KEYS_VERSION}${EXTRA_ENV:+,${EXTRA_ENV}}" \
   --set-secrets "GEV_API_KEYS=${SECRET}:latest"
 
 echo "Deployed: $(gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGION" --format 'value(status.url)')"

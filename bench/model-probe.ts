@@ -11,10 +11,12 @@
 //     node bench/model-probe.ts latency|overrides|concurrency|score [suite=jtbd]
 //
 // The model server is private, so TOKEN is a Google identity token of an account with run.invoker.
+// For an SGLang server add GEV_MODEL_SERVER=sglang (score only; the other modes are vLLM's).
 // A cold model server takes ~18 minutes to answer its first request; wait for /health first.
 
 import { readFile, readdir } from "node:fs/promises";
 import { VllmBackend } from "../src/backends/vllm.ts";
+import { modelServerFromEnv } from "../src/config.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "../src/engine.ts";
 import { PROMPT_ORDERS } from "../src/prompt.ts";
 import { SHEET_SYSTEM_INSTRUCTION, type SheetQuestion, sheetLabels, sheetMaxTokens, sheetPrompt } from "../src/sheet.ts";
@@ -38,12 +40,27 @@ const COUNTERS = {
   queue: "vllm:request_queue_time_seconds_sum",
 } as const;
 type Counters = Record<keyof typeof COUNTERS, number>;
+// SGLang's names for the same things (GEV_MODEL_SERVER=sglang). It has no prefill/decode split, and
+// counts cache hits in prompt tokens, as vLLM does.
+const SGLANG_COUNTERS: Record<keyof Counters, string | undefined> = {
+  steps: undefined,
+  cacheQueries: "sglang:prompt_tokens_total",
+  cacheHits: "sglang:cached_tokens_total",
+  promptTokens: "sglang:prompt_tokens_total",
+  generated: "sglang:generation_tokens_total",
+  e2e: "sglang:e2e_request_latency_seconds_sum",
+  requests: "sglang:e2e_request_latency_seconds_count",
+  prefill: undefined,
+  decode: undefined,
+  queue: "sglang:queue_time_seconds_sum",
+};
+const counterNames: Record<keyof Counters, string | undefined> = modelServerFromEnv() === "sglang" ? SGLANG_COUNTERS : COUNTERS;
 
 async function counters(): Promise<Counters> {
   const text = await (await fetch(`${MODEL_URL}/metrics`, { headers })).text();
-  const sum = (name: string) =>
-    text.split("\n").filter((l) => l.startsWith(`${name}{`) || l.startsWith(`${name} `)).reduce((s, l) => s + Number(l.trim().split(" ").at(-1)), 0);
-  return Object.fromEntries(Object.entries(COUNTERS).map(([key, name]) => [key, sum(name)])) as Counters;
+  const sum = (name: string | undefined) =>
+    name ? text.split("\n").filter((l) => l.startsWith(`${name}{`) || l.startsWith(`${name} `)).reduce((s, l) => s + Number(l.trim().split(" ").at(-1)), 0) : NaN;
+  return Object.fromEntries(Object.entries(counterNames).map(([key, name]) => [key, sum(name)])) as Counters;
 }
 
 async function fixture(n: number): Promise<SystemOneRequest> {
@@ -144,7 +161,7 @@ if (mode === "latency") {
   const dir = new URL(`./fixtures/${suite}/`, import.meta.url);
   const fixtures: Fixture[] = await Promise.all((await readdir(dir)).filter((n) => n.endsWith(".json")).sort().map(async (n) => JSON.parse(await readFile(new URL(n, dir), "utf8"))));
   const labels: Labels = await readFile(new URL(`./labels/${suite}.json`, import.meta.url), "utf8").then(JSON.parse, () => ({}));
-  const backend = new VllmBackend({ baseUrl: `${MODEL_URL}/v1`, model: MODEL, apiKey: TOKEN });
+  const backend = new VllmBackend({ baseUrl: `${MODEL_URL}/v1`, model: MODEL, apiKey: TOKEN, server: modelServerFromEnv() });
   const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[xs.length >> 1] ?? NaN;
   const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);
 

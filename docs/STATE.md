@@ -1,6 +1,6 @@
 # State of gev
 
-Last updated 2026-09-20. Keep this current: update it in the same commit as any change that makes
+Last updated 2026-09-21. Keep this current: update it in the same commit as any change that makes
 part of it untrue. House rules are in [CLAUDE.md](../CLAUDE.md).
 
 ## 1. Objective
@@ -70,6 +70,9 @@ One API request carries a state and N typed questions (`choice`, `score`, `noul`
   question text, which is the same on every request, is served from the prefix cache. The workload
   makes this matter: in both suites the state is ~15 tokens and the questions ~1,900.
   `bench/model-probe.ts score` measures accuracy and timing for each order.
+
+**Model servers.** The backend speaks vLLM (live) or SGLang (`GEV_MODEL_SERVER=sglang`, issue #2). They
+differ only in the tokenizer endpoints and a completions flag (section 5); measured in section 4.
 
 Derived fields: `score` = expected zero-indexed level; `confidence` = 1 − normalized entropy (jev's
 formula is undocumented and differs: for [0, 0.03, 0.97] jev says 0.95, gev 0.88); `noul` = P(yes).
@@ -189,6 +192,28 @@ yet on live `gev`** (owner's go-ahead needed).
   answers 429. This happened repeatedly during benchmarking and is now the biggest practical
   latency problem. `--min-instances 1` fixes it at the cost of a GPU around the clock (owner's call).
 
+**SGLang (2026-09-21, issue #2).** SGLang v0.5.20 with the same FP8 weights on the same GPU, as a throwaway
+service (`SERVER=sglang ./scripts/deploy-model.sh`), measured alongside the live vLLM, then deleted.
+
+| laptop → API → model, 2 runs each | jtbd median / p90 | plan median / p90 | model wait, jtbd / plan | hand labels | agrees with jev, jtbd / plan |
+|---|---|---|---|---|---|
+| live `gev` (vLLM) | 128 / 198–202 | 151–154 / 248–282 | 57–58 / 70–75 | 38, 29, 39 = 106 | 566–568 / 310–311 |
+| same API code on SGLang | 153–155 / 207–210 | 172–173 / 253–290 | 86–87 / 94–95 | 37, 30, 39 = 106 | 568 / 312 |
+
+- **Same answers, ~25 ms slower**, which puts jtbd over jev's 151. Model side (`model-probe`, laptop →
+  model server): SGLang 144 / 162 ms against vLLM's 109 / 128; per-batch server time 69 / 75 ms against
+  32 / 42. Likely cause: SGLang turns off prefill CUDA graphs for multimodal models ("Breakable CUDA graph
+  is incompatible with multimodal model"), and with `max_tokens: 1` a request is all prefill. Its
+  text-only switch refuses Gemma 4 (section 6). Hand labels on vLLM were 109 on 2026-09-19; within noise.
+- **Prompts** (`bench/server-parity.ts`): token-identical but for one token, the space vLLM's template
+  rendering puts after the system text (section 5). The first tokens of every option name match.
+  Decisions agree on 361/364 (plan) and 700/720 (jtbd), which is noise-sized: vLLM against itself on the
+  same prompts 715/720, vLLM against SGLang on identical tokens 701/720, the space alone 696–703/720.
+- `isolated` and `packed` (the chat completions path) work too: 51/54 and 52/54 decisions the same as vLLM
+  on three fixtures, no repairs. At concurrency 6: no errors, same agreement with jev.
+- SGLang's prefix cache is token-granular: prompts it has seen are 100% cached (vLLM 92–95%: it caches
+  full 16-token blocks only). Not where the time goes.
+
 **Where a packed 18-question request's time goes** (`bench/model-probe.ts latency`, vLLM's own timers):
 
 | | ms |
@@ -224,7 +249,8 @@ is second. Everything else is noise.
 - The workload is a ~15-token state against ~1,900 tokens of questions that are constant per app. That
   is what makes prefix caching with the state last so effective.
 - **Gemma 4 chat templates differ between models**: E4B's has no empty thought channel in the generation
-  prompt, the 26B-A4B's (July revision) has; both put a space after the system text; vLLM's completions
+  prompt, the 26B-A4B's (July revision) has; both put a space after the system text on
+  vLLM (not on SGLang: see below); vLLM's completions
   endpoint adds no `<bos>`. A hand-written frame made E4B answer "The". `VllmBackend` asks the server
   for its rendering once (`/tokenize` with messages, then `/detokenize`) and the prompts are
   token-identical to chat completions.
@@ -249,6 +275,24 @@ is second. Everything else is noise.
 - vLLM PR #57250 (unmerged) adds what we actually want: a seeded canvas, a step cap, exact-token
   logprobs at every canvas position.
 - SGLang's DiffusionGemma path rejects logprobs outright.
+
+**SGLang** (issue #2; section 4 for how it measures)
+- What gev does differently with `GEV_MODEL_SERVER=sglang`: `/detokenize` answers `text`, not `prompt`, and
+  drops special tokens unless sent `skip_special_tokens: false`; `/tokenize` has no `return_token_strs`,
+  so option names are split by tokenizing and then detokenizing `[[id], [id], …]`; `/v1/completions` has no
+  `add_special_tokens`. Its Gemma 4 tokenizer adds no `<bos>` anyway (the frame's own is the only one);
+  gev checks this at startup and refuses to run if it ever would. No cap on `logprobs`, so nothing like
+  `--max-logprobs`. `add_generation_prompt` on `/tokenize` is always on.
+- **The space after the system text is vLLM's, not Gemma's.** vLLM hands the template a string system
+  message as a list of parts, and Gemma 4's template appends a space to each part
+  (`item['text'] | trim + ' '`); SGLang hands it the string, which is only trimmed. Each server's prompts
+  match its own chat completions; gev keeps asking each server for its own rendering.
+- **Weights**: the default loader memory-maps the single 28.6 GB file and reads it through the mount at
+  ~10 MB/s, so it never got past the 30-minute startup probe. `--weight-loader-disable-mmap` (now in
+  `deploy-model.sh`) reads it sequentially at ~64 MB/s: 461 s, like vLLM's 447. Engine init ~57 s.
+- `lmsysorg/sglang:v0.5.20` is CUDA 13.0, which Cloud Run's 580 driver supports. Upstream, this FP8
+  checkpoint needs v0.5.12 (experts loaded as zeros before) and v0.5.15 (an MoE crash on this GPU).
+  SGLang picks the Triton attention backend for Gemma 4.
 
 **Cloud Run GPU**
 - RTX PRO 6000 quota was available on a brand-new project in us-central1 (the only US region with it).
@@ -296,6 +340,7 @@ eval cases (408 questions), a second benchmark source.
 | Streaming weights from the bucket (`--load-format=runai_streamer`, `MODEL_PATH=gs://…`) to shorten the cold start | Slower: 554 s vs 447 s through the mount for the 26 GiB FP8 weights. Works out of the box in the `v0.29.0` image once the service account has `storage.buckets.get` (`roles/storage.legacyBucketReader`). The limit is the container's network path to Cloud Storage (~50–60 MB/s) however the bytes are read; the untried fix is still Direct VPC egress + Private Google Access, or keeping an instance warm. |
 | Shortening the prompt after the state | Not tried, because measured to be pointless: see "per prompt, not per token". |
 | Sending token ids instead of text to skip vLLM's tokenizer | 151 vs 155 ms: tokenization is not the cost. `logprobs: 20` costs ~9 ms over none. |
+| SGLang `--language-model-only`, to get its prefill CUDA graphs back | Refused at startup: v0.5.20 allows it for three other architectures, not `Gemma4ForConditionalGeneration`. Fails before loading weights, so cheap to find out. Forcing `enable_multimodal` off would need a config file, and upstream disabled those graphs because multimodal prefill "faults". |
 | Parallel isolated calls *on DiffusionGemma* | Blocked by the concurrency bug; even fixed, 12 calls ≈ 760 ms. (On an autoregressive model the same idea is the `scored` strategy and works.) |
 
 ## 7. Next, and open decisions
@@ -333,6 +378,8 @@ Other open items:
 7. **The API itself still scales to zero**: the first request after an idle spell takes ~1.8 s (Node
    starting, fetching an ID token, learning the chat template) instead of ~130 ms. `--min-instances 1`
    on `gev` is a small CPU-only standing cost; not applied, owner's call.
+8. **SGLang works but is ~25 ms slower** than vLLM here (section 4). Matters only if gev has to run on
+   SGLang: [#3](https://github.com/dglazkov/gev/issues/3).
 
 ## 8. History of the approach (for context; superseded)
 
@@ -361,7 +408,7 @@ GEV_URL=http://localhost:8787 GEV_API_KEY=x node bench/compare.ts jtbd [-v]
 node --env-file=.env bench/compare.ts jtbd            # against the deployed API
 
 # Model-server diagnostics (MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic for the live server)
-ORDERS=state-last WIDE=1 node bench/model-probe.ts score jtbd|plan   # accuracy, client ms, vLLM's own timers
+ORDERS=state-last WIDE=1 node bench/model-probe.ts score jtbd|plan   # accuracy, client ms, vLLM's own timers (+GEV_MODEL_SERVER=sglang for SGLang)
 node bench/calibrate.ts jtbd plan --temperatures 1,2,3,4,5,6         # GEV_TEMPERATURE sweep against jev
 node bench/model-probe.ts latency | overrides | concurrency          # DiffusionGemma-era probes
 
@@ -371,6 +418,11 @@ node --env-file=.env bench/record.ts <suite>          # proxy on :8790
 (cd ../jev2ui && TYPESAFE_BASE_URL=http://localhost:8790 npx tsx ../gev/bench/capture-plan.ts)
 
 # Point jev2ui at gev: TYPESAFE_BASE_URL=$GEV_URL JEV_API_KEY=$GEV_API_KEY
+
+# SGLang instead of vLLM: an experiment service, and gev told which it talks to (GEV_MODEL_SERVER=sglang)
+SERVICE=gev-sglang SERVER=sglang MIN_INSTANCES=0 GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy-model.sh
+VLLM_URL=$MODEL_URL SGLANG_URL=https://gev-sglang-….run.app MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic \
+  node bench/server-parity.ts jtbd|plan              # same tokens and answers on both? (uses TOKEN)
 
 # Deploys (ask first). Defaults are the live services. Model: ~10 min. API: ~2 min.
 GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy-model.sh

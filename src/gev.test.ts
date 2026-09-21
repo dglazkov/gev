@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createApp } from "./app.ts";
 import { type Backend, type Generation, type Position, type Scores, UpstreamError } from "./backends/backend.ts";
-import { answerPositions, chatFrame, framed } from "./backends/vllm.ts";
+import { MODEL_SERVERS, type ModelServer, VllmBackend, answerPositions, chatFrame, framed } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "./engine.ts";
-import { engineOptionsFromEnv } from "./config.ts";
+import { backendFromEnv, engineOptionsFromEnv } from "./config.ts";
 import { confidence, expectedLevel, labelDistribution, temper } from "./scoring.ts";
 import { PROMPT_ORDERS, noulPrompt } from "./prompt.ts";
 import { readSheet } from "./sheet.ts";
@@ -350,4 +350,50 @@ test("HTTP: auth, CORS, validation, and upstream error mapping", async () => {
   assert.equal((await post(createApp({ backend: failing(429), engine: DEFAULT_ENGINE_OPTIONS, apiKeys: new Set() }), valid)).status, 429);
   assert.equal((await post(createApp({ backend: failing(500), engine: DEFAULT_ENGINE_OPTIONS, apiKeys: new Set() }), valid)).status, 502);
   quiet.mock.restore();
+});
+
+test("vLLM and SGLang: the same prompts and first tokens, through each server's own dialect", async () => {
+  const RENDERED = "<bos><|turn>system\nGEVSYSTEMMARK <turn|>\n<|turn>user\nGEVUSERMARK<turn|>\n<|turn>model\n";
+  // Token 2 is <bos>; 10…13 spell "shopping_cart\nbag_x" as shop|ping_cart\n|bag|_x.
+  const PIECES: Record<number, string> = { 2: "<bos>", 10: "shop", 11: "ping_cart\n", 12: "bag", 13: "_x" };
+  const serve = (server: ModelServer, addsBos: boolean) => (body: any, path: string): unknown => {
+    if (path === "/tokenize" && body.messages) return { tokens: [2, 99] };
+    if (path === "/tokenize" && body.prompt === RENDERED) return { tokens: body.add_special_tokens && addsBos ? [2, 2, 99] : [2, 99] };
+    if (path === "/tokenize") return server === "vllm" ? { tokens: [10, 11, 12, 13], token_strs: [10, 11, 12, 13].map((t) => PIECES[t]) } : { tokens: [10, 11, 12, 13] };
+    if (path === "/detokenize" && server === "vllm") return { prompt: RENDERED };
+    if (path === "/detokenize") {
+      assert.equal(body.skip_special_tokens, false);
+      return Array.isArray(body.tokens[0]) ? { text: body.tokens.map((ids: number[]) => PIECES[ids[0]!]) } : { text: RENDERED };
+    }
+    if (path === "/v1/completions") return { choices: body.prompt.map((_: string, index: number) => ({ index, logprobs: { top_logprobs: [{ A: -0.1 }] } })), usage: { prompt_tokens: 1 } };
+    throw new Error(`unexpected ${path}`);
+  };
+  const run = async (server: ModelServer, addsBos = false) => {
+    const sent: { path: string; body: any }[] = [];
+    const fetch = test.mock.method(globalThis, "fetch", async (url: string, init: RequestInit) => {
+      const path = new URL(url).pathname;
+      const body = JSON.parse(String(init.body));
+      sent.push({ path, body });
+      return Response.json(serve(server, addsBos)(body, path));
+    });
+    try {
+      const backend = new VllmBackend({ baseUrl: "http://model.test/v1/", model: "m", server });
+      const firsts = await backend.firstTokens(["shopping_cart", "bag_x"]);
+      const { tops } = await backend.score("sys", ["q1", "q2"], 5);
+      return { firsts, tops, completions: sent.find((s) => s.path === "/v1/completions")!.body };
+    } finally {
+      fetch.mock.restore();
+    }
+  };
+  for (const server of MODEL_SERVERS) {
+    const { firsts, tops, completions } = await run(server);
+    assert.deepEqual(firsts, ["shop", "bag"]);
+    assert.deepEqual(tops, [[{ token: "A", logprob: -0.1 }], [{ token: "A", logprob: -0.1 }]]);
+    assert.deepEqual(completions.prompt, ["q1", "q2"].map((q) => `<bos><|turn>system\nsys <turn|>\n<|turn>user\n${q}<turn|>\n<|turn>model\n`));
+    // vLLM is told the frame carries <bos>; SGLang has no such flag.
+    assert.equal(completions.add_special_tokens, server === "vllm" ? false : undefined);
+  }
+  // An SGLang whose tokenizer adds a <bos> of its own would double it on every prompt: refuse.
+  await assert.rejects(run("sglang", true), /adds special tokens/);
+  assert.throws(() => backendFromEnv({ GEV_MODEL_URL: "http://x/v1", GEV_MODEL_SERVER: "tgi" }), /GEV_MODEL_SERVER/);
 });

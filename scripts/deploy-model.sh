@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Serves a Gemma model with vLLM on a Cloud Run GPU (scale to zero), as gev's model backend.
+# Serves a Gemma model with vLLM (or SGLang) on a Cloud Run GPU, as gev's model backend.
 #
 #   ./scripts/deploy-model.sh                                  # the live server: FP8 Gemma 4 26B-A4B on an RTX PRO 6000
 #   SERVICE=gev-ar MODEL=google/gemma-4-26B-A4B-it ./scripts/deploy-model.sh  # any Gemma that vLLM can serve
 #   SERVICE=gev-try MIN_INSTANCES=0 EXTRA_ARGS=… ./scripts/deploy-model.sh    # an experiment: never on the live service
+#   SERVICE=gev-sglang SERVER=sglang MIN_INSTANCES=0 ./scripts/deploy-model.sh  # on SGLang; the API then needs GEV_MODEL_SERVER=sglang
 #
 # Weights are copied from Hugging Face into a Cloud Storage bucket once, then mounted
 # read-only into the container, so cold starts never depend on Hugging Face.
@@ -14,7 +15,14 @@ PROJECT="${GOOGLE_CLOUD_PROJECT:-gev-systemone}"
 REGION="${REGION:-us-central1}"
 SERVICE="${SERVICE:-gev-ar-fp8}"
 MODEL="${MODEL:-RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic}"
-IMAGE="${IMAGE:-docker.io/vllm/vllm-openai:v0.29.0}"
+SERVER="${SERVER:-vllm}"
+case "$SERVER" in
+  vllm) DEFAULT_IMAGE=docker.io/vllm/vllm-openai:v0.29.0 ;;
+  # CUDA 13.0, which is what Cloud Run's driver (580) supports. Gemma 4 FP8 needs SGLang v0.5.15 or later.
+  sglang) DEFAULT_IMAGE=docker.io/lmsysorg/sglang:v0.5.20 ;;
+  *) echo "SERVER must be vllm or sglang, got ${SERVER}" >&2; exit 1 ;;
+esac
+IMAGE="${IMAGE:-$DEFAULT_IMAGE}"
 GPU_TYPE="${GPU_TYPE:-nvidia-rtx-pro-6000}"
 CPU="${CPU:-20}"
 MEMORY="${MEMORY:-80Gi}"
@@ -77,10 +85,21 @@ done
 # Where vLLM reads the weights: the mounted bucket, or e.g. MODEL_PATH=gs://bucket/path with
 # EXTRA_ARGS=--load-format=runai_streamer to stream them instead of reading through the mount.
 MODEL_PATH="${MODEL_PATH:-/models/${MODEL}}"
-ARGS="--model=${MODEL_PATH},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
-# --max-logprobs: a choice answered by name reads the first token of up to ~200 names (GEV_WIDE_CHOICE).
-ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-num-batched-tokens=16384,--max-logprobs=256,--host=0.0.0.0,--port=8000"
-# Comma-separated extra vLLM flags, e.g. EXTRA_ARGS=--max-num-batched-tokens=16384
+COMMAND=""
+if [[ "$SERVER" == sglang ]]; then
+  # The image has no entrypoint. SGLang doesn't cap logprobs, so it needs nothing like --max-logprobs,
+  # and its memory fraction is left to SGLang: it counts differently from vLLM's utilization.
+  # --weight-loader-disable-mmap: read through the mount, SGLang's default mmap loader manages ~10 MB/s
+  # and never gets past the 30-minute startup probe; one sequential read makes it ~64 MB/s, like vLLM.
+  COMMAND=python3
+  ARGS="-m,sglang.launch_server,--model-path=${MODEL_PATH},--served-model-name=${MODEL},--context-length=${MAX_MODEL_LEN}"
+  ARGS+=",--max-running-requests=${MAX_NUM_SEQS},--chunked-prefill-size=16384,--weight-loader-disable-mmap,--enable-metrics,--host=0.0.0.0,--port=8000"
+else
+  ARGS="--model=${MODEL_PATH},--served-model-name=${MODEL},--max-model-len=${MAX_MODEL_LEN},--max-num-seqs=${MAX_NUM_SEQS}"
+  # --max-logprobs: a choice answered by name reads the first token of up to ~200 names (GEV_WIDE_CHOICE).
+  ARGS+=",--gpu-memory-utilization=${GPU_MEMORY_UTILIZATION},--max-num-batched-tokens=16384,--max-logprobs=256,--host=0.0.0.0,--port=8000"
+fi
+# Comma-separated extra server flags, e.g. EXTRA_ARGS=--max-num-batched-tokens=16384
 [[ -n "${EXTRA_ARGS:-}" ]] && ARGS+=",${EXTRA_ARGS}"
 # Comma-separated environment for the container, e.g. EXTRA_ENV=VLLM_LOGGING_LEVEL=DEBUG
 ENV_VARS="GEV_DEPLOYED_BY=deploy-model.sh${EXTRA_ENV:+,${EXTRA_ENV}}"
@@ -92,7 +111,7 @@ ENV_VARS="GEV_DEPLOYED_BY=deploy-model.sh${EXTRA_ENV:+,${EXTRA_ENV}}"
 # Private (--no-allow-unauthenticated): only the gev API's service account may invoke it.
 # The startup probe allows 30 minutes for weights to load from the bucket.
 gcloud run deploy "$SERVICE" --project "$PROJECT" --region "$REGION" \
-  --image "$IMAGE" --args="$ARGS" --set-env-vars "$ENV_VARS" --port 8000 \
+  --image "$IMAGE" ${COMMAND:+"--command=${COMMAND}"} --args="$ARGS" --set-env-vars "$ENV_VARS" --port 8000 \
   --service-account "$SA" --no-allow-unauthenticated \
   --gpu 1 --gpu-type "$GPU_TYPE" --no-gpu-zonal-redundancy \
   --cpu "$CPU" --memory "$MEMORY" --no-cpu-throttling \

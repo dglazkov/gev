@@ -1,5 +1,5 @@
 import type { Backend } from "./backends/backend.ts";
-import { VllmBackend } from "./backends/vllm.ts";
+import { MODEL_SERVERS, type ModelServer, VllmBackend } from "./backends/vllm.ts";
 import { DEFAULT_ENGINE_OPTIONS, type EngineOptions } from "./engine.ts";
 import { PROMPT_ORDERS, type PromptOrder } from "./prompt.ts";
 
@@ -22,7 +22,15 @@ export function backendFromEnv(env: Env = process.env): Backend {
     model: env.GEV_MODEL ?? DEFAULT_MODEL,
     apiKey: env.GEV_MODEL_API_KEY,
     gcpIdToken: env.GEV_MODEL_GCP_AUTH === "1",
+    server: modelServerFromEnv(env),
   });
+}
+
+/** GEV_MODEL_SERVER: what serves the model, vllm (default) or sglang. */
+export function modelServerFromEnv(env: Env = process.env): ModelServer {
+  const server = (env.GEV_MODEL_SERVER ?? "vllm") as ModelServer;
+  if (!MODEL_SERVERS.includes(server)) throw new Error(`GEV_MODEL_SERVER must be one of ${MODEL_SERVERS.join(", ")}, got "${server}"`);
+  return server;
 }
 
 /**

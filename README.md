@@ -95,7 +95,7 @@ GEV_MODEL_URL=http://localhost:8000/v1 GEV_STRATEGY=scored GEV_PROMPT_ORDER=stat
 npm test && npm run typecheck
 ```
 
-Any vLLM works as `GEV_MODEL_URL`, including a local one. `scored` uses vLLM's `/tokenize` and `/detokenize` to learn the model's chat template, and `GEV_WIDE_CHOICE` needs the server started with `--max-logprobs=256`.
+Any vLLM works as `GEV_MODEL_URL`, including a local one. `scored` uses vLLM's `/tokenize` and `/detokenize` to learn the model's chat template, and `GEV_WIDE_CHOICE` needs the server started with `--max-logprobs=256`. SGLang (v0.5.15 or later for this model) works too, with `GEV_MODEL_SERVER=sglang`: same answers, but ~25 ms slower on Cloud Run as measured (see [docs/STATE.md](docs/STATE.md)).
 
 ## Configuration
 
@@ -105,6 +105,7 @@ Any vLLM works as `GEV_MODEL_URL`, including a local one. `scored` uses vLLM's `
 | `GEV_MODEL` | `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic` | Must match the model server's served model name |
 | `GEV_MODEL_GCP_AUTH` | | `1` to call a private Cloud Run model server with a Google ID token |
 | `GEV_MODEL_API_KEY` | | Bearer key, if the model server uses one instead |
+| `GEV_MODEL_SERVER` | `vllm` | `sglang` if the model server is SGLang: its tokenizer endpoints and completions differ from vLLM's at the edges |
 | `GEV_API_KEYS` | (open) | Comma-separated bearer keys clients must present |
 | `GEV_STRATEGY` | `isolated` | `scored` (live: one batched forward pass per request), `isolated` (one model call per question) or `packed` (one answer sheet per request) |
 | `GEV_PROMPT_ORDER` | `state-first` | `state-first`, `question-first` or `state-last` (live): the later the state, the more of each prompt comes from the prefix cache |

@@ -85,5 +85,6 @@ Gemini shortcut that had to be thrown away.
 - Match the surrounding style: small modules, comments that say why, no speculative abstractions.
 - Layout: `src/engine.ts` (strategies; `scored` is the live one), `src/prompt.ts` (per-question
   prompts and prompt order), `src/sheet.ts` (packed prompt + reader), `src/scoring.ts` (logprobs →
-  distributions, temperature), `src/backends/vllm.ts` (the only backend), `bench/` (record / compare /
-  model-probe / calibrate), `scripts/` (deploys; their defaults are the live services).
+  distributions, temperature), `src/backends/vllm.ts` (the only backend; speaks vLLM, or SGLang with
+  `GEV_MODEL_SERVER=sglang`), `bench/` (record / compare / model-probe / calibrate / server-parity),
+  `scripts/` (deploys; their defaults are the live services).

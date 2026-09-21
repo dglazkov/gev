@@ -17,6 +17,7 @@
 
 import { readFile, readdir } from "node:fs/promises";
 import { VllmBackend } from "../src/backends/vllm.ts";
+import { modelServerFromEnv } from "../src/config.ts";
 import { DEFAULT_ENGINE_OPTIONS, systemOne } from "../src/engine.ts";
 import type { Answer, SystemOneRequest, SystemOneResponse } from "../src/types.ts";
 
@@ -48,7 +49,7 @@ function distance(theirs: Answer, ours: Answer): number {
 const sharpness = (a: Answer) => (a.type === "noul" ? Math.abs(2 * a.noul - 1) : a.confidence);
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / Math.max(1, xs.length);
-const backend = new VllmBackend({ baseUrl: `${MODEL_URL}/v1`, model: MODEL, apiKey: TOKEN });
+const backend = new VllmBackend({ baseUrl: `${MODEL_URL}/v1`, model: MODEL, apiKey: TOKEN, server: modelServerFromEnv() });
 const table: Record<string, Record<string, string>> = {};
 const fit: Record<Type, { temperature: number; distance: number }> = { choice: { temperature: 1, distance: Infinity }, score: { temperature: 1, distance: Infinity }, noul: { temperature: 1, distance: Infinity } };
 

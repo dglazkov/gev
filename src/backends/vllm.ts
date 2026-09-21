@@ -1,6 +1,9 @@
 import { GoogleAuth } from "google-auth-library";
 import { type Backend, type Generation, type Position, type Scores, TOP_LOGPROBS, postJson } from "./backend.ts";
 
+export const MODEL_SERVERS = ["vllm", "sglang"] as const;
+export type ModelServer = (typeof MODEL_SERVERS)[number];
+
 export type VllmOptions = {
   /** e.g. https://gev-model-xyz.a.run.app/v1 */
   baseUrl: string;
@@ -8,6 +11,8 @@ export type VllmOptions = {
   apiKey?: string;
   /** Authenticate with a Google ID token, for a private Cloud Run service. */
   gcpIdToken?: boolean;
+  /** SGLang speaks the same API but differs in its tokenizer endpoints and completions. Default vllm. */
+  server?: ModelServer;
 };
 
 type WirePosition = { token: string; top_logprobs: { token: string; logprob: number }[] };
@@ -47,10 +52,13 @@ export function chatFrame(rendered: string): ChatFrame {
 /** The template trims both messages, so the frame must meet trimmed text to render the same tokens. */
 export const framed = ([head, middle, tail]: ChatFrame, system: string, prompt: string) => `${head}${system.trim()}${middle}${prompt.trim()}${tail}`;
 
-/** Gemma served by vLLM's OpenAI-compatible chat completions API (or anything that speaks it and returns top_logprobs). */
+/** Gemma served by vLLM's OpenAI-compatible API, or by SGLang's (`server: "sglang"`). */
 export class VllmBackend implements Backend {
   readonly model: string;
   readonly #options: VllmOptions;
+  /** The tokenizer endpoints live at the server root, not under /v1. */
+  readonly #root: string;
+  readonly #sglang: boolean;
   readonly #auth = new GoogleAuth();
   #frame: Promise<ChatFrame> | undefined;
   #idTokenClient: ReturnType<GoogleAuth["getIdTokenClient"]> | undefined;
@@ -58,7 +66,26 @@ export class VllmBackend implements Backend {
 
   constructor(options: VllmOptions) {
     this.#options = { ...options, baseUrl: options.baseUrl.replace(/\/+$/, "") };
+    this.#root = this.#options.baseUrl.replace(/\/v1$/, "");
+    this.#sglang = options.server === "sglang";
     this.model = options.model;
+  }
+
+  async #post(path: string, body: object): Promise<any> {
+    return postJson(`${this.#root}${path}`, await this.#headers(), { model: this.#options.model, ...body });
+  }
+
+  /** vLLM answers with `prompt`. SGLang answers with `text`, and drops special tokens unless told not to. */
+  async #detokenize(tokens: number[]): Promise<string> {
+    if (!this.#sglang) return (await this.#post("/detokenize", { tokens })).prompt;
+    return (await this.#post("/detokenize", { tokens, skip_special_tokens: false })).text;
+  }
+
+  /** Each token's text. SGLang's /tokenize can't return it, so each token is decoded on its own. */
+  async #tokenStrings(text: string): Promise<string[]> {
+    if (!this.#sglang) return (await this.#post("/tokenize", { prompt: text, add_special_tokens: false, return_token_strs: true })).token_strs;
+    const { tokens } = await this.#post("/tokenize", { prompt: text, add_special_tokens: false });
+    return (await this.#post("/detokenize", { tokens: (tokens as number[]).map((t) => [t]), skip_special_tokens: false })).text;
   }
 
   async #headers(): Promise<Record<string, string>> {
@@ -100,9 +127,7 @@ export class VllmBackend implements Backend {
    */
   #chatFrame(): Promise<ChatFrame> {
     this.#frame ??= (async () => {
-      const root = this.#options.baseUrl.replace(/\/v1$/, "");
-      const { tokens } = await postJson(`${root}/tokenize`, await this.#headers(), {
-        model: this.#options.model,
+      const { tokens } = await this.#post("/tokenize", {
         messages: [
           { role: "system", content: SYSTEM_MARK },
           { role: "user", content: USER_MARK },
@@ -110,8 +135,15 @@ export class VllmBackend implements Backend {
         add_generation_prompt: true,
         chat_template_kwargs: { enable_thinking: false },
       });
-      const { prompt } = await postJson(`${root}/detokenize`, await this.#headers(), { model: this.#options.model, tokens });
-      return chatFrame(prompt);
+      const rendered = await this.#detokenize(tokens);
+      if (this.#sglang) {
+        // SGLang's completions can't be told add_special_tokens: false. Its Gemma 4 tokenizer adds
+        // nothing (the frame's own <bos> is the only one), but a tokenizer that did would put a
+        // second <bos> in front of every prompt and answer everything a little differently.
+        const again = (await this.#post("/tokenize", { prompt: rendered, add_special_tokens: true })).tokens;
+        if (again.length !== tokens.length) throw new Error(`SGLang tokenizes the chat frame into ${again.length} tokens, not ${tokens.length}: its tokenizer adds special tokens of its own`);
+      }
+      return chatFrame(rendered);
     })();
     // A failure (say, a model server that is still starting) must not be remembered.
     this.#frame.catch(() => (this.#frame = undefined));
@@ -124,17 +156,10 @@ export class VllmBackend implements Backend {
     let found = this.#firstTokens.get(key);
     if (!found) {
       found = (async () => {
-        const root = this.#options.baseUrl.replace(/\/v1$/, "");
-        const { token_strs } = await postJson(`${root}/tokenize`, await this.#headers(), {
-          model: this.#options.model,
-          prompt: key,
-          add_special_tokens: false,
-          return_token_strs: true,
-        });
         // The first token of each line. A newline can share a token with what precedes it, never with what follows.
         const firsts: string[] = [];
         let atStart = true;
-        for (const token of token_strs as string[]) {
+        for (const token of await this.#tokenStrings(key)) {
           if (atStart && token.trim() !== "") firsts.push(token);
           atStart = token.endsWith("\n");
         }
@@ -154,8 +179,8 @@ export class VllmBackend implements Backend {
     const data = await postJson(`${this.#options.baseUrl}/completions`, await this.#headers(), {
       model: this.#options.model,
       prompt: prompts.map((prompt) => framed(frame, system, prompt)),
-      // The frame already starts with <bos>.
-      add_special_tokens: false,
+      // The frame already starts with <bos>. SGLang has no such flag and adds nothing (see #chatFrame).
+      ...(this.#sglang ? {} : { add_special_tokens: false }),
       temperature: 0,
       max_tokens: 1,
       logprobs: top,

@@ -32,8 +32,13 @@ gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregi
 if ! gcloud iam service-accounts describe "$SA" --project "$PROJECT" >/dev/null 2>&1; then
   gcloud iam service-accounts create "${SERVICE}-runtime" --project "$PROJECT" --display-name "gev API runtime"
 fi
-gcloud run services add-iam-policy-binding "$MODEL_SERVICE" --project "$PROJECT" --region "$REGION" \
-  --member "serviceAccount:${SA}" --role roles/run.invoker >/dev/null
+# A just-created service account takes a few seconds to become visible to IAM bindings.
+for attempt in 1 2 3 4 5 6; do
+  gcloud run services add-iam-policy-binding "$MODEL_SERVICE" --project "$PROJECT" --region "$REGION" \
+    --member "serviceAccount:${SA}" --role roles/run.invoker >/dev/null 2>&1 && break
+  [[ "$attempt" == 6 ]] && { echo "Could not grant ${SA} run.invoker on ${MODEL_SERVICE}" >&2; exit 1; }
+  sleep $((attempt * 5))
+done
 
 # The API is publicly reachable, so callers authenticate with a bearer key kept in Secret Manager.
 if ! gcloud secrets describe "$SECRET" --project "$PROJECT" >/dev/null 2>&1; then

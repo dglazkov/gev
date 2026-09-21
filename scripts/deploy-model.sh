@@ -9,7 +9,8 @@
 # read-only into the container, so cold starts never depend on Hugging Face.
 set -euo pipefail
 
-PROJECT="${GOOGLE_CLOUD_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
+# Not the gcloud default: the owner's default project is a different one.
+PROJECT="${GOOGLE_CLOUD_PROJECT:-gev-systemone}"
 REGION="${REGION:-us-central1}"
 SERVICE="${SERVICE:-gev-ar-fp8}"
 MODEL="${MODEL:-RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic}"

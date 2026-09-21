@@ -153,7 +153,7 @@ jev from `bench/compare.ts` through `gev-scored` (laptop → API → model serve
   names have a first token of their own; the 9 sets that share one (`shopping_cart`/`shopping_bag`,
   six `local_*`) are split by lettered questions in the same batch. One round instead of two; picks
   are as close to jev's as the tournament's (7/13 each) and sensible where they differ.
-  **Bug (issue #1, fixed in `main` 2026-09-21, not yet on live `gev`):** more than 16 names sharing a
+  **Bug (issue #1, fixed and live on `gev` 2026-09-21, revision `gev-00008-7w9`):** more than 16 names sharing a
   first token (`item1a`…`item1t`) sent that group back to the by-name ranking, which grouped it the
   same way forever; the API process died of heap exhaustion, for every caller. Such a group now goes
   to the tournament. The icon set's largest group is well under 16, so the benchmarks never hit this.

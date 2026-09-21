@@ -5,7 +5,8 @@
 #   MODEL_SERVICE=gev-ar MODEL=google/gemma-4-26B-A4B-it ./scripts/deploy.sh   # must match what that model server serves
 set -euo pipefail
 
-PROJECT="${GOOGLE_CLOUD_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
+# Not the gcloud default: the owner's default project is a different one.
+PROJECT="${GOOGLE_CLOUD_PROJECT:-gev-systemone}"
 REGION="${REGION:-us-central1}"
 SERVICE="${SERVICE:-gev}"
 MODEL_SERVICE="${MODEL_SERVICE:-gev-ar-fp8}"

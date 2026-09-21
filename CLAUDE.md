@@ -48,6 +48,12 @@ Gemini shortcut that had to be thrown away.
   `TYPESAFE_BASE_URL`; never edit it.
 - **The API contract is jev's.** jev2ui must work unmodified. Extra response fields are fine (`gev`);
   new required request fields are not. Strategy choices are server-side settings.
+- **The agent does the ground-truthing.** Verifying a change (probing the live API, reading service
+  config and logs, benchmarking) is the agent's job, not the owner's: handing the owner commands to
+  run makes the loop too long. If a permission is missing, ask for a rule broad enough to cover the
+  whole class of check, not one command. This doesn't change who decides on deploys.
+- **Issues:** when a fix covers only part of an issue, close it and file a new issue with the
+  remainder. The new one says "split from #N"; the closing comment names the commit and links it.
 - **Measure, don't assume, and report negative results.** Several plausible ideas here measured worse
   (see Dead ends in STATE.md). Re-run the benchmark before and after any change to prompts or serving.
   When a measurement contradicts something you said earlier, say so.

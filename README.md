@@ -77,10 +77,10 @@ export GOOGLE_CLOUD_PROJECT=my-project
 ./scripts/keys.sh add alice  # another key, for someone else; also `revoke <name>` and `list`
 ```
 
-`deploy-model.sh` takes `SERVICE`, `MODEL`, `IMAGE`, `GPU_TYPE`, `CPU`, `MEMORY`, `MAX_MODEL_LEN`, `MAX_NUM_SEQS`, `MIN_INSTANCES`, `EXTRA_ARGS`, `EXTRA_ENV`, `MODEL_PATH`, `REGION`; its defaults are the live model server. RTX PRO 6000 GPUs need quota in the region (us-central1 by default) and a minimum of 20 vCPU / 80 GiB. To try something, deploy it as a separate service and point a separate API at it, never the live ones:
+`deploy-model.sh` takes `SERVICE`, `MODEL`, `IMAGE`, `GPU_TYPE`, `CPU`, `MEMORY`, `MAX_MODEL_LEN`, `MAX_NUM_SEQS`, `EXTRA_ARGS`, `EXTRA_ENV`, `MODEL_PATH`, `REGION`; its defaults are the live model server. Its revisions never keep an instance warm; the live one is warm only while switched on (Cloud Scheduler jobs `gev-warm-on` / `gev-warm-off`, see [docs/STATE.md](docs/STATE.md)). RTX PRO 6000 GPUs need quota in the region (us-central1 by default) and a minimum of 20 vCPU / 80 GiB. To try something, deploy it as a separate service and point a separate API at it, never the live ones:
 
 ```bash
-SERVICE=gev-try MIN_INSTANCES=0 MODEL=google/gemma-4-E4B-it ./scripts/deploy-model.sh
+SERVICE=gev-try MODEL=google/gemma-4-E4B-it ./scripts/deploy-model.sh
 SERVICE=gev-scored SECRET=gev-api-keys MODEL_SERVICE=gev-try MODEL=google/gemma-4-E4B-it ./scripts/deploy.sh
 ```
 

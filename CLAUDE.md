@@ -63,10 +63,12 @@ Gemini shortcut that had to be thrown away.
 - **A model-server deploy costs ~10 minutes** (26 GiB of weights through a slow mount) and can cause
   downtime. Never try a serving experiment on the live model service (`gev-ar-fp8`); deploy a separate
   service, measure it on the real Cloud Run hardware, and delete it afterwards.
-- **The live model server is kept warm (min 1 instance); experiment services are not**, and idle out
-  after ~10–15 minutes. The next request then waits ~10 minutes and the ones behind it get 429s.
-  Check `/health` before measuring, and don't read a hang as a bug.
-- **GPU quota is 3 per region, and the live server holds one.** A failed experiment revision that Cloud
+- **The live model server is warm only while switched on** (it costs $3.19 an hour warm): Cloud
+  Scheduler job `gev-warm-on` switches it on, `gev-warm-off` switches it off and also runs nightly at
+  01:00 Pacific. Experiment services are never kept warm. Idle instances stop after ~10–15 minutes; the next request then
+  waits ~10 minutes and the ones behind it get 429s. Check `/health` before measuring (after switching
+  on, it's ready ~10 minutes later), and don't read a hang as a bug. Runbook in STATE.md section 9.
+- **GPU quota is 3 per region, and the live server holds one while warm.** A failed experiment revision that Cloud
   Run keeps retrying holds another. Count slots before deploying, or the deploy fails on quota.
 - **A freshly granted `run.invoker` takes a minute or two to work**: the first calls from a newly
   deployed API to a newly granted model service fail with 401/403.

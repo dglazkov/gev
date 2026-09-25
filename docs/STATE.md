@@ -1,6 +1,6 @@
 # State of gev
 
-Last updated 2026-09-21. Keep this current: update it in the same commit as any change that makes
+Last updated 2026-09-24. Keep this current: update it in the same commit as any change that makes
 part of it untrue. House rules are in [CLAUDE.md](../CLAUDE.md).
 
 ## 1. Objective
@@ -26,10 +26,36 @@ GCP project `gev-systemone` (org glazkov.com, Personal Billing), region `us-cent
 | Service | What | Notes |
 |---|---|---|
 | `gev` | The API, `https://gev-huio5ftumq-uc.a.run.app` | Public, bearer key (`GEV_API_KEY` in `.env`; Secret Manager `gev-api-keys`), CORS open on `/v1/*`. Demo page at `/`. **Live settings** (the defaults of `scripts/deploy.sh`): model service `gev-ar-fp8`, `GEV_STRATEGY=scored`, `GEV_PROMPT_ORDER=state-last`, `GEV_WIDE_CHOICE=1`, `GEV_TEMPERATURE=choice=4;score=4`. |
-| `gev-ar-fp8` | **The live model server** (the defaults of `scripts/deploy-model.sh`). vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, **min 1 / max 1 instance: a GPU around the clock**, because a cold start takes ~10 minutes (section 5). `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256`. A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
+| `gev-ar-fp8` | **The live model server** (the defaults of `scripts/deploy-model.sh`). vLLM `v0.29.0` + `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic`, private | RTX PRO 6000, max 1 instance, **warm only while switched on** (below): warm costs $3.19 an hour, and a cold start takes ~10 minutes (section 5). `--max-num-seqs 128 --max-num-batched-tokens 16384 --max-logprobs 256`. A third-party FP8 quantization of Google's weights (Red Hat, the vLLM maintainers). **Never experiment on it.** |
 | `gev-ar` | The same model in bf16 (Google's own weights), private, scale to zero | The fallback if FP8 is ever in doubt. Deployed with `--max-logprobs 20`: redeploy it with the current script before using `GEV_WIDE_CHOICE` on it. |
 | `gev-scored` | Staging copy of the API, `https://gev-scored-huio5ftumq-uc.a.run.app` | Shares `gev`'s keys; same settings as live, pointed at the live model server. Try API-side changes here first: `SERVICE=gev-scored SECRET=gev-api-keys [MODEL_SERVICE=… MODEL=… EXTRA_ENV=…] ./scripts/deploy.sh`. |
 | `gs://gev-systemone-models` | Weights | `RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic` (live), `google/gemma-4-26B-A4B-it`, `google/gemma-4-E4B-it`; mounted read-only at `/models`. DiffusionGemma and NVFP4 weights were deleted 2026-09-20; `deploy-model.sh` re-copies any model from Hugging Face on demand. |
+
+**The warm switch** (owner's choice, 2026-09-24, to stop paying for an idle GPU: section 7, item 5). The
+live model server's revisions have minimum 0 instances (`deploy-model.sh` always deploys them that way).
+It is kept warm by its *service-level* minimum, which two Cloud Scheduler jobs in us-central1 set without
+creating a new revision:
+
+- `gev-warm-on` sets it to 1. Manual only: Console → Cloud Scheduler → the job → Actions → **Force run**.
+  The model server is ready about 10½ minutes later; its Logs tab then shows `Application startup complete.`
+  Its schedule (Jan 1, 00:59 Pacific) is a placeholder: a paused job can't be force-run, and the 01:00 off
+  run undoes it a minute later.
+- `gev-warm-off` sets it to 0, nightly at 01:00 America/Los_Angeles and on Force run. Nothing is shut down
+  at once: the instance stops ~15 minutes after its last request.
+- While it's off, a request still starts an instance but waits ~10 minutes for it: jev2ui's SDK gives up
+  long before (10 s, 2 retries).
+- A fresh instance isn't fully warm when it reports ready. On the switch-over revision (2026-09-24), one
+  model call among ~200 in the first minutes took 17 s inside vLLM, while every other took ~40 ms. Suspected cause
+  (unverified): the untuned Triton MoE kernel compiling for a batch shape it hadn't seen yet. Before
+  measuring after switching on, run a suite once to warm it up. Benchmarks before and after the switch-over,
+  on that warm instance: jtbd 127 / 141 → 124 / 138 ms, plan 186 / 312 → 186 / 278 ms, model wait 60 / 78 →
+  61 / 78 ms, agreement with jev unchanged.
+- Each job sends a `PATCH` to `https://run.googleapis.com/v2/projects/gev-systemone/locations/us-central1/services/gev-ar-fp8?updateMask=scaling.minInstanceCount`
+  with body `{"scaling":{"minInstanceCount":1}}` (or 0), authenticated as `gev-warm@`. That account has
+  `roles/run.developer` on `gev-ar-fp8` and `roles/iam.serviceAccountUser` on `gev-ar-fp8@`: even a
+  scaling-only update checks `actAs` on the service's runtime identity. `gcloud scheduler jobs create http`
+  can't make a PATCH job (`--http-method` has no `patch`); they were created through the Cloud Scheduler
+  REST API, and `gcloud scheduler jobs update http` keeps the method.
 
 GPU quota in us-central1 is 3 RTX PRO 6000s across all services; a fourth instance fails to deploy with
 "Quota exceeded for total allowable count of GPUs". Idle services at zero instances don't count.
@@ -299,9 +325,15 @@ is second. Everything else is noise.
 - **Cold start ≈ 10 minutes for the 26 GiB FP8 weights** (≈ 18 for 48 GiB of bf16): the Cloud Storage
   FUSE mount delivers ~50–60 MB/s regardless of read parallelism, and two services loading at once
   share it. Cloud Build moved the same bytes HF → bucket in 4 minutes.
-- Idle instances are reclaimed after ~10–15 minutes unless `--min-instances 1` (the live server has it).
-  Requests that arrive during a load hang, and those queued behind them get 429s. Experiment services
-  at min 0 idle out between measurements: check `/health` first.
+- Idle instances are reclaimed after ~10–15 minutes unless a minimum holds them (the live server's, while
+  switched on). Requests that arrive during a load hang, and those queued behind them get 429s. Experiment
+  services idle out between measurements: check `/health` first.
+- **Two kinds of minimum instances.** The service-level minimum (`gcloud run services update --min`, v2
+  `scaling.minInstanceCount`) takes effect without a new revision: verified on `gev-scored` and
+  `gev-ar-fp8`. The revision-level one (`--min-instances`) creates a revision, and when both are set the
+  higher one wins. With instance-based billing, which GPUs require, an idle warm instance costs the full
+  rate.
+- **Cloud Scheduler:** a paused job can't be force-run (`FAILED_PRECONDITION: Job.state must be ENABLED`).
 - A failed newest revision is retried indefinitely (a full GPU load each time) and cannot be deleted
   until a newer revision exists.
 - `gcloud run deploy --source` uploads everything not in `.gcloudignore`, including `.env` if absent.
@@ -373,14 +405,14 @@ Other open items:
    before the next round of serving experiments.
 4. **Cold start** still ~10 minutes whenever the live revision is replaced or crashes. Untried: Direct VPC
    egress + Private Google Access for the bucket path.
-5. **What the warm GPU costs** (list prices from the Cloud Billing catalog, looked up 2026-09-24): **$3.19 an
-   hour, ~$76 a day, ~$2,330 a month.** That is the RTX PRO 6000 without zonal redundancy at $1.31/h, plus the
-   20 vCPU and 80 GiB that Cloud Run requires alongside it, at $1.30/h and $0.58/h. Everything else in the
-   project (weights bucket, images, logs, both APIs idle at zero) comes to a few dollars a month. Flexible
-   committed-use discounts (28% for 1 year, 46% for 3) cover the CPU and memory but not the GPU. To turn the
-   warm instance on and off without a new revision, use service-level `--min` (no model reload). But the
-   live revision has `--min-instances 1` pinned, and when both are set the higher value wins, so you first
-   have to deploy a revision with 0.
+5. **Cost.** A warm model server costs **$3.19 an hour, ~$76 a day, ~$2,330 a month** (list prices from the
+   Cloud Billing catalog, looked up 2026-09-24). That is the RTX PRO 6000 without zonal redundancy at $1.31/h,
+   plus the 20 vCPU and 80 GiB that Cloud Run requires alongside it, at $1.30/h and $0.58/h. Everything else
+   in the project (weights bucket, images, logs, both APIs idle at zero) comes to a few dollars a month. From
+   Sept 20 to 24 it was warm around the clock and served 24 real requests in its last 2.7 days, so since
+   2026-09-24 it is warm only while switched on (section 2). Not taken up: flexible committed-use discounts
+   (28% for 1 year, 46% for 3), which cover the CPU and memory but not the GPU, and only pay off if the
+   server stays warm around the clock; an L4 at $1.05–1.42/h, whose 24 GB can't hold the FP8 weights.
 6. `gev-ar` (bf16 fallback) and the E4B weights are kept; delete when no longer wanted.
 7. **The API itself still scales to zero**: the first request after an idle spell takes ~1.8 s (Node
    starting, fetching an ID token, learning the chat template) instead of ~130 ms. `--min-instances 1`
@@ -402,7 +434,13 @@ kept because they are true, not because they are the way forward.
 ```bash
 npm test && npm run typecheck
 
-# Is the model up? (kept warm; a hang here means a ~10 min load is in progress after a redeploy or crash)
+# The warm switch (section 2): on is ready ~10 min later; off lets it stop ~15 min after its last request
+gcloud scheduler jobs run gev-warm-on --project gev-systemone --location us-central1
+gcloud scheduler jobs run gev-warm-off --project gev-systemone --location us-central1
+gcloud run services describe gev-ar-fp8 --project gev-systemone --region us-central1 \
+  --format="value(metadata.annotations.'run.googleapis.com/minScale')"   # 1 = on, empty = off
+
+# Is the model up? (a hang here means a ~10 min load is in progress: switched on, cold request, redeploy or crash)
 export MODEL_URL=https://gev-ar-fp8-huio5ftumq-uc.a.run.app TOKEN=$(gcloud auth print-identity-token)
 curl -s -m 25 -o /dev/null -w "%{http_code}\n" $MODEL_URL/health -H "authorization: Bearer $TOKEN"
 
@@ -427,7 +465,7 @@ node --env-file=.env bench/record.ts <suite>          # proxy on :8790
 # Point jev2ui at gev: TYPESAFE_BASE_URL=$GEV_URL JEV_API_KEY=$GEV_API_KEY
 
 # SGLang instead of vLLM: an experiment service, and gev told which it talks to (GEV_MODEL_SERVER=sglang)
-SERVICE=gev-sglang SERVER=sglang MIN_INSTANCES=0 GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy-model.sh
+SERVICE=gev-sglang SERVER=sglang GOOGLE_CLOUD_PROJECT=gev-systemone ./scripts/deploy-model.sh
 VLLM_URL=$MODEL_URL SGLANG_URL=https://gev-sglang-….run.app MODEL=RedHatAI/gemma-4-26B-A4B-it-FP8-dynamic \
   node bench/server-parity.ts jtbd|plan              # same tokens and answers on both? (uses TOKEN)
 

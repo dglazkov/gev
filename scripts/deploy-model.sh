@@ -3,8 +3,8 @@
 #
 #   ./scripts/deploy-model.sh                                  # the live server: FP8 Gemma 4 26B-A4B on an RTX PRO 6000
 #   SERVICE=gev-ar MODEL=google/gemma-4-26B-A4B-it ./scripts/deploy-model.sh  # any Gemma that vLLM can serve
-#   SERVICE=gev-try MIN_INSTANCES=0 EXTRA_ARGS=… ./scripts/deploy-model.sh    # an experiment: never on the live service
-#   SERVICE=gev-sglang SERVER=sglang MIN_INSTANCES=0 ./scripts/deploy-model.sh  # on SGLang; the API then needs GEV_MODEL_SERVER=sglang
+#   SERVICE=gev-try EXTRA_ARGS=… ./scripts/deploy-model.sh    # an experiment: never on the live service
+#   SERVICE=gev-sglang SERVER=sglang ./scripts/deploy-model.sh  # on SGLang; the API then needs GEV_MODEL_SERVER=sglang
 #
 # Weights are copied from Hugging Face into a Cloud Storage bucket once, then mounted
 # read-only into the container, so cold starts never depend on Hugging Face.
@@ -30,9 +30,6 @@ MAX_MODEL_LEN="${MAX_MODEL_LEN:-16384}"
 # A request is one batch of up to a few dozen short prompts, mostly served from the prefix cache.
 MAX_NUM_SEQS="${MAX_NUM_SEQS:-128}"
 GPU_MEMORY_UTILIZATION="${GPU_MEMORY_UTILIZATION:-0.90}"
-# 1 keeps a GPU around the clock. With 0 the first request after ~10 idle minutes waits ~10 minutes
-# for the weights, and the ones queued behind it get 429s.
-MIN_INSTANCES="${MIN_INSTANCES:-1}"
 
 BUCKET="${BUCKET:-${PROJECT}-models}"
 SA="${SERVICE}@${PROJECT}.iam.gserviceaccount.com"
@@ -110,12 +107,16 @@ ENV_VARS="GEV_DEPLOYED_BY=deploy-model.sh${EXTRA_ENV:+,${EXTRA_ENV}}"
 
 # Private (--no-allow-unauthenticated): only the gev API's service account may invoke it.
 # The startup probe allows 30 minutes for weights to load from the bucket.
+# --min-instances 0: a revision never pins a GPU on. Whether the live server is kept warm is its
+# service-level minimum, which the Cloud Scheduler jobs gev-warm-on / gev-warm-off switch without a new
+# revision (docs/STATE.md); a revision-level minimum would outrank it. Cold, the first request waits
+# ~10 minutes for the weights and the ones queued behind it get 429s.
 gcloud run deploy "$SERVICE" --project "$PROJECT" --region "$REGION" \
   --image "$IMAGE" ${COMMAND:+"--command=${COMMAND}"} --args="$ARGS" --set-env-vars "$ENV_VARS" --port 8000 \
   --service-account "$SA" --no-allow-unauthenticated \
   --gpu 1 --gpu-type "$GPU_TYPE" --no-gpu-zonal-redundancy \
   --cpu "$CPU" --memory "$MEMORY" --no-cpu-throttling \
-  --min-instances "$MIN_INSTANCES" --max-instances 1 --concurrency 64 --timeout 900 \
+  --min-instances 0 --max-instances 1 --concurrency 64 --timeout 900 \
   --add-volume "name=models,type=cloud-storage,bucket=${BUCKET},readonly=true" \
   --add-volume-mount "volume=models,mount-path=/models" \
   --startup-probe "httpGet.path=/health,httpGet.port=8000,initialDelaySeconds=30,periodSeconds=30,failureThreshold=60,timeoutSeconds=10"

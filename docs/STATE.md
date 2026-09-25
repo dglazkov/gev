@@ -373,7 +373,14 @@ Other open items:
    before the next round of serving experiments.
 4. **Cold start** still ~10 minutes whenever the live revision is replaced or crashes. Untried: Direct VPC
    egress + Private Google Access for the bucket path.
-5. **What the warm GPU costs** has not been looked up.
+5. **What the warm GPU costs** (list prices from the Cloud Billing catalog, looked up 2026-09-24): **$3.19 an
+   hour, ~$76 a day, ~$2,330 a month.** That is the RTX PRO 6000 without zonal redundancy at $1.31/h, plus the
+   20 vCPU and 80 GiB that Cloud Run requires alongside it, at $1.30/h and $0.58/h. Everything else in the
+   project (weights bucket, images, logs, both APIs idle at zero) comes to a few dollars a month. Flexible
+   committed-use discounts (28% for 1 year, 46% for 3) cover the CPU and memory but not the GPU. To turn the
+   warm instance on and off without a new revision, use service-level `--min` (no model reload). But the
+   live revision has `--min-instances 1` pinned, and when both are set the higher value wins, so you first
+   have to deploy a revision with 0.
 6. `gev-ar` (bf16 fallback) and the E4B weights are kept; delete when no longer wanted.
 7. **The API itself still scales to zero**: the first request after an idle spell takes ~1.8 s (Node
    starting, fetching an ID token, learning the chat template) instead of ~130 ms. `--min-instances 1`
